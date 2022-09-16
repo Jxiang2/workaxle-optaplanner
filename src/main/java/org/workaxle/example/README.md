@@ -1,7 +1,10 @@
 ## School Time table example
+
 ### Goal:
+
 You will build a command-line application to assign each lesson to a time slot and a room.
-```shell
+
+```
 ...
 INFO  Solving ended: time spent (5000), best score (0hard/9soft), ...
 INFO
@@ -23,7 +26,8 @@ INFO  |------------|------------|------------|------------|
 INFO  |------------|------------|------------|------------|
 ```
 
-Your application will assign Lesson instances to Timeslot and Room instances automatically by using AI to adhere to hard and soft scheduling constraints, for example:
+Your application will assign Lesson instances to Timeslot and Room instances automatically by using AI to adhere to hard
+and soft scheduling constraints, for example:
 
 * A room can have at most one lesson at the same time.
 * A teacher can teach at most one lesson at the same time.
@@ -32,5 +36,6 @@ Your application will assign Lesson instances to Timeslot and Room instances aut
 * A teacher prefers to teach sequential lessons and dislikes gaps between lessons.
 * A student dislikes sequential lessons on the same subject.
 
-### design diagram: 
+### Design diagram:
+
 ![image](https://www.optaplanner.org/docs/optaplanner/latest/_images/quickstart/school-timetabling/schoolTimetablingClassDiagramPure.png)
