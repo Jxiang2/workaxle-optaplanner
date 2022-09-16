@@ -1,6 +1,6 @@
 ## School Time table example
 ### Goal:
-You will build a command-line application that optimizes a school timetable for students and teachers:
+You will build a command-line application to assign each lesson to a time slot and a room.
 ```shell
 ...
 INFO  Solving ended: time spent (5000), best score (0hard/9soft), ...
