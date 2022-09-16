@@ -1,23 +1,12 @@
 package org.workaxle.example.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
 public class Room {
 
     private String name;
-
-    public Room() {
-    }
-
-    public Room(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public String toString() {
-        return name;
-    }
-
+    
 }
