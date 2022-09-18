@@ -33,18 +33,17 @@ public class ScheduleApp {
         // solve the problem
         Solver<Schedule> solver = scheduleSolverFactory.buildSolver();
         Schedule schedule = solver.solve(dataset);
-        final List<ShiftAssignment> shiftAssignmentList = schedule.getShiftAssignmentList();
-        for (ShiftAssignment sf : shiftAssignmentList) {
-            System.out.println(sf);
-        }
 
+        // print result
+        printResult(schedule);
     }
 
     private static Schedule generateData() {
         long i = 1L;
         Shift s1 = new Shift(i++, "shift A", LocalTime.of(9, 0), LocalTime.of(12, 0));
         Shift s2 = new Shift(i++, "shift B", LocalTime.of(12, 0), LocalTime.of(15, 0));
-        Shift s3 = new Shift(i++, "shift C", LocalTime.of(18, 0), LocalTime.of(23, 0));
+        Shift s3 = new Shift(i++, "shift C", LocalTime.of(12, 0), LocalTime.of(15, 0));
+        Shift s4 = new Shift(i++, "shift D", LocalTime.of(18, 0), LocalTime.of(23, 0));
 
         long j = 1L;
         List<EmployeeGroup> employeeGroupList = new ArrayList<>();
@@ -59,24 +58,36 @@ public class ScheduleApp {
         shiftAssignmentList.add(new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 21)));
         shiftAssignmentList.add(new ShiftAssignment(k++, s2, LocalDate.of(2022, 11, 21)));
         shiftAssignmentList.add(new ShiftAssignment(k++, s3, LocalDate.of(2022, 11, 21)));
+        shiftAssignmentList.add(new ShiftAssignment(k++, s4, LocalDate.of(2022, 11, 21)));
 
         shiftAssignmentList.add(new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 22)));
         shiftAssignmentList.add(new ShiftAssignment(k++, s2, LocalDate.of(2022, 11, 22)));
         shiftAssignmentList.add(new ShiftAssignment(k++, s3, LocalDate.of(2022, 11, 22)));
+        shiftAssignmentList.add(new ShiftAssignment(k++, s4, LocalDate.of(2022, 11, 22)));
 
         shiftAssignmentList.add(new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 23)));
         shiftAssignmentList.add(new ShiftAssignment(k++, s2, LocalDate.of(2022, 11, 23)));
         shiftAssignmentList.add(new ShiftAssignment(k++, s3, LocalDate.of(2022, 11, 23)));
+        shiftAssignmentList.add(new ShiftAssignment(k++, s4, LocalDate.of(2022, 11, 23)));
 
         shiftAssignmentList.add(new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 24)));
         shiftAssignmentList.add(new ShiftAssignment(k++, s2, LocalDate.of(2022, 11, 24)));
         shiftAssignmentList.add(new ShiftAssignment(k++, s3, LocalDate.of(2022, 11, 24)));
+        shiftAssignmentList.add(new ShiftAssignment(k++, s4, LocalDate.of(2022, 11, 24)));
 
         shiftAssignmentList.add(new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 25)));
         shiftAssignmentList.add(new ShiftAssignment(k++, s2, LocalDate.of(2022, 11, 25)));
         shiftAssignmentList.add(new ShiftAssignment(k++, s3, LocalDate.of(2022, 11, 25)));
+        shiftAssignmentList.add(new ShiftAssignment(k++, s4, LocalDate.of(2022, 11, 25)));
 
         return new Schedule(employeeGroupList, shiftAssignmentList);
+    }
+
+    private static void printResult(Schedule schedule) {
+        final List<ShiftAssignment> shiftAssignmentList = schedule.getShiftAssignmentList();
+        for (ShiftAssignment sf : shiftAssignmentList) {
+            System.out.println(sf);
+        }
     }
 
 }
