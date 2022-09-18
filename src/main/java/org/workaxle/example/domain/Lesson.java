@@ -1,6 +1,8 @@
 package org.workaxle.example.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
@@ -13,6 +15,8 @@ import org.optaplanner.core.api.domain.variable.PlanningVariable;
  * are only distinguishable by id
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @PlanningEntity
 public class Lesson {
 
