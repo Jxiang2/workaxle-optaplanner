@@ -8,6 +8,7 @@ import org.optaplanner.core.api.score.stream.Joiners;
 import org.workaxle.domain.ShiftAssignment;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class ScheduleConstraintProvider implements ConstraintProvider {
 
@@ -15,7 +16,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
     public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
         return new Constraint[]{
             oneShiftPerEmployeeGroupPerDay(constraintFactory),
-            atLeast10HoursBetweenTwoShifts(constraintFactory),
+            atLeast12HoursBetweenTwoShifts(constraintFactory),
             onOverlappingShifts(constraintFactory)
         };
     }
@@ -37,7 +38,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
             .penalize("oneShiftPerEmployeeGroupPerDay", HardSoftScore.ONE_HARD);
     }
 
-    public Constraint atLeast10HoursBetweenTwoShifts(ConstraintFactory constraintFactory) {
+    public Constraint atLeast12HoursBetweenTwoShifts(ConstraintFactory constraintFactory) {
         // any employee group can only work 1 shift in 12 hours
 
         return constraintFactory
@@ -58,7 +59,10 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                 secondShift.getStartDatetime()
             ).toHours() < 12)
             // then penalize each pair with a hard weight
-            .penalize("atLeast10HoursBetweenTwoShifts", HardSoftScore.ONE_HARD);
+            .penalize("atLeast12HoursBetweenTwoShifts", HardSoftScore.ONE_HARD, (first, second) -> {
+                int breakLength = (int) Duration.between(first.getEndDatetime(), second.getStartDatetime()).toMinutes();
+                return 12 * 60 - breakLength;
+            });
     }
 
     public Constraint onOverlappingShifts(ConstraintFactory constraintFactory) {
@@ -68,9 +72,26 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
             .join(
                 ShiftAssignment.class,
                 Joiners.equal(ShiftAssignment::getEmployeeGroup),
-                Joiners.overlapping(ShiftAssignment::getStartDatetime, ShiftAssignment::getEndDatetime)
+                Joiners.overlapping(ShiftAssignment::getStartDatetime, ShiftAssignment::getEndDatetime),
+                Joiners.lessThan(ShiftAssignment::getId) // pair uniquely
             )
-            .penalize("onOverlappingShifts", HardSoftScore.ONE_HARD);
+            .penalize(
+                "onOverlappingShifts",
+                HardSoftScore.ONE_HARD,
+                ScheduleConstraintProvider::getMinuteOverlap
+            );
+    }
+
+    private static int getMinuteOverlap(ShiftAssignment sa1, ShiftAssignment sa2) {
+        // The overlap of two timeslot occurs in the range common to both timeslots.
+        // Both timeslots are active after the higher of their two start times,
+        // and before the lower of their two end times.
+        LocalDateTime shift1Start = sa1.getStartDatetime();
+        LocalDateTime shift1End = sa1.getEndDatetime();
+        LocalDateTime shift2Start = sa2.getStartDatetime();
+        LocalDateTime shift2End = sa2.getEndDatetime();
+        return (int) Duration.between((shift1Start.compareTo(shift2Start) > 0) ? shift1Start : shift2Start,
+            (shift1End.compareTo(shift2End) < 0) ? shift1End : shift2End).toMinutes();
     }
 
 }
