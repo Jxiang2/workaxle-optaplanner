@@ -1,5 +1,6 @@
 package org.workaxle.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
@@ -7,9 +8,12 @@ import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @PlanningEntity
 public class ShiftAssignment {
 
@@ -29,9 +33,21 @@ public class ShiftAssignment {
         this.date = date;
     }
 
+    public LocalDateTime getStartDatetime() {
+        LocalTime endTime = getShift().getStartAt();
+        LocalDate date = getDate();
+        return LocalDateTime.of(date, endTime);
+    }
+
+    public LocalDateTime getEndDatetime() {
+        LocalTime endTime = getShift().getEndAt();
+        LocalDate date = getDate();
+        return LocalDateTime.of(date, endTime);
+    }
+
     @Override
     public String toString() {
-        return "from " + shift.startAt + " to " + shift.endAt + " ; " + employeeGroup.name + " at " + date;
+        return employeeGroup.name + " ; " + shift.startAt + "~" + shift.endAt + " ; " + date;
     }
 
 }
