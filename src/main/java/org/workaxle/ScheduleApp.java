@@ -32,7 +32,12 @@ public class ScheduleApp {
 
         // solve the problem
         Solver<Schedule> solver = scheduleSolverFactory.buildSolver();
-        solver.solve(dataset);
+        Schedule schedule = solver.solve(dataset);
+        final List<ShiftAssignment> shiftAssignmentList = schedule.getShiftAssignmentList();
+        for (ShiftAssignment sf : shiftAssignmentList) {
+            System.out.println(sf);
+        }
+
     }
 
     private static Schedule generateData() {
@@ -43,11 +48,11 @@ public class ScheduleApp {
 
         long j = 1L;
         List<EmployeeGroup> employeeGroupList = new ArrayList<>();
-        employeeGroupList.add(new EmployeeGroup(j++, "emp A"));
-        employeeGroupList.add(new EmployeeGroup(j++, "emp B"));
-        employeeGroupList.add(new EmployeeGroup(j++, "emp C"));
-        employeeGroupList.add(new EmployeeGroup(j++, "emp D"));
-        employeeGroupList.add(new EmployeeGroup(j++, "emp E"));
+        employeeGroupList.add(new EmployeeGroup(j++, "emp group A"));
+        employeeGroupList.add(new EmployeeGroup(j++, "emp group B"));
+        employeeGroupList.add(new EmployeeGroup(j++, "emp group C"));
+        employeeGroupList.add(new EmployeeGroup(j++, "emp group D"));
+        employeeGroupList.add(new EmployeeGroup(j++, "emp group E"));
 
         long k = 1L;
         List<ShiftAssignment> shiftAssignmentList = new ArrayList<>();

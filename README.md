@@ -1,6 +1,12 @@
 # Shift-employee rostering
 
-### Required models:
+## Requirements:
+
+1. Every day, each shift is assigned to a single employee ✅
+2. if an employee is not available to take a shift in the period, he will not be assigned that shift ✅
+3. No employee works more than 1 shift in 12 hours ✅
+
+### Models:
 
 1. Shift
 2. Shift Assignment

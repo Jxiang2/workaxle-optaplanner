@@ -12,11 +12,29 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
     @Override
     public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
         return new Constraint[]{
-            employeeGroupConflict(constraintFactory),
+//            shiftEmployeeGroupConstraint(constraintFactory),
+            dateTimeEmployeeGroupConstraint(constraintFactory)
         };
     }
 
-    public Constraint employeeGroupConflict(ConstraintFactory constraintFactory) {
+    public Constraint dateTimeEmployeeGroupConstraint(ConstraintFactory constraintFactory) {
+        // an employee group can be assigned to at most one shiftAssignment at the same day
+
+        return constraintFactory
+            // select a shiftAssignment
+            .forEach(ShiftAssignment.class)
+            // and pair it with another shiftAssignment
+            .join(
+                ShiftAssignment.class,
+                Joiners.equal(ShiftAssignment::getEmployeeGroup), // use the same employee group
+                Joiners.equal(ShiftAssignment::getDate), // from the same day
+                Joiners.lessThan(ShiftAssignment::getId) // pair uniquely
+            )
+            // then penalize each pair with a hard weight
+            .penalize("DateTime EmployeeGroup conflict", HardSoftScore.ONE_HARD);
+    }
+
+    public Constraint shiftEmployeeGroupConstraint(ConstraintFactory constraintFactory) {
         // assign an employee group to each shiftAssignment
         // an employee group can be assigned to at most one shiftAssignment at the same time
 
@@ -31,7 +49,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                 Joiners.lessThan(ShiftAssignment::getId) // pair uniquely
             )
             // then penalize each pair with a hard weight
-            .penalize("Employee group conflict", HardSoftScore.ONE_HARD);
+            .penalize("Shift EmployeeGroup conflict", HardSoftScore.ONE_HARD);
     }
 
 }
