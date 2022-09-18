@@ -2,9 +2,10 @@
 
 ## Requirements:
 
-1. Every day, each shift is assigned to a single employee ✅
-2. Try to distribute the shifts evenly ✅
-3. No employee works more than 1 shift in 12 hours ✅
+1. Each shift is assigned to a single employee ✅
+2. Try to distribute the shifts evenly to employees ✅
+3. No employee works more than 1 shift in 1 day ✅
+4. No employee works more than 1 shift in 12 hours ✅
 
 ### Models:
 
