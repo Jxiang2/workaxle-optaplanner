@@ -1,6 +1,7 @@
 package org.workaxle.domain;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
@@ -8,6 +9,7 @@ import org.optaplanner.core.api.domain.variable.PlanningVariable;
 import java.time.LocalDate;
 
 @Data
+@NoArgsConstructor
 @PlanningEntity
 public class ShiftAssignment {
 
@@ -21,7 +23,7 @@ public class ShiftAssignment {
     @PlanningVariable(valueRangeProviderRefs = "employeeRange")
     EmployeeGroup employeeGroup;
 
-    ShiftAssignment(Long id, Shift shift, LocalDate date) {
+    public ShiftAssignment(Long id, Shift shift, LocalDate date) {
         this.id = id;
         this.shift = shift;
         this.date = date;

@@ -7,7 +7,7 @@ import org.optaplanner.core.api.score.stream.ConstraintProvider;
 import org.optaplanner.core.api.score.stream.Joiners;
 import org.workaxle.domain.ShiftAssignment;
 
-public class ShiftRosteringConstraintsProvider implements ConstraintProvider {
+public class ScheduleConstraintProvider implements ConstraintProvider {
 
     @Override
     public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
