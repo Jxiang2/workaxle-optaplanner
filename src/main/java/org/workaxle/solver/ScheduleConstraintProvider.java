@@ -39,7 +39,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
     }
 
     public Constraint atLeast12HoursBetweenTwoShifts(ConstraintFactory constraintFactory) {
-        // any employee group can only work 1 shift in 12 hours
+        // any employee group can only work 1 shiftAssignment in 12 hours
 
         return constraintFactory
             // select a shiftAssignment
@@ -66,7 +66,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
     }
 
     public Constraint onOverlappingShifts(ConstraintFactory constraintFactory) {
-        // an employee group can't work on 2 overlapping shifts
+        // an employee group can't work on 2 overlapping shiftAssignments
         return constraintFactory
             .forEach(ShiftAssignment.class)
             .join(
