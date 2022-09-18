@@ -12,8 +12,6 @@
 2. Shift Assignment
 3. Employee
 
-![](../../../Desktop/employeeShiftRosteringModelingGuideB.png)
-
 ### Explanation:
 
 1. One shift entity can be used to create multiple shiftAssignment entities.
