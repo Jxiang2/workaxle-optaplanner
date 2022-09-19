@@ -43,10 +43,32 @@ public class ScheduleApp {
         // total shifts per employee: 20 / 6 = 3 ~ 4
 
         long i = 1L;
-        Shift s1 = new Shift(i++, "shift A", LocalTime.of(9, 0), LocalTime.of(12, 0));
-        Shift s2 = new Shift(i++, "shift B", LocalTime.of(12, 0), LocalTime.of(15, 0));
-        Shift s3 = new Shift(i++, "shift C", LocalTime.of(15, 0), LocalTime.of(18, 0));
-        Shift s4 = new Shift(i++, "shift D", LocalTime.of(18, 0), LocalTime.of(23, 0));
+        Shift s1 = new Shift(
+            i++,
+            "shift A",
+            LocalTime.of(9, 0),
+            LocalTime.of(12, 0),
+            new ArrayList<>(List.of("Dev", "Design"))
+        );
+        Shift s2 = new Shift(
+            i++,
+            "shift B",
+            LocalTime.of(12, 0),
+            LocalTime.of(15, 0),
+            new ArrayList<>(List.of("Dev", "Design")));
+        Shift s3 = new Shift(
+            i++,
+            "shift C",
+            LocalTime.of(15, 0),
+            LocalTime.of(18, 0),
+            new ArrayList<>(List.of("Dev", "Design")));
+        Shift s4 = new Shift(
+            i++,
+            "shift D",
+            LocalTime.of(18, 0),
+            LocalTime.of(23, 0),
+            new ArrayList<>(List.of("Dev", "Design"))
+        );
 
         long j = 1L;
         List<Employee> employeeList = new ArrayList<>();

@@ -9,6 +9,8 @@ import org.workaxle.domain.ShiftAssignment;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ScheduleConstraintProviderTest {
 
@@ -19,8 +21,20 @@ public class ScheduleConstraintProviderTest {
     @Test
     void testOneShiftPerEmployeeGroupPerDay() {
         long i = 1L;
-        Shift s1 = new Shift(i++, "shift A", LocalTime.of(9, 0), LocalTime.of(12, 0));
-        Shift s2 = new Shift(i++, "shift B", LocalTime.of(12, 0), LocalTime.of(15, 0));
+        Shift s1 = new Shift(
+            i++,
+            "shift A",
+            LocalTime.of(9, 0),
+            LocalTime.of(12, 0),
+            new ArrayList<>(List.of("Dev", "Design"))
+        );
+        Shift s2 = new Shift(
+            i++,
+            "shift B",
+            LocalTime.of(12, 0),
+            LocalTime.of(15, 0),
+            new ArrayList<>(List.of("Dev", "Design"))
+        );
 
         long j = 1L;
         Employee e1 = new Employee(j++, "emp group A", "Dev");
@@ -41,9 +55,26 @@ public class ScheduleConstraintProviderTest {
     @Test
     void testOnOverlappingShifts() {
         long i = 1L;
-        Shift s1 = new Shift(i++, "shift A", LocalTime.of(9, 0), LocalTime.of(12, 0));
-        Shift s2 = new Shift(i++, "shift B", LocalTime.of(8, 0), LocalTime.of(11, 0));
-        Shift s3 = new Shift(i++, "shift C", LocalTime.of(12, 0), LocalTime.of(15, 0));
+        Shift s1 = new Shift(
+            i++,
+            "shift A",
+            LocalTime.of(9, 0),
+            LocalTime.of(12, 0),
+            new ArrayList<>(List.of("Dev", "Design"))
+        );
+        Shift s2 = new Shift(
+            i++, "shift B",
+            LocalTime.of(8, 0),
+            LocalTime.of(11, 0),
+            new ArrayList<>(List.of("Dev", "Design"))
+        );
+        Shift s3 = new Shift(
+            i++,
+            "shift C",
+            LocalTime.of(12, 0),
+            LocalTime.of(15, 0),
+            new ArrayList<>(List.of("Dev", "Design"))
+        );
 
         long j = 1L;
         Employee e1 = new Employee(j++, "emp group A", "Dev");
@@ -62,8 +93,20 @@ public class ScheduleConstraintProviderTest {
     @Test
     void testAtLeast12HoursBetweenTwoShifts() {
         long i = 1L;
-        Shift s1 = new Shift(i++, "shift A", LocalTime.of(20, 0), LocalTime.of(23, 0));
-        Shift s2 = new Shift(i++, "shift B", LocalTime.of(9, 0), LocalTime.of(12, 0));
+        Shift s1 = new Shift(
+            i++,
+            "shift A",
+            LocalTime.of(20, 0),
+            LocalTime.of(23, 0),
+            new ArrayList<>(List.of("Dev", "Design"))
+        );
+        Shift s2 = new Shift(
+            i++,
+            "shift B",
+            LocalTime.of(9, 0),
+            LocalTime.of(12, 0),
+            new ArrayList<>(List.of("Dev", "Design"))
+        );
 
         long j = 1L;
         Employee e1 = new Employee(j++, "emp group A", "Dev");

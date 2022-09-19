@@ -25,7 +25,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
         return constraintFactory
             .forEachUniquePair(
                 ShiftAssignment.class,
-                Joiners.equal(ShiftAssignment::getEmployeeGroup),
+                Joiners.equal(ShiftAssignment::getEmployee),
                 Joiners.equal(ShiftAssignment::getDate)
             )
             .penalize("oneShiftPerEmployeeGroupPerDay", HardSoftScore.ONE_HARD);
@@ -37,19 +37,19 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
         return constraintFactory
             .forEachUniquePair(
                 ShiftAssignment.class,
-                Joiners.equal(ShiftAssignment::getEmployeeGroup),
+                Joiners.equal(ShiftAssignment::getEmployee),
                 Joiners.lessThanOrEqual(
-                    ShiftAssignment::getEndDatetime,
+                    ShiftAssignment::getEndDateTime,
                     ShiftAssignment::getStartDatetime
                 )
             )
             .filter((firstShift, secondShift) -> Duration.between(
-                firstShift.getEndDatetime(),
+                firstShift.getEndDateTime(),
                 secondShift.getStartDatetime()
             ).toHours() < 12)
             .penalize("atLeast12HoursBetweenTwoShifts", HardSoftScore.ONE_HARD, (first, second) -> {
                 int breakLength = (int) Duration.between(
-                    first.getEndDatetime(),
+                    first.getEndDateTime(),
                     second.getStartDatetime()
                 ).toMinutes();
                 return 12 * 60 - breakLength;
@@ -62,8 +62,8 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
         return constraintFactory
             .forEachUniquePair(
                 ShiftAssignment.class,
-                Joiners.equal(ShiftAssignment::getEmployeeGroup),
-                Joiners.overlapping(ShiftAssignment::getStartDatetime, ShiftAssignment::getEndDatetime)
+                Joiners.equal(ShiftAssignment::getEmployee),
+                Joiners.overlapping(ShiftAssignment::getStartDatetime, ShiftAssignment::getEndDateTime)
             )
             .penalize(
                 "onOverlappingShifts",
@@ -76,7 +76,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
         // try to distribute the shifts evenly to employees
 
         return constraintFactory.forEach(ShiftAssignment.class)
-            .groupBy(ShiftAssignment::getEmployeeGroup, ConstraintCollectors.count())
+            .groupBy(ShiftAssignment::getEmployee, ConstraintCollectors.count())
             .penalize(
                 "evenlyShiftsDistribution",
                 HardSoftScore.ONE_SOFT,
@@ -88,9 +88,9 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
         // Both timeslots are active after the higher of their two start times,
         // and before the lower of their two end times.
         LocalDateTime shift1Start = sa1.getStartDatetime();
-        LocalDateTime shift1End = sa1.getEndDatetime();
+        LocalDateTime shift1End = sa1.getEndDateTime();
         LocalDateTime shift2Start = sa2.getStartDatetime();
-        LocalDateTime shift2End = sa2.getEndDatetime();
+        LocalDateTime shift2End = sa2.getEndDateTime();
         return (int) Duration.between((shift1Start.compareTo(shift2Start) > 0) ? shift1Start : shift2Start,
             (shift1End.compareTo(shift2End) < 0) ? shift1End : shift2End).toMinutes();
     }
