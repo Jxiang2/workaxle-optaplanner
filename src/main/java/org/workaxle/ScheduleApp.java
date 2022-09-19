@@ -13,6 +13,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ScheduleApp {
@@ -49,36 +50,68 @@ public class ScheduleApp {
             "shift A",
             LocalTime.of(9, 0),
             LocalTime.of(12, 0),
-            new ArrayList<>(List.of("Dev", "Design"))
+            new HashMap<>() {{
+                put("Dev", 1);
+                put("Design", 1);
+            }}
         );
         Shift s2 = new Shift(
             i++,
             "shift B",
             LocalTime.of(12, 0),
             LocalTime.of(15, 0),
-            new ArrayList<>(List.of("Dev", "Design")));
+            new HashMap<>() {{
+                put("Dev", 1);
+                put("Design", 1);
+            }}
+        );
         Shift s3 = new Shift(
             i++,
             "shift C",
             LocalTime.of(15, 0),
             LocalTime.of(18, 0),
-            new ArrayList<>(List.of("Dev", "Design")));
+            new HashMap<String, Integer>() {{
+                put("Dev", 1);
+                put("Design", 1);
+            }}
+        );
         Shift s4 = new Shift(
             i++,
             "shift D",
             LocalTime.of(18, 0),
             LocalTime.of(23, 0),
-            new ArrayList<>(List.of("Dev", "Design"))
+            new HashMap<>() {{
+                put("Dev", 1);
+                put("Design", 1);
+            }}
         );
 
         long j = 1L;
         List<Employee> employeeList = new ArrayList<>();
-        employeeList.add(new Employee(j++, "emp A", new ArrayList<>(List.of("Dev", "Cook"))));
-        employeeList.add(new Employee(j++, "emp B", new ArrayList<>(List.of("Dev", "Design"))));
-        employeeList.add(new Employee(j++, "emp C", new ArrayList<>(List.of("Market", "Design"))));
-        employeeList.add(new Employee(j++, "emp D", new ArrayList<>(List.of("Cleaning", "Dev"))));
-        employeeList.add(new Employee(j++, "emp E", new ArrayList<>(List.of("Dev"))));
-        employeeList.add(new Employee(j++, "emp F", new ArrayList<>(List.of("Design"))));
+        employeeList.add(new Employee(j++, "empGroup A", new HashMap<>() {{
+            put("Dev", 1);
+            put("Design", 1);
+        }}));
+        employeeList.add(new Employee(j++, "empGroup B", new HashMap<>() {{
+            put("Dev", 1);
+            put("Design", 1);
+        }}));
+        employeeList.add(new Employee(j++, "empGroup C", new HashMap<>() {{
+            put("Dev", 1);
+            put("Design", 1);
+        }}));
+        employeeList.add(new Employee(j++, "empGroup D", new HashMap<>() {{
+            put("Dev", 1);
+            put("Design", 1);
+        }}));
+        employeeList.add(new Employee(j++, "empGroup E", new HashMap<>() {{
+            put("Dev", 1);
+            put("Design", 1);
+        }}));
+        employeeList.add(new Employee(j++, "empGroup F", new HashMap<>() {{
+            put("Dev", 1);
+            put("Design", 1);
+        }}));
 
         long k = 1L;
         List<ShiftAssignment> shiftAssignmentList = new ArrayList<>();

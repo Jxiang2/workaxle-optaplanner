@@ -6,20 +6,22 @@ import org.workaxle.domain.ShiftAssignment;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 public class ScheduleConstraintProvider implements ConstraintProvider {
 
     @Override
     public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
         return new Constraint[]{
-            oneShiftPerEmployeeGroupPerDay(constraintFactory),
+            oneShiftPerEmployeePerDay(constraintFactory),
             atLeast12HoursBetweenTwoShifts(constraintFactory),
             onOverlappingShifts(constraintFactory),
-            evenlyShiftsDistribution(constraintFactory)
+            evenlyShiftsDistribution(constraintFactory),
+            requiredRoles(constraintFactory)
         };
     }
 
-    public Constraint oneShiftPerEmployeeGroupPerDay(ConstraintFactory constraintFactory) {
+    public Constraint oneShiftPerEmployeePerDay(ConstraintFactory constraintFactory) {
         // an employee can be assigned to at most 1 shiftAssignment at the same day
 
         return constraintFactory
@@ -81,6 +83,20 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                 "evenlyShiftsDistribution",
                 HardSoftScore.ONE_SOFT,
                 (employeeGroup, shifts) -> shifts * shifts);
+    }
+
+    private Constraint requiredRoles(ConstraintFactory constraintFactory) {
+        // a shiftAssignment can only take employees with roles it needs
+
+        return constraintFactory
+            .forEach(ShiftAssignment.class)
+            .filter(shiftAssignment -> {
+                Map<String, Integer> requiredRoles = shiftAssignment.getShift().getRequiredRoles();
+                Map<String, Integer> providedRoles = shiftAssignment.getEmployee().getRoles();
+
+                return !requiredRoles.equals(providedRoles);
+            })
+            .penalize("requiredRoles", HardSoftScore.ONE_HARD);
     }
 
     private static int getMinuteOverlap(ShiftAssignment sa1, ShiftAssignment sa2) {

@@ -3,7 +3,7 @@ package org.workaxle.domain;
 import lombok.Data;
 
 import java.time.LocalTime;
-import java.util.List;
+import java.util.Map;
 
 @Data
 public class Shift {
@@ -16,9 +16,9 @@ public class Shift {
 
     private LocalTime endAt;
 
-    private List<String> requiredRoles;
+    private Map<String, Integer> requiredRoles;
 
-    public Shift(Long id, String name, LocalTime startAt, LocalTime endAt, List<String> requiredRoles) {
+    public Shift(Long id, String name, LocalTime startAt, LocalTime endAt, Map<String, Integer> requiredRoles) {
         this.id = id;
         this.name = name;
         this.startAt = startAt;

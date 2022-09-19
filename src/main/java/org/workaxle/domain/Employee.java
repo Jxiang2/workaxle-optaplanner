@@ -3,7 +3,7 @@ package org.workaxle.domain;
 import lombok.Data;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 
-import java.util.List;
+import java.util.Map;
 
 @Data
 public class Employee {
@@ -13,9 +13,9 @@ public class Employee {
 
     private String name;
 
-    private List<String> roles;
+    private Map<String, Integer> roles;
 
-    public Employee(Long id, String name, List<String> roles) {
+    public Employee(Long id, String name, Map<String, Integer> roles) {
         this.id = id;
         this.name = name;
         this.roles = roles;

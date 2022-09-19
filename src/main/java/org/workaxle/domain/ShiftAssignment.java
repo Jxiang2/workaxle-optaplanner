@@ -19,7 +19,7 @@ public class ShiftAssignment {
 
     @PlanningVariable(valueRangeProviderRefs = "employeeRange")
     private Employee employee;
-    
+
     private Shift shift;
 
     private LocalDate date;
@@ -56,7 +56,16 @@ public class ShiftAssignment {
     @Override
     public String toString() {
         if (employee != null) {
-            return employee.getName() + " ; " + shift.getStartAt() + "~" + shift.getEndAt() + " ; " + date;
+            return
+                employee.getName()
+                    + " ; "
+                    + employee.getRoles()
+                    + " ; "
+                    + shift.getRequiredRoles()
+                    + " ; "
+                    + shift.getStartAt() + "~" + shift.getEndAt()
+                    + " ; "
+                    + date;
         }
         return "No employee assigned" + " ; " + shift.getStartAt() + "~" + shift.getEndAt() + " ; " + date;
     }

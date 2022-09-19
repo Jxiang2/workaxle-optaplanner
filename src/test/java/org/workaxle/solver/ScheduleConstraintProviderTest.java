@@ -9,8 +9,7 @@ import org.workaxle.domain.ShiftAssignment;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class ScheduleConstraintProviderTest {
 
@@ -26,19 +25,31 @@ public class ScheduleConstraintProviderTest {
             "shift A",
             LocalTime.of(9, 0),
             LocalTime.of(12, 0),
-            new ArrayList<>(List.of("Dev", "Design"))
+            new HashMap<>() {{
+                put("Dev", 1);
+                put("Design", 1);
+            }}
         );
         Shift s2 = new Shift(
             i++,
             "shift B",
             LocalTime.of(12, 0),
             LocalTime.of(15, 0),
-            new ArrayList<>(List.of("Dev", "Design"))
+            new HashMap<>() {{
+                put("Dev", 1);
+                put("Design", 1);
+            }}
         );
 
         long j = 1L;
-        Employee e1 = new Employee(j++, "emp group A", new ArrayList<>(List.of("Dev", "Cook")));
-        Employee e2 = new Employee(j++, "emp group B", new ArrayList<>(List.of("Dev", "Cook")));
+        Employee e1 = new Employee(j++, "emp group A", new HashMap<>() {{
+            put("Dev", 1);
+            put("Design", 1);
+        }});
+        Employee e2 = new Employee(j++, "emp group B", new HashMap<>() {{
+            put("Dev", 1);
+            put("Design", 1);
+        }});
 
         long k = 1L;
         ShiftAssignment firstSa = new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 21), e1);
@@ -47,7 +58,7 @@ public class ScheduleConstraintProviderTest {
         ShiftAssignment nonConflictSa2 = new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 22), e1);
 
         constraintVerifier
-            .verifyThat(ScheduleConstraintProvider::oneShiftPerEmployeeGroupPerDay)
+            .verifyThat(ScheduleConstraintProvider::oneShiftPerEmployeePerDay)
             .given(firstSa, conflictSa, nonConflictSa1, nonConflictSa2)
             .penalizesBy(1);
     }
@@ -60,24 +71,36 @@ public class ScheduleConstraintProviderTest {
             "shift A",
             LocalTime.of(9, 0),
             LocalTime.of(12, 0),
-            new ArrayList<>(List.of("Dev", "Design"))
+            new HashMap<>() {{
+                put("Dev", 1);
+                put("Design", 1);
+            }}
         );
         Shift s2 = new Shift(
             i++, "shift B",
             LocalTime.of(8, 0),
             LocalTime.of(11, 0),
-            new ArrayList<>(List.of("Dev", "Design"))
+            new HashMap<>() {{
+                put("Dev", 1);
+                put("Design", 1);
+            }}
         );
         Shift s3 = new Shift(
             i++,
             "shift C",
             LocalTime.of(12, 0),
             LocalTime.of(15, 0),
-            new ArrayList<>(List.of("Dev", "Design"))
+            new HashMap<>() {{
+                put("Dev", 1);
+                put("Design", 1);
+            }}
         );
 
         long j = 1L;
-        Employee e1 = new Employee(j++, "emp group A", new ArrayList<>(List.of("Dev", "Cook")));
+        Employee e1 = new Employee(j++, "emp group A", new HashMap<>() {{
+            put("Dev", 1);
+            put("Design", 1);
+        }});
 
         long k = 1L;
         ShiftAssignment firstSa = new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 21), e1);
@@ -98,18 +121,27 @@ public class ScheduleConstraintProviderTest {
             "shift A",
             LocalTime.of(20, 0),
             LocalTime.of(23, 0),
-            new ArrayList<>(List.of("Dev", "Design"))
+            new HashMap<>() {{
+                put("Dev", 1);
+                put("Design", 1);
+            }}
         );
         Shift s2 = new Shift(
             i++,
             "shift B",
             LocalTime.of(9, 0),
             LocalTime.of(12, 0),
-            new ArrayList<>(List.of("Dev", "Design"))
+            new HashMap<>() {{
+                put("Dev", 1);
+                put("Design", 1);
+            }}
         );
 
         long j = 1L;
-        Employee e1 = new Employee(j++, "emp group A", new ArrayList<>(List.of("Dev", "Cook")));
+        Employee e1 = new Employee(j++, "emp group A", new HashMap<>() {{
+            put("Dev", 1);
+            put("Design", 1);
+        }});
 
         long k = 1L;
         ShiftAssignment firstSa = new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 21), e1);
