@@ -1,0 +1,124 @@
+{
+  "employees": [
+    {
+      "id": 0,
+      "name": "user 0",
+      "roles": [
+        "Dev"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "user 1",
+      "roles": [
+        "Design"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "user 2",
+      "roles": [
+        "Dev"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "user 3",
+      "roles": [
+        "Design"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "user 3",
+      "roles": [
+        "Clean"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "user 5",
+      "roles": [
+        "Dev"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "user 6",
+      "roles": [
+        "Design"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "user 7",
+      "roles": [
+        "Dev"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "user 8",
+      "roles": [
+        "Design"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "user 9",
+      "roles": [
+        "Dev"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "user 10",
+      "roles": [
+        "Design"
+      ]
+    }
+  ],
+  "shifts": [
+    {
+      "id": 0,
+      "name": "develop new features",
+      "startAt": "09:00",
+      "endAt": "12:00",
+      "requiredRoles": {
+        "Dev": 1,
+        "Design": 1
+      }
+    },
+    {
+      "id": 1,
+      "name": "develop new features",
+      "startAt": "12:00",
+      "endAt": "15:00",
+      "requiredRoles": {
+        "Dev": 1,
+        "Design": 1
+      }
+    },
+    {
+      "id": 2,
+      "name": "develop new features",
+      "startAt": "15:00",
+      "endAt": "18:00",
+      "requiredRoles": {
+        "Dev": 1,
+        "Design": 1
+      }
+    },
+    {
+      "id": 3,
+      "name": "clean up",
+      "startAt": "18:00",
+      "endAt": "23:00",
+      "requiredRoles": {
+        "Clean": 1
+      }
+    }
+  ],
+  "startDate": "2022-11-21",
+  "endDate": "2022-11-25"
+}

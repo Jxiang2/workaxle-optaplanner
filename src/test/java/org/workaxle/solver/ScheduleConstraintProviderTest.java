@@ -40,13 +40,12 @@ public class ScheduleConstraintProviderTest {
                 put("Design", 1);
             }}
         );
-
-        long j = 1L;
-        EmployeeGroup e1 = new EmployeeGroup(j++, "emp group A", new HashMap<>() {{
+        
+        EmployeeGroup e1 = new EmployeeGroup("1", new HashMap<>() {{
             put("Dev", 1);
             put("Design", 1);
         }});
-        EmployeeGroup e2 = new EmployeeGroup(j++, "emp group B", new HashMap<>() {{
+        EmployeeGroup e2 = new EmployeeGroup("1", new HashMap<>() {{
             put("Dev", 1);
             put("Design", 1);
         }});
@@ -87,8 +86,7 @@ public class ScheduleConstraintProviderTest {
             }}
         );
 
-        long j = 1L;
-        EmployeeGroup e1 = new EmployeeGroup(j++, "emp group A", new HashMap<>() {{
+        EmployeeGroup e1 = new EmployeeGroup("1", new HashMap<>() {{
             put("Dev", 1);
             put("Design", 1);
         }});

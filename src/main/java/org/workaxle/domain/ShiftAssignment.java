@@ -57,7 +57,8 @@ public class ShiftAssignment {
     public String toString() {
         if (employeeGroup != null) {
             return
-                employeeGroup.getName()
+                "Employ group id: " +
+                    employeeGroup.getId()
                     + " ; "
                     + employeeGroup.getRoles()
                     + " ; "

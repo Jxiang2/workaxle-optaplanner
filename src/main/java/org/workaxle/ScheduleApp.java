@@ -84,28 +84,27 @@ public class ScheduleApp {
             }}
         );
 
-        long j = 1L;
         List<EmployeeGroup> employeeGroupList = new ArrayList<>();
-        employeeGroupList.add(new EmployeeGroup(j++, "empGroup A", new HashMap<>() {{
+        employeeGroupList.add(new EmployeeGroup("1", new HashMap<>() {{
             put("Dev", 1);
             put("Design", 1);
         }}));
-        employeeGroupList.add(new EmployeeGroup(j++, "empGroup B", new HashMap<>() {{
+        employeeGroupList.add(new EmployeeGroup("2", new HashMap<>() {{
             put("Dev", 1);
             put("Design", 1);
         }}));
-        employeeGroupList.add(new EmployeeGroup(j++, "empGroup C", new HashMap<>() {{
+        employeeGroupList.add(new EmployeeGroup("3", new HashMap<>() {{
             put("Clean", 1);
         }}));
-        employeeGroupList.add(new EmployeeGroup(j++, "empGroup D", new HashMap<>() {{
+        employeeGroupList.add(new EmployeeGroup("4", new HashMap<>() {{
             put("Dev", 1);
             put("Design", 1);
         }}));
-        employeeGroupList.add(new EmployeeGroup(j++, "empGroup E", new HashMap<>() {{
+        employeeGroupList.add(new EmployeeGroup("5", new HashMap<>() {{
             put("Dev", 1);
             put("Design", 1);
         }}));
-        employeeGroupList.add(new EmployeeGroup(j++, "empGroup F", new HashMap<>() {{
+        employeeGroupList.add(new EmployeeGroup("6", new HashMap<>() {{
             put("Dev", 1);
             put("Design", 1);
         }}));
