@@ -23,8 +23,8 @@ public class ScheduleConstraintProviderTest {
         Shift s2 = new Shift(i++, "shift B", LocalTime.of(12, 0), LocalTime.of(15, 0));
 
         long j = 1L;
-        Employee e1 = new Employee(j++, "emp group A");
-        Employee e2 = new Employee(j++, "emp group B");
+        Employee e1 = new Employee(j++, "emp group A", "Dev");
+        Employee e2 = new Employee(j++, "emp group B", "Dev");
 
         long k = 1L;
         ShiftAssignment firstSa = new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 21), e1);
@@ -46,7 +46,7 @@ public class ScheduleConstraintProviderTest {
         Shift s3 = new Shift(i++, "shift C", LocalTime.of(12, 0), LocalTime.of(15, 0));
 
         long j = 1L;
-        Employee e1 = new Employee(j++, "emp group A");
+        Employee e1 = new Employee(j++, "emp group A", "Dev");
 
         long k = 1L;
         ShiftAssignment firstSa = new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 21), e1);
@@ -66,7 +66,7 @@ public class ScheduleConstraintProviderTest {
         Shift s2 = new Shift(i++, "shift B", LocalTime.of(9, 0), LocalTime.of(12, 0));
 
         long j = 1L;
-        Employee e1 = new Employee(j++, "emp group A");
+        Employee e1 = new Employee(j++, "emp group A", "Dev");
 
         long k = 1L;
         ShiftAssignment firstSa = new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 21), e1);

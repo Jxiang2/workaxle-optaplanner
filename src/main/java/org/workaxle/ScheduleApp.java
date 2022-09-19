@@ -50,12 +50,12 @@ public class ScheduleApp {
 
         long j = 1L;
         List<Employee> employeeList = new ArrayList<>();
-        employeeList.add(new Employee(j++, "emp A"));
-        employeeList.add(new Employee(j++, "emp B"));
-        employeeList.add(new Employee(j++, "emp C"));
-        employeeList.add(new Employee(j++, "emp D"));
-        employeeList.add(new Employee(j++, "emp E"));
-        employeeList.add(new Employee(j++, "emp F"));
+        employeeList.add(new Employee(j++, "emp A", "Dev"));
+        employeeList.add(new Employee(j++, "emp B", "Dev"));
+        employeeList.add(new Employee(j++, "emp C", "Dev"));
+        employeeList.add(new Employee(j++, "emp D", "Design"));
+        employeeList.add(new Employee(j++, "emp E", "Design"));
+        employeeList.add(new Employee(j++, "emp F", "Design"));
 
         long k = 1L;
         List<ShiftAssignment> shiftAssignmentList = new ArrayList<>();
