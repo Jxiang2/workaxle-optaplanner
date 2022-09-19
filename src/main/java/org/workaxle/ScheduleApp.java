@@ -3,7 +3,7 @@ package org.workaxle;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.solver.SolverConfig;
-import org.workaxle.domain.Employee;
+import org.workaxle.domain.EmployeeGroup;
 import org.workaxle.domain.Schedule;
 import org.workaxle.domain.Shift;
 import org.workaxle.domain.ShiftAssignment;
@@ -85,27 +85,27 @@ public class ScheduleApp {
         );
 
         long j = 1L;
-        List<Employee> employeeList = new ArrayList<>();
-        employeeList.add(new Employee(j++, "empGroup A", new HashMap<>() {{
+        List<EmployeeGroup> employeeGroupList = new ArrayList<>();
+        employeeGroupList.add(new EmployeeGroup(j++, "empGroup A", new HashMap<>() {{
             put("Dev", 1);
             put("Design", 1);
         }}));
-        employeeList.add(new Employee(j++, "empGroup B", new HashMap<>() {{
+        employeeGroupList.add(new EmployeeGroup(j++, "empGroup B", new HashMap<>() {{
             put("Dev", 1);
             put("Design", 1);
         }}));
-        employeeList.add(new Employee(j++, "empGroup C", new HashMap<>() {{
+        employeeGroupList.add(new EmployeeGroup(j++, "empGroup C", new HashMap<>() {{
             put("Clean", 1);
         }}));
-        employeeList.add(new Employee(j++, "empGroup D", new HashMap<>() {{
+        employeeGroupList.add(new EmployeeGroup(j++, "empGroup D", new HashMap<>() {{
             put("Dev", 1);
             put("Design", 1);
         }}));
-        employeeList.add(new Employee(j++, "empGroup E", new HashMap<>() {{
+        employeeGroupList.add(new EmployeeGroup(j++, "empGroup E", new HashMap<>() {{
             put("Dev", 1);
             put("Design", 1);
         }}));
-        employeeList.add(new Employee(j++, "empGroup F", new HashMap<>() {{
+        employeeGroupList.add(new EmployeeGroup(j++, "empGroup F", new HashMap<>() {{
             put("Dev", 1);
             put("Design", 1);
         }}));
@@ -137,7 +137,7 @@ public class ScheduleApp {
         shiftAssignmentList.add(new ShiftAssignment(k++, s3, LocalDate.of(2022, 11, 25)));
         shiftAssignmentList.add(new ShiftAssignment(k++, s4, LocalDate.of(2022, 11, 25)));
 
-        return new Schedule(employeeList, shiftAssignmentList);
+        return new Schedule(employeeGroupList, shiftAssignmentList);
     }
 
     private static void printResult(Schedule schedule) {

@@ -19,13 +19,13 @@ public class Schedule {
 
     @ValueRangeProvider(id = "employeeRange")
     @ProblemFactCollectionProperty
-    private List<Employee> employeeList;
+    private List<EmployeeGroup> employeeGroupList;
 
     @PlanningEntityCollectionProperty
     private List<ShiftAssignment> shiftAssignmentList;
 
-    public Schedule(List<Employee> employeeList, List<ShiftAssignment> shiftAssignmentList) {
-        this.employeeList = employeeList;
+    public Schedule(List<EmployeeGroup> employeeGroupList, List<ShiftAssignment> shiftAssignmentList) {
+        this.employeeGroupList = employeeGroupList;
         this.shiftAssignmentList = shiftAssignmentList;
     }
 

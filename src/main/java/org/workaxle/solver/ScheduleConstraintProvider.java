@@ -28,7 +28,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
         return constraintFactory
             .forEachUniquePair(
                 ShiftAssignment.class,
-                Joiners.equal(ShiftAssignment::getEmployee),
+                Joiners.equal(ShiftAssignment::getEmployeeGroup),
                 Joiners.equal(ShiftAssignment::getDate)
             )
             .penalize("oneShiftPerEmployeeGroupPerDay", HardSoftScore.ONE_HARD);
@@ -40,7 +40,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
         return constraintFactory
             .forEachUniquePair(
                 ShiftAssignment.class,
-                Joiners.equal(ShiftAssignment::getEmployee),
+                Joiners.equal(ShiftAssignment::getEmployeeGroup),
                 Joiners.lessThanOrEqual(
                     ShiftAssignment::getEndDateTime,
                     ShiftAssignment::getStartDatetime
@@ -69,7 +69,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
             .join(
                 ShiftAssignment.class,
                 Joiners.equal(ShiftAssignment::getShift),
-                Joiners.equal(ShiftAssignment::getEmployee),
+                Joiners.equal(ShiftAssignment::getEmployeeGroup),
                 Joiners.lessThan(ShiftAssignment::getId)
             )
             .penalize("evenlyShiftsDistribution", HardSoftScore.ONE_SOFT);
@@ -82,7 +82,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
             .forEach(ShiftAssignment.class)
             .filter(shiftAssignment -> {
                 Map<String, Integer> requiredRoles = shiftAssignment.getShift().getRequiredRoles();
-                Map<String, Integer> providedRoles = shiftAssignment.getEmployee().getRoles();
+                Map<String, Integer> providedRoles = shiftAssignment.getEmployeeGroup().getRoles();
 
                 return !requiredRoles.equals(providedRoles);
             })

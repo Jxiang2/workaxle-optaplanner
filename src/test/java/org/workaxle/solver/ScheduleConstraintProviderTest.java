@@ -2,7 +2,7 @@ package org.workaxle.solver;
 
 import org.junit.jupiter.api.Test;
 import org.optaplanner.test.api.score.stream.ConstraintVerifier;
-import org.workaxle.domain.Employee;
+import org.workaxle.domain.EmployeeGroup;
 import org.workaxle.domain.Schedule;
 import org.workaxle.domain.Shift;
 import org.workaxle.domain.ShiftAssignment;
@@ -42,11 +42,11 @@ public class ScheduleConstraintProviderTest {
         );
 
         long j = 1L;
-        Employee e1 = new Employee(j++, "emp group A", new HashMap<>() {{
+        EmployeeGroup e1 = new EmployeeGroup(j++, "emp group A", new HashMap<>() {{
             put("Dev", 1);
             put("Design", 1);
         }});
-        Employee e2 = new Employee(j++, "emp group B", new HashMap<>() {{
+        EmployeeGroup e2 = new EmployeeGroup(j++, "emp group B", new HashMap<>() {{
             put("Dev", 1);
             put("Design", 1);
         }});
@@ -88,7 +88,7 @@ public class ScheduleConstraintProviderTest {
         );
 
         long j = 1L;
-        Employee e1 = new Employee(j++, "emp group A", new HashMap<>() {{
+        EmployeeGroup e1 = new EmployeeGroup(j++, "emp group A", new HashMap<>() {{
             put("Dev", 1);
             put("Design", 1);
         }});
@@ -101,7 +101,7 @@ public class ScheduleConstraintProviderTest {
         constraintVerifier
             .verifyThat(ScheduleConstraintProvider::atLeast12HoursBetweenTwoShifts)
             .given(firstSa, conflictSa)
-            .penalizesBy(120);
+            .penalizesBy(2);
     }
 
 }

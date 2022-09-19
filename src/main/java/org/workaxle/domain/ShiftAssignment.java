@@ -18,7 +18,7 @@ public class ShiftAssignment {
     private Long id;
 
     @PlanningVariable(valueRangeProviderRefs = "employeeRange")
-    private Employee employee;
+    private EmployeeGroup employeeGroup;
 
     private Shift shift;
 
@@ -30,11 +30,11 @@ public class ShiftAssignment {
         this.date = date;
     }
 
-    public ShiftAssignment(Long id, Shift shift, LocalDate date, Employee employee) {
+    public ShiftAssignment(Long id, Shift shift, LocalDate date, EmployeeGroup employeeGroup) {
         this.id = id;
         this.shift = shift;
         this.date = date;
-        this.employee = employee;
+        this.employeeGroup = employeeGroup;
     }
 
     public ShiftAssignment() {
@@ -55,11 +55,11 @@ public class ShiftAssignment {
 
     @Override
     public String toString() {
-        if (employee != null) {
+        if (employeeGroup != null) {
             return
-                employee.getName()
+                employeeGroup.getName()
                     + " ; "
-                    + employee.getRoles()
+                    + employeeGroup.getRoles()
                     + " ; "
                     + shift.getRequiredRoles()
                     + " ; "
@@ -67,7 +67,7 @@ public class ShiftAssignment {
                     + " ; "
                     + date;
         }
-        return "No employee assigned" + " ; " + shift.getStartAt() + "~" + shift.getEndAt() + " ; " + date;
+        return "No employee group assigned" + " ; " + shift.getStartAt() + "~" + shift.getEndAt() + " ; " + date;
     }
 
 }

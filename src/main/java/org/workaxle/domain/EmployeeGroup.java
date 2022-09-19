@@ -6,7 +6,7 @@ import org.optaplanner.core.api.domain.lookup.PlanningId;
 import java.util.Map;
 
 @Data
-public class Employee {
+public class EmployeeGroup {
 
     @PlanningId
     private Long id;
@@ -15,13 +15,13 @@ public class Employee {
 
     private Map<String, Integer> roles;
 
-    public Employee(Long id, String name, Map<String, Integer> roles) {
+    public EmployeeGroup(Long id, String name, Map<String, Integer> roles) {
         this.id = id;
         this.name = name;
         this.roles = roles;
     }
 
-    public Employee() {
+    public EmployeeGroup() {
     }
 
 }
