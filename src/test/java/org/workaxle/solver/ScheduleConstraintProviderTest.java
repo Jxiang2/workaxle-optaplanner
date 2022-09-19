@@ -64,56 +64,6 @@ public class ScheduleConstraintProviderTest {
     }
 
     @Test
-    void testOnOverlappingShifts() {
-        long i = 1L;
-        Shift s1 = new Shift(
-            i++,
-            "shift A",
-            LocalTime.of(9, 0),
-            LocalTime.of(12, 0),
-            new HashMap<>() {{
-                put("Dev", 1);
-                put("Design", 1);
-            }}
-        );
-        Shift s2 = new Shift(
-            i++, "shift B",
-            LocalTime.of(8, 0),
-            LocalTime.of(11, 0),
-            new HashMap<>() {{
-                put("Dev", 1);
-                put("Design", 1);
-            }}
-        );
-        Shift s3 = new Shift(
-            i++,
-            "shift C",
-            LocalTime.of(12, 0),
-            LocalTime.of(15, 0),
-            new HashMap<>() {{
-                put("Dev", 1);
-                put("Design", 1);
-            }}
-        );
-
-        long j = 1L;
-        Employee e1 = new Employee(j++, "emp group A", new HashMap<>() {{
-            put("Dev", 1);
-            put("Design", 1);
-        }});
-
-        long k = 1L;
-        ShiftAssignment firstSa = new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 21), e1);
-        ShiftAssignment conflictSa = new ShiftAssignment(k++, s2, LocalDate.of(2022, 11, 21), e1);
-        ShiftAssignment nonConflictSa = new ShiftAssignment(k++, s3, LocalDate.of(2022, 11, 22), e1);
-
-        constraintVerifier
-            .verifyThat(ScheduleConstraintProvider::onOverlappingShifts)
-            .given(firstSa, conflictSa, nonConflictSa)
-            .penalizesBy(120);
-    }
-
-    @Test
     void testAtLeast12HoursBetweenTwoShifts() {
         long i = 1L;
         Shift s1 = new Shift(

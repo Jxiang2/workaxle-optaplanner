@@ -41,8 +41,7 @@ public class ScheduleApp {
 
     private static Schedule generateData() {
         // total shifts: 5 (days) * 4 (shiftsPerDay) = 20
-        // total shifts per employee: 20 / 6 = 3 ~ 4
-        // each shift requires 2 employees
+        // total shifts per employeeGroup: 20 / 6 = 3 ~ 4
 
         long i = 1L;
         Shift s1 = new Shift(
@@ -81,8 +80,7 @@ public class ScheduleApp {
             LocalTime.of(18, 0),
             LocalTime.of(23, 0),
             new HashMap<>() {{
-                put("Dev", 1);
-                put("Design", 1);
+                put("Clean", 1);
             }}
         );
 
@@ -97,8 +95,7 @@ public class ScheduleApp {
             put("Design", 1);
         }}));
         employeeList.add(new Employee(j++, "empGroup C", new HashMap<>() {{
-            put("Dev", 1);
-            put("Design", 1);
+            put("Clean", 1);
         }}));
         employeeList.add(new Employee(j++, "empGroup D", new HashMap<>() {{
             put("Dev", 1);
