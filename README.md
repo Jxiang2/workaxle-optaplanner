@@ -1,5 +1,9 @@
 # Shift-employee rostering
 
+## Task:
+Schedule shifts for all employees in department a, location b from 2022-11-21 to 2022-11-25.
+Each day has 4 shifts: 9~12, 12~15, 15~18. 18~23.
+
 ## Requirements:
 
 1. Each shift is assigned to a single employee ✅
