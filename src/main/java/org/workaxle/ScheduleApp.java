@@ -39,8 +39,8 @@ public class ScheduleApp {
     }
 
     private static Schedule generateData() {
-        // total shifts: 4 * 5 = 20
-        // total shifts per employee group: 20 / 4 = 5
+        // total shifts: 5 (days) * 4 (shiftsPerDay) = 20
+        // total shifts per employee group: 20 / 5 = 3 ~ 4
 
         long i = 1L;
         Shift s1 = new Shift(i++, "shift A", LocalTime.of(9, 0), LocalTime.of(12, 0));
@@ -55,6 +55,7 @@ public class ScheduleApp {
         employeeGroupList.add(new EmployeeGroup(j++, "emp group C"));
         employeeGroupList.add(new EmployeeGroup(j++, "emp group D"));
         employeeGroupList.add(new EmployeeGroup(j++, "emp group E"));
+        employeeGroupList.add(new EmployeeGroup(j++, "emp group F"));
 
         long k = 1L;
         List<ShiftAssignment> shiftAssignmentList = new ArrayList<>();
@@ -87,9 +88,16 @@ public class ScheduleApp {
     }
 
     private static void printResult(Schedule schedule) {
-        final List<ShiftAssignment> shiftAssignmentList = schedule.getShiftAssignmentList();
+        List<ShiftAssignment> shiftAssignmentList = schedule.getShiftAssignmentList();
+        int currentShiftPerDay = 1;
         for (ShiftAssignment sf : shiftAssignmentList) {
             System.out.println(sf);
+            if (currentShiftPerDay == 4) {
+                currentShiftPerDay = 0;
+                System.out.println();
+
+            }
+            currentShiftPerDay += 1;
         }
     }
 

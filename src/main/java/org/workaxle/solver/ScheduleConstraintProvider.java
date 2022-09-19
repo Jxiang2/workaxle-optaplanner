@@ -17,7 +17,8 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
         return new Constraint[]{
             oneShiftPerEmployeeGroupPerDay(constraintFactory),
             atLeast12HoursBetweenTwoShifts(constraintFactory),
-            onOverlappingShifts(constraintFactory)
+            onOverlappingShifts(constraintFactory),
+            evenlyShiftsDistribution(constraintFactory)
         };
     }
 
@@ -27,8 +28,8 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
         return constraintFactory
             .forEachUniquePair(
                 ShiftAssignment.class,
-                Joiners.equal(ShiftAssignment::getEmployeeGroup), // same employee group
-                Joiners.equal(ShiftAssignment::getDate) // the same day
+                Joiners.equal(ShiftAssignment::getEmployeeGroup),
+                Joiners.equal(ShiftAssignment::getDate)
             )
             .penalize("oneShiftPerEmployeeGroupPerDay", HardSoftScore.ONE_HARD);
     }
@@ -39,8 +40,8 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
         return constraintFactory
             .forEachUniquePair(
                 ShiftAssignment.class,
-                Joiners.equal(ShiftAssignment::getEmployeeGroup), // same employee group
-                Joiners.lessThanOrEqual( // endDatetime of first < startDatetime of second
+                Joiners.equal(ShiftAssignment::getEmployeeGroup),
+                Joiners.lessThanOrEqual(
                     ShiftAssignment::getEndDatetime,
                     ShiftAssignment::getStartDatetime
                 )
@@ -72,6 +73,19 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                 HardSoftScore.ONE_HARD,
                 ScheduleConstraintProvider::getMinuteOverlap
             );
+    }
+
+    private Constraint evenlyShiftsDistribution(ConstraintFactory constraintFactory) {
+        // try to distribute the shifts evenly to employee groups
+
+        return constraintFactory
+            .forEachUniquePair(
+                ShiftAssignment.class,
+                Joiners.equal(ShiftAssignment::getShift),
+                Joiners.equal(ShiftAssignment::getEmployeeGroup)
+            )
+            .penalize("evenlyShiftsDistribution", HardSoftScore.ONE_SOFT);
+
     }
 
     private static int getMinuteOverlap(ShiftAssignment sa1, ShiftAssignment sa2) {
