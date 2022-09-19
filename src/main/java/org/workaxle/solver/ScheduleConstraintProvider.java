@@ -72,7 +72,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
             );
     }
 
-    private Constraint evenlyShiftsDistribution(ConstraintFactory constraintFactory) {
+    public Constraint evenlyShiftsDistribution(ConstraintFactory constraintFactory) {
         // try to distribute the shifts evenly to employee groups
 
         return constraintFactory.forEach(ShiftAssignment.class)
