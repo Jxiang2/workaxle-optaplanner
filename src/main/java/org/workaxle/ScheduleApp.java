@@ -39,10 +39,13 @@ public class ScheduleApp {
     }
 
     private static Schedule generateData() {
+        // total shifts: 4 * 5 = 20
+        // total shifts per employee group: 20 / 4 = 5
+
         long i = 1L;
         Shift s1 = new Shift(i++, "shift A", LocalTime.of(9, 0), LocalTime.of(12, 0));
         Shift s2 = new Shift(i++, "shift B", LocalTime.of(12, 0), LocalTime.of(15, 0));
-        Shift s3 = new Shift(i++, "shift C", LocalTime.of(12, 0), LocalTime.of(15, 0));
+        Shift s3 = new Shift(i++, "shift C", LocalTime.of(15, 0), LocalTime.of(18, 0));
         Shift s4 = new Shift(i++, "shift D", LocalTime.of(18, 0), LocalTime.of(23, 0));
 
         long j = 1L;
