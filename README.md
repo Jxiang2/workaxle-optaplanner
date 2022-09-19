@@ -1,11 +1,12 @@
 # Shift-employee rostering
 
 ## Task:
+
 Schedule shifts for all employees in a department
 
 ## Requirements:
 
-1. Each shift is assigned to a single employee ✅
+1. Each shift is assigned to at least 1 employee
 2. Try to distribute the shifts evenly to employees ✅
 3. No employee works more than 1 shift in 1 day ✅
 4. No employee works more than 1 shift in 12 hours ✅
