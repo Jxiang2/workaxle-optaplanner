@@ -20,7 +20,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
     }
 
     public Constraint oneShiftPerEmployeeGroupPerDay(ConstraintFactory constraintFactory) {
-        // an employee group can be assigned to at most 1 shiftAssignment at the same day
+        // an employee can be assigned to at most 1 shiftAssignment at the same day
 
         return constraintFactory
             .forEachUniquePair(
@@ -32,7 +32,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
     }
 
     public Constraint atLeast12HoursBetweenTwoShifts(ConstraintFactory constraintFactory) {
-        // any employee group can only work 1 shiftAssignment in 12 hours
+        // any employee can only work 1 shiftAssignment in 12 hours
 
         return constraintFactory
             .forEachUniquePair(
@@ -57,7 +57,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
     }
 
     public Constraint onOverlappingShifts(ConstraintFactory constraintFactory) {
-        // an employee group can't work on 2 overlapping shiftAssignments
+        // an employee can't work on 2 overlapping shiftAssignments
 
         return constraintFactory
             .forEachUniquePair(
@@ -73,7 +73,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
     }
 
     public Constraint evenlyShiftsDistribution(ConstraintFactory constraintFactory) {
-        // try to distribute the shifts evenly to employee groups
+        // try to distribute the shifts evenly to employees
 
         return constraintFactory.forEach(ShiftAssignment.class)
             .groupBy(ShiftAssignment::getEmployeeGroup, ConstraintCollectors.count())

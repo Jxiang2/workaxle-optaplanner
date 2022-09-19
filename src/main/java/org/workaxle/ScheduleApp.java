@@ -3,7 +3,7 @@ package org.workaxle;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.solver.SolverConfig;
-import org.workaxle.domain.EmployeeGroup;
+import org.workaxle.domain.Employee;
 import org.workaxle.domain.Schedule;
 import org.workaxle.domain.Shift;
 import org.workaxle.domain.ShiftAssignment;
@@ -40,7 +40,7 @@ public class ScheduleApp {
 
     private static Schedule generateData() {
         // total shifts: 5 (days) * 4 (shiftsPerDay) = 20
-        // total shifts per employee group: 20 / 6 = 3 ~ 4
+        // total shifts per employee: 20 / 6 = 3 ~ 4
 
         long i = 1L;
         Shift s1 = new Shift(i++, "shift A", LocalTime.of(9, 0), LocalTime.of(12, 0));
@@ -49,13 +49,13 @@ public class ScheduleApp {
         Shift s4 = new Shift(i++, "shift D", LocalTime.of(18, 0), LocalTime.of(23, 0));
 
         long j = 1L;
-        List<EmployeeGroup> employeeGroupList = new ArrayList<>();
-        employeeGroupList.add(new EmployeeGroup(j++, "emp group A"));
-        employeeGroupList.add(new EmployeeGroup(j++, "emp group B"));
-        employeeGroupList.add(new EmployeeGroup(j++, "emp group C"));
-        employeeGroupList.add(new EmployeeGroup(j++, "emp group D"));
-        employeeGroupList.add(new EmployeeGroup(j++, "emp group E"));
-        employeeGroupList.add(new EmployeeGroup(j++, "emp group F"));
+        List<Employee> employeeList = new ArrayList<>();
+        employeeList.add(new Employee(j++, "emp A"));
+        employeeList.add(new Employee(j++, "emp B"));
+        employeeList.add(new Employee(j++, "emp C"));
+        employeeList.add(new Employee(j++, "emp D"));
+        employeeList.add(new Employee(j++, "emp E"));
+        employeeList.add(new Employee(j++, "emp F"));
 
         long k = 1L;
         List<ShiftAssignment> shiftAssignmentList = new ArrayList<>();
@@ -84,7 +84,7 @@ public class ScheduleApp {
         shiftAssignmentList.add(new ShiftAssignment(k++, s3, LocalDate.of(2022, 11, 25)));
         shiftAssignmentList.add(new ShiftAssignment(k++, s4, LocalDate.of(2022, 11, 25)));
 
-        return new Schedule(employeeGroupList, shiftAssignmentList);
+        return new Schedule(employeeList, shiftAssignmentList);
     }
 
     private static void printResult(Schedule schedule) {
