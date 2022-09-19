@@ -40,7 +40,7 @@ public class ScheduleApp {
 
     private static Schedule generateData() {
         // total shifts: 5 (days) * 4 (shiftsPerDay) = 20
-        // total shifts per employee group: 20 / 5 = 3 ~ 4
+        // total shifts per employee group: 20 / 6 = 3 ~ 4
 
         long i = 1L;
         Shift s1 = new Shift(i++, "shift A", LocalTime.of(9, 0), LocalTime.of(12, 0));

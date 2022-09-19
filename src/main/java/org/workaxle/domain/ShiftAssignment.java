@@ -47,7 +47,10 @@ public class ShiftAssignment {
 
     @Override
     public String toString() {
-        return employeeGroup.name + " ; " + shift.startAt + "~" + shift.endAt + " ; " + date;
+        if (employeeGroup != null) {
+            return employeeGroup.name + " ; " + shift.startAt + "~" + shift.endAt + " ; " + date;
+        }
+        return "No employee assigned" + " ; " + shift.startAt + "~" + shift.endAt + " ; " + date;
     }
 
 }

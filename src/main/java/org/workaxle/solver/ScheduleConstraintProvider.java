@@ -1,10 +1,7 @@
 package org.workaxle.solver;
 
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
-import org.optaplanner.core.api.score.stream.Constraint;
-import org.optaplanner.core.api.score.stream.ConstraintFactory;
-import org.optaplanner.core.api.score.stream.ConstraintProvider;
-import org.optaplanner.core.api.score.stream.Joiners;
+import org.optaplanner.core.api.score.stream.*;
 import org.workaxle.domain.ShiftAssignment;
 
 import java.time.Duration;
@@ -78,14 +75,12 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
     private Constraint evenlyShiftsDistribution(ConstraintFactory constraintFactory) {
         // try to distribute the shifts evenly to employee groups
 
-        return constraintFactory
-            .forEachUniquePair(
-                ShiftAssignment.class,
-                Joiners.equal(ShiftAssignment::getShift),
-                Joiners.equal(ShiftAssignment::getEmployeeGroup)
-            )
-            .penalize("evenlyShiftsDistribution", HardSoftScore.ONE_SOFT);
-
+        return constraintFactory.forEach(ShiftAssignment.class)
+            .groupBy(ShiftAssignment::getEmployeeGroup, ConstraintCollectors.count())
+            .penalize(
+                "evenlyShiftsDistribution",
+                HardSoftScore.ONE_SOFT,
+                (employeeGroup, shifts) -> shifts * shifts);
     }
 
     private static int getMinuteOverlap(ShiftAssignment sa1, ShiftAssignment sa2) {
