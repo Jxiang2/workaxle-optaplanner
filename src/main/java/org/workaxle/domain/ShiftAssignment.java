@@ -14,12 +14,12 @@ import java.time.LocalTime;
 @PlanningEntity
 public class ShiftAssignment {
 
-    @PlanningVariable(valueRangeProviderRefs = "employeeRange")
-    private Employee employee;
-
     @PlanningId
     private Long id;
 
+    @PlanningVariable(valueRangeProviderRefs = "employeeRange")
+    private Employee employee;
+    
     private Shift shift;
 
     private LocalDate date;

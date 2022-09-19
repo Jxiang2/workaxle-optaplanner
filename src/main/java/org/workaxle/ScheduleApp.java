@@ -41,6 +41,7 @@ public class ScheduleApp {
     private static Schedule generateData() {
         // total shifts: 5 (days) * 4 (shiftsPerDay) = 20
         // total shifts per employee: 20 / 6 = 3 ~ 4
+        // each shift requires 2 employees
 
         long i = 1L;
         Shift s1 = new Shift(
@@ -72,12 +73,12 @@ public class ScheduleApp {
 
         long j = 1L;
         List<Employee> employeeList = new ArrayList<>();
-        employeeList.add(new Employee(j++, "emp A", "Dev"));
-        employeeList.add(new Employee(j++, "emp B", "Dev"));
-        employeeList.add(new Employee(j++, "emp C", "Dev"));
-        employeeList.add(new Employee(j++, "emp D", "Design"));
-        employeeList.add(new Employee(j++, "emp E", "Design"));
-        employeeList.add(new Employee(j++, "emp F", "Design"));
+        employeeList.add(new Employee(j++, "emp A", new ArrayList<>(List.of("Dev", "Cook"))));
+        employeeList.add(new Employee(j++, "emp B", new ArrayList<>(List.of("Dev", "Design"))));
+        employeeList.add(new Employee(j++, "emp C", new ArrayList<>(List.of("Market", "Design"))));
+        employeeList.add(new Employee(j++, "emp D", new ArrayList<>(List.of("Cleaning", "Dev"))));
+        employeeList.add(new Employee(j++, "emp E", new ArrayList<>(List.of("Dev"))));
+        employeeList.add(new Employee(j++, "emp F", new ArrayList<>(List.of("Design"))));
 
         long k = 1L;
         List<ShiftAssignment> shiftAssignmentList = new ArrayList<>();

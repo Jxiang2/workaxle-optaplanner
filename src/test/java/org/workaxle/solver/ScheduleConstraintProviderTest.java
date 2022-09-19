@@ -37,8 +37,8 @@ public class ScheduleConstraintProviderTest {
         );
 
         long j = 1L;
-        Employee e1 = new Employee(j++, "emp group A", "Dev");
-        Employee e2 = new Employee(j++, "emp group B", "Dev");
+        Employee e1 = new Employee(j++, "emp group A", new ArrayList<>(List.of("Dev", "Cook")));
+        Employee e2 = new Employee(j++, "emp group B", new ArrayList<>(List.of("Dev", "Cook")));
 
         long k = 1L;
         ShiftAssignment firstSa = new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 21), e1);
@@ -77,7 +77,7 @@ public class ScheduleConstraintProviderTest {
         );
 
         long j = 1L;
-        Employee e1 = new Employee(j++, "emp group A", "Dev");
+        Employee e1 = new Employee(j++, "emp group A", new ArrayList<>(List.of("Dev", "Cook")));
 
         long k = 1L;
         ShiftAssignment firstSa = new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 21), e1);
@@ -109,7 +109,7 @@ public class ScheduleConstraintProviderTest {
         );
 
         long j = 1L;
-        Employee e1 = new Employee(j++, "emp group A", "Dev");
+        Employee e1 = new Employee(j++, "emp group A", new ArrayList<>(List.of("Dev", "Cook")));
 
         long k = 1L;
         ShiftAssignment firstSa = new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 21), e1);
