@@ -13,10 +13,10 @@ Schedule shifts for all employees in a specific group
 
 ### Models:
 
-1. Shift
+1. Shift (Input)
 2. ShiftAssignment (Planning entity)
 3. EmployeeGroup
-4. Employee
+4. Employee (Input)
 5. Schedule (Planning solution)
 
 ### Input:
