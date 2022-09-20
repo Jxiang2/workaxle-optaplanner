@@ -17,8 +17,8 @@ import java.util.*;
 
 public class Data {
 
-    public static void main(String[] args) throws IOException, ParseException {
-        final Schedule schedule = getDate();
+    public static void main(String[] args) {
+        final Schedule schedule = generateDate();
         final List<EmployeeGroup> employeeGroupList = schedule.getEmployeeGroupList();
         for (EmployeeGroup employeeGroup : employeeGroupList) {
             System.out.println(employeeGroup);
@@ -28,7 +28,7 @@ public class Data {
 
     }
 
-    public static Schedule getDate() {
+    public static Schedule generateDate() {
         try {
             final JSONParser parser = new JSONParser();
             final FileReader fileReader = new FileReader("src/main/java/org/workaxle/dao/data.json");
@@ -58,16 +58,18 @@ public class Data {
 
                 JSONObject shiftJson = (JSONObject) o;
                 JSONObject requiredRolesJson = (JSONObject) shiftJson.get("requiredRoles");
-                HashMap requiredRoles = new ObjectMapper()
+                HashMap<String, Integer> requiredRoles = new ObjectMapper()
                     .readValue(requiredRolesJson.toJSONString(), HashMap.class);
                 shift.setId((Long) shiftJson.get("id"));
                 shift.setName((String) shiftJson.get("name"));
                 shift.setStartAt(LocalTime.parse((String) shiftJson.get("startAt")));
                 shift.setEndAt(LocalTime.parse((String) shiftJson.get("endAt")));
-                shift.setRequiredRoles((Map<String, Integer>) requiredRoles);
+                shift.setRequiredRoles(requiredRoles);
 
                 shiftsInput.add(shift);
             }
+
+            System.out.println(shiftsInput);
 
             Schedule schedule = new Schedule();
             List<EmployeeGroup> employeeGroupList = new ArrayList<>();

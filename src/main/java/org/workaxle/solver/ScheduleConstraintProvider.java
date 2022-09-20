@@ -85,7 +85,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                 Map<String, Integer> providedRoles = shiftAssignment.getEmployeeGroup().getRoles();
 
                 // check if requiredRoles is a subset of providedRoles
-                return !providedRoles.entrySet().containsAll(requiredRoles.entrySet());
+                return !requiredRoles.equals(providedRoles);
             })
             .penalize(
                 "requiredRoles",

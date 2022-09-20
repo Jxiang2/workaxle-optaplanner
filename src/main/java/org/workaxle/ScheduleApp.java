@@ -3,6 +3,7 @@ package org.workaxle;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.solver.SolverConfig;
+import org.workaxle.dao.Data;
 import org.workaxle.domain.EmployeeGroup;
 import org.workaxle.domain.Schedule;
 import org.workaxle.domain.Shift;
@@ -29,7 +30,7 @@ public class ScheduleApp {
         );
 
         // load the dataset
-        Schedule dataset = generateData();
+        Schedule dataset = Data.generateDate();
 
         // solve the problem
         Solver<Schedule> solver = scheduleSolverFactory.buildSolver();
@@ -39,9 +40,23 @@ public class ScheduleApp {
         printResult(schedule);
     }
 
+    private static void printResult(Schedule schedule) {
+        List<ShiftAssignment> shiftAssignmentList = schedule.getShiftAssignmentList();
+        int currentShiftPerDay = 1;
+        for (ShiftAssignment sf : shiftAssignmentList) {
+            System.out.println(sf);
+            if (currentShiftPerDay == 4) {
+                currentShiftPerDay = 0;
+                System.out.println();
+
+            }
+            currentShiftPerDay += 1;
+        }
+    }
+
     private static Schedule generateData() {
         // total shifts: 5 (days) * 4 (shiftsPerDay) = 20
-        // total shifts per employeeGroup: 20 / 6 = 3 ~ 4
+        // total shifts per employeeGroup: 20 / 4 = 5
 
         long i = 1L;
         Shift s1 = new Shift(
@@ -50,8 +65,8 @@ public class ScheduleApp {
             LocalTime.of(9, 0),
             LocalTime.of(12, 0),
             new HashMap<>() {{
-                put("Dev", 1);
                 put("Design", 1);
+                put("Dev", 1);
             }}
         );
         Shift s2 = new Shift(
@@ -60,8 +75,8 @@ public class ScheduleApp {
             LocalTime.of(12, 0),
             LocalTime.of(15, 0),
             new HashMap<>() {{
-                put("Dev", 1);
                 put("Design", 1);
+                put("Dev", 1);
             }}
         );
         Shift s3 = new Shift(
@@ -70,8 +85,8 @@ public class ScheduleApp {
             LocalTime.of(15, 0),
             LocalTime.of(18, 0),
             new HashMap<String, Integer>() {{
-                put("Dev", 1);
                 put("Design", 1);
+                put("Dev", 1);
             }}
         );
         Shift s4 = new Shift(
@@ -94,62 +109,40 @@ public class ScheduleApp {
             put("Design", 1);
         }}));
         employeeGroupList.add(new EmployeeGroup("3", new HashMap<>() {{
-            put("Clean", 1);
+            put("Dev", 1);
+            put("Design", 1);
         }}));
         employeeGroupList.add(new EmployeeGroup("4", new HashMap<>() {{
-            put("Dev", 1);
-            put("Design", 1);
+            put("Clean", 1);
         }}));
-        employeeGroupList.add(new EmployeeGroup("5", new HashMap<>() {{
-            put("Dev", 1);
-            put("Design", 1);
-        }}));
-        employeeGroupList.add(new EmployeeGroup("6", new HashMap<>() {{
-            put("Dev", 1);
-            put("Design", 1);
-        }}));
-        
+
         List<ShiftAssignment> shiftAssignmentList = new ArrayList<>();
-        shiftAssignmentList.add(new ShiftAssignment("1", s1, LocalDate.of(2022, 11, 21)));
-        shiftAssignmentList.add(new ShiftAssignment("2", s2, LocalDate.of(2022, 11, 21)));
-        shiftAssignmentList.add(new ShiftAssignment("3", s3, LocalDate.of(2022, 11, 21)));
-        shiftAssignmentList.add(new ShiftAssignment("4", s4, LocalDate.of(2022, 11, 21)));
+        shiftAssignmentList.add(new ShiftAssignment("1cwec", s1, LocalDate.of(2022, 11, 21)));
+        shiftAssignmentList.add(new ShiftAssignment("cwe2", s2, LocalDate.of(2022, 11, 21)));
+        shiftAssignmentList.add(new ShiftAssignment("eded3", s3, LocalDate.of(2022, 11, 21)));
+        shiftAssignmentList.add(new ShiftAssignment("cwc4", s4, LocalDate.of(2022, 11, 21)));
 
-        shiftAssignmentList.add(new ShiftAssignment("5", s1, LocalDate.of(2022, 11, 22)));
-        shiftAssignmentList.add(new ShiftAssignment("6", s2, LocalDate.of(2022, 11, 22)));
-        shiftAssignmentList.add(new ShiftAssignment("7", s3, LocalDate.of(2022, 11, 22)));
-        shiftAssignmentList.add(new ShiftAssignment("8", s4, LocalDate.of(2022, 11, 22)));
+        shiftAssignmentList.add(new ShiftAssignment("5dwed", s1, LocalDate.of(2022, 11, 22)));
+        shiftAssignmentList.add(new ShiftAssignment("cwce6", s2, LocalDate.of(2022, 11, 22)));
+        shiftAssignmentList.add(new ShiftAssignment("wedew7", s3, LocalDate.of(2022, 11, 22)));
+        shiftAssignmentList.add(new ShiftAssignment("8cew", s4, LocalDate.of(2022, 11, 22)));
 
-        shiftAssignmentList.add(new ShiftAssignment("9", s1, LocalDate.of(2022, 11, 23)));
-        shiftAssignmentList.add(new ShiftAssignment("10", s2, LocalDate.of(2022, 11, 23)));
-        shiftAssignmentList.add(new ShiftAssignment("11", s3, LocalDate.of(2022, 11, 23)));
+        shiftAssignmentList.add(new ShiftAssignment("9wc", s1, LocalDate.of(2022, 11, 23)));
+        shiftAssignmentList.add(new ShiftAssignment("1de0", s2, LocalDate.of(2022, 11, 23)));
+        shiftAssignmentList.add(new ShiftAssignment("1cew1", s3, LocalDate.of(2022, 11, 23)));
         shiftAssignmentList.add(new ShiftAssignment("12", s4, LocalDate.of(2022, 11, 23)));
 
-        shiftAssignmentList.add(new ShiftAssignment("13", s1, LocalDate.of(2022, 11, 24)));
-        shiftAssignmentList.add(new ShiftAssignment("14", s2, LocalDate.of(2022, 11, 24)));
-        shiftAssignmentList.add(new ShiftAssignment("15", s3, LocalDate.of(2022, 11, 24)));
-        shiftAssignmentList.add(new ShiftAssignment("16", s4, LocalDate.of(2022, 11, 24)));
+        shiftAssignmentList.add(new ShiftAssignment("1ce3", s1, LocalDate.of(2022, 11, 24)));
+        shiftAssignmentList.add(new ShiftAssignment("1cew4", s2, LocalDate.of(2022, 11, 24)));
+        shiftAssignmentList.add(new ShiftAssignment("1xx5", s3, LocalDate.of(2022, 11, 24)));
+        shiftAssignmentList.add(new ShiftAssignment("1wd6", s4, LocalDate.of(2022, 11, 24)));
 
-        shiftAssignmentList.add(new ShiftAssignment("17", s1, LocalDate.of(2022, 11, 25)));
-        shiftAssignmentList.add(new ShiftAssignment("18", s2, LocalDate.of(2022, 11, 25)));
-        shiftAssignmentList.add(new ShiftAssignment("19", s3, LocalDate.of(2022, 11, 25)));
-        shiftAssignmentList.add(new ShiftAssignment("20", s4, LocalDate.of(2022, 11, 25)));
+        shiftAssignmentList.add(new ShiftAssignment("17cew", s1, LocalDate.of(2022, 11, 25)));
+        shiftAssignmentList.add(new ShiftAssignment("12dwe8", s2, LocalDate.of(2022, 11, 25)));
+        shiftAssignmentList.add(new ShiftAssignment("1ce9", s3, LocalDate.of(2022, 11, 25)));
+        shiftAssignmentList.add(new ShiftAssignment("2cc0", s4, LocalDate.of(2022, 11, 25)));
 
         return new Schedule(employeeGroupList, shiftAssignmentList);
-    }
-
-    private static void printResult(Schedule schedule) {
-        List<ShiftAssignment> shiftAssignmentList = schedule.getShiftAssignmentList();
-        int currentShiftPerDay = 1;
-        for (ShiftAssignment sf : shiftAssignmentList) {
-            System.out.println(sf);
-            if (currentShiftPerDay == 4) {
-                currentShiftPerDay = 0;
-                System.out.println();
-
-            }
-            currentShiftPerDay += 1;
-        }
     }
 
 }
