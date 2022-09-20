@@ -21,7 +21,7 @@ public class Data {
         generateDate();
     }
 
-    public static Schedule generateDate() throws IOException, ParseException {
+    public static ShiftSchedule generateDate() throws IOException, ParseException {
         final JSONParser parser = new JSONParser();
         final FileReader fileReader = new FileReader("src/main/java/org/workaxle/dao/data.json");
         JSONObject jsonInput = (JSONObject) parser.parse(fileReader);
@@ -61,7 +61,7 @@ public class Data {
             shiftsInput.add(shift);
         }
 
-        Schedule schedule = new Schedule();
+        ShiftSchedule shiftSchedule = new ShiftSchedule();
         List<EmployeeGroup> employeeGroupList = new ArrayList<>();
         List<ShiftAssignment> shiftAssignmentList = new ArrayList<>();
 
@@ -91,6 +91,8 @@ public class Data {
             employeesInputSize--;
         }
         Collections.shuffle(validatedEmployeesInput);
+
+        generateEmployeeGroups(validatedEmployeesInput);
 
         // create employee groups based on shifts' roles requirements
         for (Shift shift : shiftsInput) {
@@ -132,7 +134,6 @@ public class Data {
                 notUsedEmployees.add(employee);
             }
         }
-        System.out.println(notUsedEmployees + "\n");
 
         for (final Shift shift : shiftsInput) {
             EmployeeGroup extraEmployeeGroup = new EmployeeGroup();
@@ -177,10 +178,6 @@ public class Data {
 
         }
 
-        for (EmployeeGroup employeeGroup : employeeGroupList) {
-            System.out.println(employeeGroup);
-        }
-
         // create shift assignments based on shifts
         LocalDate currentDate = startDate;
         while (currentDate.isBefore(endDate.plusDays(1))) {
@@ -200,10 +197,14 @@ public class Data {
             currentDate = currentDate.plusDays(1);
         }
 
-        schedule.setEmployeeGroupList(employeeGroupList);
-        schedule.setShiftAssignmentList(shiftAssignmentList);
+        shiftSchedule.setEmployeeGroupList(employeeGroupList);
+        shiftSchedule.setShiftAssignmentList(shiftAssignmentList);
 
-        return schedule;
+        return shiftSchedule;
+
+    }
+
+    private static void generateEmployeeGroups(List<Employee> employees) {
 
     }
 

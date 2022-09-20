@@ -12,24 +12,24 @@ import java.util.List;
 
 @Data
 @PlanningSolution
-public class Schedule {
+public class ShiftSchedule {
 
     @PlanningScore
     private HardSoftScore score;
 
-    @ValueRangeProvider(id = "employeeRange")
+    @ValueRangeProvider(id = "employeeGroupRange")
     @ProblemFactCollectionProperty
     private List<EmployeeGroup> employeeGroupList;
 
     @PlanningEntityCollectionProperty
     private List<ShiftAssignment> shiftAssignmentList;
 
-    public Schedule(List<EmployeeGroup> employeeGroupList, List<ShiftAssignment> shiftAssignmentList) {
+    public ShiftSchedule(List<EmployeeGroup> employeeGroupList, List<ShiftAssignment> shiftAssignmentList) {
         this.employeeGroupList = employeeGroupList;
         this.shiftAssignmentList = shiftAssignmentList;
     }
 
-    public Schedule() {
+    public ShiftSchedule() {
     }
 
 }

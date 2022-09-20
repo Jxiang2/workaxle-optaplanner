@@ -17,7 +17,7 @@ public class ShiftAssignment {
     @PlanningId
     private String id;
 
-    @PlanningVariable(valueRangeProviderRefs = "employeeRange")
+    @PlanningVariable(valueRangeProviderRefs = "employeeGroupRange")
     private EmployeeGroup employeeGroup;
 
     private Shift shift;
@@ -58,7 +58,7 @@ public class ShiftAssignment {
         if (employeeGroup != null) {
             return
                 "Employee group id: " +
-                    employeeGroup.getId()
+                    employeeGroup.getId() + "(" + employeeGroup.getEmployeeList() + ")"
                     + " ; "
                     + "Shift id: "
                     + shift.getId()
