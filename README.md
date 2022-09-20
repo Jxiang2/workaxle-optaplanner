@@ -6,7 +6,7 @@ Schedule shifts for all employees in a department
 
 ## Requirements:
 
-1. Each shift is assigned to 1 ev role and 1 Design role
+1. Each shift is assigned to 1 Dev role and 1 Design role
 2. Try to distribute the shifts evenly to all employees
 3. No employeeGroup works more than 1 shift in 1 day
 4. No employeeGroup works more than 1 shift in 12 hours
