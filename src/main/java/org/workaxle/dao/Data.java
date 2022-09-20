@@ -21,7 +21,7 @@ public class Data {
         generateDate();
     }
 
-    public static ShiftSchedule generateDate() throws IOException, ParseException {
+    public static Schedule generateDate() throws IOException, ParseException {
         final JSONParser parser = new JSONParser();
         final FileReader fileReader = new FileReader("src/main/java/org/workaxle/dao/data.json");
         JSONObject jsonInput = (JSONObject) parser.parse(fileReader);
@@ -61,7 +61,7 @@ public class Data {
             shiftsInput.add(shift);
         }
 
-        ShiftSchedule shiftSchedule = new ShiftSchedule();
+        Schedule schedule = new Schedule();
         List<EmployeeGroup> employeeGroupList = new ArrayList<>();
         List<ShiftAssignment> shiftAssignmentList = new ArrayList<>();
 
@@ -197,10 +197,10 @@ public class Data {
             currentDate = currentDate.plusDays(1);
         }
 
-        shiftSchedule.setEmployeeGroupList(employeeGroupList);
-        shiftSchedule.setShiftAssignmentList(shiftAssignmentList);
+        schedule.setEmployeeGroupList(employeeGroupList);
+        schedule.setShiftAssignmentList(shiftAssignmentList);
 
-        return shiftSchedule;
+        return schedule;
 
     }
 

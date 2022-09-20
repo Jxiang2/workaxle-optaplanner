@@ -3,18 +3,18 @@ package org.workaxle.solver;
 import org.junit.jupiter.api.Test;
 import org.optaplanner.test.api.score.stream.ConstraintVerifier;
 import org.workaxle.domain.EmployeeGroup;
+import org.workaxle.domain.Schedule;
 import org.workaxle.domain.Shift;
 import org.workaxle.domain.ShiftAssignment;
-import org.workaxle.domain.ShiftSchedule;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
 
-public class ShiftScheduleConstraintProviderTest {
+public class ScheduleConstraintProviderTest {
 
-    ConstraintVerifier<ScheduleConstraintProvider, ShiftSchedule> constraintVerifier = ConstraintVerifier.build(
-        new ScheduleConstraintProvider(), ShiftSchedule.class, ShiftAssignment.class
+    ConstraintVerifier<ScheduleConstraintProvider, Schedule> constraintVerifier = ConstraintVerifier.build(
+        new ScheduleConstraintProvider(), Schedule.class, ShiftAssignment.class
     );
 
     @Test

@@ -1,4 +1,4 @@
-package org.workaxle.newDomain;
+package org.workaxle.domain;
 
 import lombok.Data;
 import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
@@ -12,24 +12,24 @@ import java.util.List;
 
 @Data
 @PlanningSolution
-public class ShiftSchedule {
+public class Schedule {
 
     @PlanningScore
     private HardSoftScore score;
 
-    @ValueRangeProvider(id = "employeeRange")
+    @ValueRangeProvider(id = "employeeGroupRange")
     @ProblemFactCollectionProperty
-    private List<Employee> employeeList;
+    private List<EmployeeGroup> employeeGroupList;
 
     @PlanningEntityCollectionProperty
     private List<ShiftAssignment> shiftAssignmentList;
 
-    public ShiftSchedule(List<Employee> employeeList, List<ShiftAssignment> shiftAssignmentList) {
-        this.employeeList = employeeList;
+    public Schedule(List<EmployeeGroup> employeeGroupList, List<ShiftAssignment> shiftAssignmentList) {
+        this.employeeGroupList = employeeGroupList;
         this.shiftAssignmentList = shiftAssignmentList;
     }
 
-    public ShiftSchedule() {
+    public Schedule() {
     }
 
 }

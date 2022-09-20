@@ -5,8 +5,8 @@ import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.solver.SolverConfig;
 import org.workaxle.dao.Data;
+import org.workaxle.domain.Schedule;
 import org.workaxle.domain.ShiftAssignment;
-import org.workaxle.domain.ShiftSchedule;
 import org.workaxle.solver.ScheduleConstraintProvider;
 
 import java.io.IOException;
@@ -17,9 +17,9 @@ public class ScheduleApp {
 
     public static void main(String[] args) {
         // Build solver
-        SolverFactory<ShiftSchedule> scheduleSolverFactory = SolverFactory.create(
+        SolverFactory<Schedule> scheduleSolverFactory = SolverFactory.create(
             new SolverConfig()
-                .withSolutionClass(ShiftSchedule.class)
+                .withSolutionClass(Schedule.class)
                 .withEntityClasses(ShiftAssignment.class)
                 .withConstraintProviderClass(ScheduleConstraintProvider.class)
                 .withTerminationSpentLimit(Duration.ofSeconds(5))
@@ -27,14 +27,14 @@ public class ScheduleApp {
 
         try {
             // load the dataset
-            ShiftSchedule dataset = Data.generateDate();
+            Schedule dataset = Data.generateDate();
 
             // solve the problem
-            Solver<ShiftSchedule> solver = scheduleSolverFactory.buildSolver();
-            ShiftSchedule shiftSchedule = solver.solve(dataset);
+            Solver<Schedule> solver = scheduleSolverFactory.buildSolver();
+            Schedule schedule = solver.solve(dataset);
 
             // print result
-            printResult(shiftSchedule);
+            printResult(schedule);
         } catch (ParseException e) {
             System.out.println("Invalid data input");
         } catch (IOException e) {
@@ -42,8 +42,8 @@ public class ScheduleApp {
         }
     }
 
-    private static void printResult(ShiftSchedule shiftSchedule) {
-        List<ShiftAssignment> shiftAssignmentList = shiftSchedule.getShiftAssignmentList();
+    private static void printResult(Schedule schedule) {
+        List<ShiftAssignment> shiftAssignmentList = schedule.getShiftAssignmentList();
         int currentShiftPerDay = 1;
         for (ShiftAssignment sf : shiftAssignmentList) {
             System.out.println(sf);
@@ -56,7 +56,7 @@ public class ScheduleApp {
         }
     }
 
-    private static ShiftSchedule generateNewData() {
+    private static Schedule generateNewData() {
         return null;
     }
 
