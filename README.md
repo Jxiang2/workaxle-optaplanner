@@ -15,7 +15,7 @@ Schedule shifts for all employees in a specific group
 
 1. Shift (Input)
 2. ShiftAssignment (Planning entity)
-3. EmployeeGroup
+3. EmployeeGroup (Planning entity variable)
 4. Employee (Input)
 5. Schedule (Planning solution)
 
