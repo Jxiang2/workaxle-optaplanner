@@ -56,4 +56,8 @@ public class ScheduleApp {
         }
     }
 
+    private static ShiftSchedule generateNewData() {
+        return null;
+    }
+
 }
