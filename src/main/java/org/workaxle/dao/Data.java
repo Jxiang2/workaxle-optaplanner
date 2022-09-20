@@ -88,7 +88,7 @@ public class Data {
         }
         Collections.shuffle(validatedEmployeesInput);
 
-        // create employee groups based on shifts' role requirements
+        // create employee groups based on shifts' roles requirements
         for (Shift shift : shiftsInput) {
             Map<String, Integer> requiredRolesCopy = new HashMap<>(Map.copyOf(shift.getRequiredRoles()));
 
