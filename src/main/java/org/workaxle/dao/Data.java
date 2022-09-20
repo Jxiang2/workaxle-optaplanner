@@ -17,6 +17,10 @@ import java.util.*;
 
 public class Data {
 
+    public static void main(String[] args) throws IOException, ParseException {
+        generateDate();
+    }
+
     public static Schedule generateDate() throws IOException, ParseException {
         final JSONParser parser = new JSONParser();
         final FileReader fileReader = new FileReader("src/main/java/org/workaxle/dao/data.json");
@@ -96,28 +100,85 @@ public class Data {
             Map<String, Integer> groupRoles = new HashMap<>();
             List<Employee> groupMembers = new ArrayList<>();
             String groupId = "";
-            for (Employee value : validatedEmployeesInput) {
+            for (Employee employee : validatedEmployeesInput) {
                 for (Map.Entry<String, Integer> entry : requiredRolesCopy.entrySet()) {
                     String role = entry.getKey();
                     int currentCapacity = entry.getValue();
 
-                    if (value.getRoleList().contains(role) && !value.getUsed()) {
+                    if (employee.getRoleList().contains(role) && !employee.getUsed()) {
                         if (currentCapacity < 1) {
                             break;
                         }
-                        groupMembers.add(value);
+                        groupMembers.add(employee);
                         groupRoles.merge(role, 1, Integer::sum);
-                        groupId = groupId.concat(String.valueOf(value.getId()));
+                        groupId = groupId.concat(String.valueOf(employee.getId()));
                         requiredRolesCopy.put(role, currentCapacity - 1);
-                        value.setUsed(true);
+                        employee.setUsed(true);
                     }
                 }
             }
+
             employeeGroup.setEmployeeList(groupMembers);
             employeeGroup.setRoles(groupRoles);
             employeeGroup.setId(groupId);
 
             employeeGroupList.add(employeeGroup);
+        }
+
+        // create extra employee groups by using the employees not used yet
+        List<Employee> notUsedEmployees = new ArrayList<>();
+        for (Employee employee : validatedEmployeesInput) {
+            if (!employee.getUsed()) {
+                notUsedEmployees.add(employee);
+            }
+        }
+        System.out.println(notUsedEmployees + "\n");
+
+        for (final Shift shift : shiftsInput) {
+            EmployeeGroup extraEmployeeGroup = new EmployeeGroup();
+            List<Employee> extraEmployees = new ArrayList<>();
+
+            Map<String, Integer> requiredRolesCopy = new HashMap<>(Map.copyOf(shift.getRequiredRoles()));
+            for (Map.Entry<String, Integer> entry : requiredRolesCopy.entrySet()) {
+                for (Employee employee : notUsedEmployees) {
+                    String role = entry.getKey();
+                    int currentCapacity = entry.getValue();
+
+                    if (employee.getRoleList().contains(role) && !employee.getUsed()) {
+                        if (currentCapacity < 1) {
+                            break;
+                        }
+                        extraEmployees.add(employee);
+                        requiredRolesCopy.put(role, currentCapacity - 1);
+                        employee.setUsed(true);
+                    }
+                }
+            }
+
+            boolean fit = true;
+            for (Integer capacity : requiredRolesCopy.values()) {
+                if (capacity != 0) {
+                    fit = false;
+                    break;
+                }
+            }
+            if (fit) {
+                String groupId = "";
+                for (Employee employee : extraEmployees) {
+                    groupId = groupId.concat(String.valueOf(employee.getId()));
+                }
+
+                extraEmployeeGroup.setId(groupId);
+                extraEmployeeGroup.setRoles(shift.getRequiredRoles());
+                extraEmployeeGroup.setEmployeeList(extraEmployees);
+
+                employeeGroupList.add(extraEmployeeGroup);
+            }
+
+        }
+
+        for (EmployeeGroup employeeGroup : employeeGroupList) {
+            System.out.println(employeeGroup);
         }
 
         // create shift assignments based on shifts
