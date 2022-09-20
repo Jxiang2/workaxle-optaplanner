@@ -57,7 +57,7 @@ public class ShiftAssignment {
     public String toString() {
         if (employeeGroup != null) {
             return
-                "Employ group id: " +
+                "Employee group id: " +
                     employeeGroup.getId()
                     + " ; "
                     + employeeGroup.getRoles()
@@ -68,7 +68,7 @@ public class ShiftAssignment {
                     + " ; "
                     + date;
         }
-        return "No employee group assigned" + " ; " + shift.getStartAt() + "~" + shift.getEndAt() + " ; " + date;
+        return "null" + " ; " + shift.getStartAt() + "~" + shift.getEndAt() + " ; " + date;
     }
 
 }

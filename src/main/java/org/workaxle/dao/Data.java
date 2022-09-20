@@ -10,7 +10,9 @@ import org.workaxle.domain.*;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,10 +21,17 @@ import java.util.Map;
 public class Data {
 
     public static void main(String[] args) throws IOException, ParseException {
-        getDate();
+        final Schedule schedule = getDate();
+        final List<EmployeeGroup> employeeGroupList = schedule.getEmployeeGroupList();
+        for (EmployeeGroup employeeGroup : employeeGroupList) {
+            System.out.println(employeeGroup);
+        }
+        System.out.println(schedule.getShiftAssignmentList());
+        System.out.println(schedule.getShiftAssignmentList().size());
+
     }
 
-    public static void getDate() throws IOException, ParseException {
+    public static Schedule getDate() throws IOException, ParseException {
         final JSONParser parser = new JSONParser();
         final FileReader fileReader = new FileReader("src/main/java/org/workaxle/dao/data.json");
         JSONObject jsonInput = (JSONObject) parser.parse(fileReader);
@@ -66,7 +75,88 @@ public class Data {
         List<EmployeeGroup> employeeGroupList = new ArrayList<>();
         List<ShiftAssignment> shiftAssignmentList = new ArrayList<>();
 
-        
+
+        // validate input employees by checking their roles
+        ArrayList allRoleList = new ObjectMapper().readValue(jsonInput.get("roles").toString(), ArrayList.class);
+        ArrayList<Employee> validatedEmployeesInput = new ArrayList<>();
+
+        int employeesInputSize = employeesInput.size();
+        while (employeesInputSize > 0) {
+            int employeeIndex = employeesInputSize - 1;
+            Employee currentEmployee = employeesInput.get(employeeIndex);
+
+            List<String> employeeRoleList = currentEmployee.getRoleList();
+            List<String> validatedEmployeeRoleList = new ArrayList<>();
+            boolean contains = false;
+            for (String employeeRole : employeeRoleList) {
+                if (allRoleList.contains(employeeRole)) {
+                    validatedEmployeeRoleList.add(employeeRole);
+                    contains = true;
+                }
+            }
+            if (contains) {
+                currentEmployee.setRoleList(validatedEmployeeRoleList);
+                validatedEmployeesInput.add(currentEmployee);
+            }
+            employeesInputSize--;
+        }
+
+        // create employee groups based on shifts' role requirements
+        for (Shift shift : shiftsInput) {
+            Map<String, Integer> requiredRoles = shift.getRequiredRoles();
+
+            EmployeeGroup employeeGroup = new EmployeeGroup();
+            Map<String, Integer> groupRoles = new HashMap<>();
+            List<Employee> groupMembers = new ArrayList<>();
+            String groupId = "";
+            for (Employee value : validatedEmployeesInput) {
+                for (Map.Entry<String, Integer> entry : requiredRoles.entrySet()) {
+                    Employee employee = value;
+                    String role = entry.getKey();
+                    int currentCapacity = entry.getValue();
+
+                    if (employee.getRoleList().contains(role) && !employee.getUsed()) {
+                        if (currentCapacity < 1) {
+                            break;
+                        }
+                        groupMembers.add(employee);
+                        groupRoles.merge(role, 1, Integer::sum);
+                        groupId = groupId.concat(String.valueOf(employee.getId()));
+                        requiredRoles.put(role, currentCapacity - 1);
+                        value.setUsed(true);
+                    }
+                }
+            }
+            employeeGroup.setEmployeeList(groupMembers);
+            employeeGroup.setRoles(groupRoles);
+            employeeGroup.setId(groupId);
+
+            employeeGroupList.add(employeeGroup);
+        }
+
+        // create shift assignments based on shifts
+        LocalDate currentDate = startDate;
+        while (currentDate.isBefore(endDate.plusDays(1))) {
+            for (Shift shift : shiftsInput) {
+                long time = LocalDateTime.of(
+                        currentDate,
+                        shift.getStartAt()
+                    )
+                    .atZone(ZoneId.systemDefault())
+                    .toInstant()
+                    .toEpochMilli();
+                Long shiftId = shift.getId();
+                long id = Long.parseLong(shiftId.toString() + time);
+                ShiftAssignment shiftAssignment = new ShiftAssignment(id, shift, currentDate);
+                shiftAssignmentList.add(shiftAssignment);
+            }
+            currentDate = currentDate.plusDays(1);
+        }
+
+        schedule.setEmployeeGroupList(employeeGroupList);
+        schedule.setShiftAssignmentList(shiftAssignmentList);
+
+        return schedule;
     }
 
 }

@@ -13,6 +13,8 @@ public class Employee {
 
     private List<String> roleList;
 
+    private Boolean used = false;
+
     public Employee(Long id, String name, List<String> roleList) {
         this.id = id;
         this.name = name;

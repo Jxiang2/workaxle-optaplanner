@@ -74,9 +74,24 @@
       "id": 10,
       "name": "user 10",
       "roles": [
-        "Design"
+        "Design",
+        "Dev",
+        "???"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "user 11",
+      "roles": [
+        "???",
+        " ? "
       ]
     }
+  ],
+  "roles": [
+    "Dev",
+    "Design",
+    "Clean"
   ],
   "shifts": [
     {
