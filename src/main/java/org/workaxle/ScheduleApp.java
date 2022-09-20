@@ -1,5 +1,6 @@
 package org.workaxle;
 
+import org.json.simple.parser.ParseException;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.solver.SolverConfig;
@@ -8,6 +9,7 @@ import org.workaxle.domain.Schedule;
 import org.workaxle.domain.ShiftAssignment;
 import org.workaxle.solver.ScheduleConstraintProvider;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 
@@ -23,15 +25,21 @@ public class ScheduleApp {
                 .withTerminationSpentLimit(Duration.ofSeconds(5))
         );
 
-        // load the dataset
-        Schedule dataset = Data.generateDate();
+        try {
+            // load the dataset
+            Schedule dataset = Data.generateDate();
 
-        // solve the problem
-        Solver<Schedule> solver = scheduleSolverFactory.buildSolver();
-        Schedule schedule = solver.solve(dataset);
+            // solve the problem
+            Solver<Schedule> solver = scheduleSolverFactory.buildSolver();
+            Schedule schedule = solver.solve(dataset);
 
-        // print result
-        printResult(schedule);
+            // print result
+            printResult(schedule);
+        } catch (ParseException e) {
+            System.out.println("Invalid data input");
+        } catch (IOException e) {
+            System.out.println("Input not found");
+        }
     }
 
     private static void printResult(Schedule schedule) {

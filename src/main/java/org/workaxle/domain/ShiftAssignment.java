@@ -60,13 +60,14 @@ public class ShiftAssignment {
                 "Employee group id: " +
                     employeeGroup.getId()
                     + " ; "
-                    + employeeGroup.getRoles()
+                    + "Shift id: "
+                    + shift.getId()
                     + " ; "
+                    + "Shift required roles: "
                     + shift.getRequiredRoles()
                     + " ; "
-                    + shift.getStartAt() + "~" + shift.getEndAt()
-                    + " ; "
-                    + date;
+                    + "Date time: "
+                    + shift.getStartAt() + "~" + shift.getEndAt() + ", " + date;
         }
         return "null" + " ; " + shift.getStartAt() + "~" + shift.getEndAt() + " ; " + date;
     }
