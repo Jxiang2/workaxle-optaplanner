@@ -8,8 +8,8 @@ Schedule shifts for all employees in a specific group
 
 1. Each shift is assigned to 1 Dev role and 1 Design role
 2. Try to distribute the shifts evenly to all employees
-3. No employeeGroup works more than 1 shift in 1 day
-4. No employeeGroup works more than 1 shift in 12 hours
+3. No employee works more than 1 shift in 1 day
+4. No employee works more than 1 shift in 12 hours
 
 ### Models:
 
