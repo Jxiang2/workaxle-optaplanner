@@ -104,26 +104,25 @@ public class Data {
 
             // create employee groups based on shifts' role requirements
             for (Shift shift : shiftsInput) {
-                Map<String, Integer> requiredRoles = shift.getRequiredRoles();
+                Map<String, Integer> requiredRolesCopy = new HashMap<>(Map.copyOf(shift.getRequiredRoles()));
 
                 EmployeeGroup employeeGroup = new EmployeeGroup();
                 Map<String, Integer> groupRoles = new HashMap<>();
                 List<Employee> groupMembers = new ArrayList<>();
                 String groupId = "";
                 for (Employee value : validatedEmployeesInput) {
-                    for (Map.Entry<String, Integer> entry : requiredRoles.entrySet()) {
-                        Employee employee = value;
+                    for (Map.Entry<String, Integer> entry : requiredRolesCopy.entrySet()) {
                         String role = entry.getKey();
                         int currentCapacity = entry.getValue();
 
-                        if (employee.getRoleList().contains(role) && !employee.getUsed()) {
+                        if (value.getRoleList().contains(role) && !value.getUsed()) {
                             if (currentCapacity < 1) {
                                 break;
                             }
-                            groupMembers.add(employee);
+                            groupMembers.add(value);
                             groupRoles.merge(role, 1, Integer::sum);
-                            groupId = groupId.concat(String.valueOf(employee.getId()));
-                            requiredRoles.put(role, currentCapacity - 1);
+                            groupId = groupId.concat(String.valueOf(value.getId()));
+                            requiredRolesCopy.put(role, currentCapacity - 1);
                             value.setUsed(true);
                         }
                     }
