@@ -1,4 +1,4 @@
-# Shift-employeeGroup rostering
+# Shift-rostering
 
 ## Task:
 
