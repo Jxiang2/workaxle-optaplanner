@@ -172,7 +172,7 @@ Schedule shifts for all employees in a department
 ```
 
 ### Output:
-A list containning all the scheduled shift assignments.
+A list containning all the scheduled shift assignments
 ```java
 List<ShiftAssignment>
 ```
