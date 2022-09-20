@@ -14,12 +14,12 @@ Schedule shifts for all employees in a department
 ### Models:
 
 1. Shift
-2. Shift Assignment (Planning entity)
+2. ShiftAssignment (Planning entity)
 3. EmployeeGroup
 4. Employee
 5. Schedule (Planning solution)
 
-### Inputs:
+### Input:
 
 1. employees: all employees in a specified group
 2. roles: all roles required to fulfill the shifts
@@ -171,5 +171,8 @@ Schedule shifts for all employees in a department
 }
 ```
 
-
+### Output:
+```java
+List<ShiftAssignment>
+```
 
