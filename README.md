@@ -4,7 +4,7 @@
 
 Schedule shifts for all employees in a specific group in a period of time
 
-## Constraints:
+### Constraints:
 
 1. Each shift is assigned to 1 Dev role and 1 Design role
 2. Try to distribute the shifts evenly to all employees
