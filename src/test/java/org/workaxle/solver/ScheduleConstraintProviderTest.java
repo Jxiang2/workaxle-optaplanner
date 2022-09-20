@@ -45,7 +45,7 @@ public class ScheduleConstraintProviderTest {
             put("Dev", 1);
             put("Design", 1);
         }});
-        EmployeeGroup e2 = new EmployeeGroup("1", new HashMap<>() {{
+        EmployeeGroup e2 = new EmployeeGroup("2", new HashMap<>() {{
             put("Dev", 1);
             put("Design", 1);
         }});
@@ -57,8 +57,13 @@ public class ScheduleConstraintProviderTest {
 
         constraintVerifier
             .verifyThat(ScheduleConstraintProvider::oneShiftPerEmployeePerDay)
-            .given(firstSa, conflictSa, nonConflictSa1, nonConflictSa2)
-            .penalizesBy(3);
+            .given(
+                firstSa,
+                conflictSa,
+                nonConflictSa1,
+                nonConflictSa2
+            )
+            .penalizesBy(1);
     }
 
     @Test
