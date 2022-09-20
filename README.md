@@ -177,3 +177,7 @@ A list containning all the scheduled shift assignments
 List<ShiftAssignment>
 ```
 
+#### e.g.
+
+<img width="1336" alt="Screen Shot 2022-09-19 at 9 39 53 PM" src="https://user-images.githubusercontent.com/46456200/191148679-840716ce-26e1-4ac4-a57d-684a002fa763.png">
+
