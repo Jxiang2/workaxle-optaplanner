@@ -15,7 +15,7 @@ import java.time.LocalTime;
 public class ShiftAssignment {
 
     @PlanningId
-    private Long id;
+    private String id;
 
     @PlanningVariable(valueRangeProviderRefs = "employeeRange")
     private EmployeeGroup employeeGroup;
@@ -24,13 +24,13 @@ public class ShiftAssignment {
 
     private LocalDate date;
 
-    public ShiftAssignment(Long id, Shift shift, LocalDate date) {
+    public ShiftAssignment(String id, Shift shift, LocalDate date) {
         this.id = id;
         this.shift = shift;
         this.date = date;
     }
 
-    public ShiftAssignment(Long id, Shift shift, LocalDate date, EmployeeGroup employeeGroup) {
+    public ShiftAssignment(String id, Shift shift, LocalDate date, EmployeeGroup employeeGroup) {
         this.id = id;
         this.shift = shift;
         this.date = date;

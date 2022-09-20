@@ -40,7 +40,7 @@ public class ScheduleConstraintProviderTest {
                 put("Design", 1);
             }}
         );
-        
+
         EmployeeGroup e1 = new EmployeeGroup("1", new HashMap<>() {{
             put("Dev", 1);
             put("Design", 1);
@@ -50,16 +50,15 @@ public class ScheduleConstraintProviderTest {
             put("Design", 1);
         }});
 
-        long k = 1L;
-        ShiftAssignment firstSa = new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 21), e1);
-        ShiftAssignment conflictSa = new ShiftAssignment(k++, s2, LocalDate.of(2022, 11, 21), e1);
-        ShiftAssignment nonConflictSa1 = new ShiftAssignment(k++, s2, LocalDate.of(2022, 11, 21), e2);
-        ShiftAssignment nonConflictSa2 = new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 22), e1);
+        ShiftAssignment firstSa = new ShiftAssignment("1", s1, LocalDate.of(2022, 11, 21), e1);
+        ShiftAssignment conflictSa = new ShiftAssignment("2", s2, LocalDate.of(2022, 11, 21), e1);
+        ShiftAssignment nonConflictSa1 = new ShiftAssignment("3", s2, LocalDate.of(2022, 11, 21), e2);
+        ShiftAssignment nonConflictSa2 = new ShiftAssignment("4", s1, LocalDate.of(2022, 11, 22), e1);
 
         constraintVerifier
             .verifyThat(ScheduleConstraintProvider::oneShiftPerEmployeePerDay)
             .given(firstSa, conflictSa, nonConflictSa1, nonConflictSa2)
-            .penalizesBy(1);
+            .penalizesBy(3);
     }
 
     @Test
@@ -91,10 +90,9 @@ public class ScheduleConstraintProviderTest {
             put("Design", 1);
         }});
 
-        long k = 1L;
-        ShiftAssignment firstSa = new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 21), e1);
-        ShiftAssignment conflictSa = new ShiftAssignment(k++, s2, LocalDate.of(2022, 11, 22), e1);
-        ShiftAssignment nonConflictSa = new ShiftAssignment(k++, s2, LocalDate.of(2022, 11, 23), e1);
+        ShiftAssignment firstSa = new ShiftAssignment("1", s1, LocalDate.of(2022, 11, 21), e1);
+        ShiftAssignment conflictSa = new ShiftAssignment("2", s2, LocalDate.of(2022, 11, 22), e1);
+        ShiftAssignment nonConflictSa = new ShiftAssignment("3", s2, LocalDate.of(2022, 11, 23), e1);
 
         constraintVerifier
             .verifyThat(ScheduleConstraintProvider::atLeast12HoursBetweenTwoShifts)

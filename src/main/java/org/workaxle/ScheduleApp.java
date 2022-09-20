@@ -108,33 +108,32 @@ public class ScheduleApp {
             put("Dev", 1);
             put("Design", 1);
         }}));
-
-        long k = 1L;
+        
         List<ShiftAssignment> shiftAssignmentList = new ArrayList<>();
-        shiftAssignmentList.add(new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 21)));
-        shiftAssignmentList.add(new ShiftAssignment(k++, s2, LocalDate.of(2022, 11, 21)));
-        shiftAssignmentList.add(new ShiftAssignment(k++, s3, LocalDate.of(2022, 11, 21)));
-        shiftAssignmentList.add(new ShiftAssignment(k++, s4, LocalDate.of(2022, 11, 21)));
+        shiftAssignmentList.add(new ShiftAssignment("1", s1, LocalDate.of(2022, 11, 21)));
+        shiftAssignmentList.add(new ShiftAssignment("2", s2, LocalDate.of(2022, 11, 21)));
+        shiftAssignmentList.add(new ShiftAssignment("3", s3, LocalDate.of(2022, 11, 21)));
+        shiftAssignmentList.add(new ShiftAssignment("4", s4, LocalDate.of(2022, 11, 21)));
 
-        shiftAssignmentList.add(new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 22)));
-        shiftAssignmentList.add(new ShiftAssignment(k++, s2, LocalDate.of(2022, 11, 22)));
-        shiftAssignmentList.add(new ShiftAssignment(k++, s3, LocalDate.of(2022, 11, 22)));
-        shiftAssignmentList.add(new ShiftAssignment(k++, s4, LocalDate.of(2022, 11, 22)));
+        shiftAssignmentList.add(new ShiftAssignment("5", s1, LocalDate.of(2022, 11, 22)));
+        shiftAssignmentList.add(new ShiftAssignment("6", s2, LocalDate.of(2022, 11, 22)));
+        shiftAssignmentList.add(new ShiftAssignment("7", s3, LocalDate.of(2022, 11, 22)));
+        shiftAssignmentList.add(new ShiftAssignment("8", s4, LocalDate.of(2022, 11, 22)));
 
-        shiftAssignmentList.add(new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 23)));
-        shiftAssignmentList.add(new ShiftAssignment(k++, s2, LocalDate.of(2022, 11, 23)));
-        shiftAssignmentList.add(new ShiftAssignment(k++, s3, LocalDate.of(2022, 11, 23)));
-        shiftAssignmentList.add(new ShiftAssignment(k++, s4, LocalDate.of(2022, 11, 23)));
+        shiftAssignmentList.add(new ShiftAssignment("9", s1, LocalDate.of(2022, 11, 23)));
+        shiftAssignmentList.add(new ShiftAssignment("10", s2, LocalDate.of(2022, 11, 23)));
+        shiftAssignmentList.add(new ShiftAssignment("11", s3, LocalDate.of(2022, 11, 23)));
+        shiftAssignmentList.add(new ShiftAssignment("12", s4, LocalDate.of(2022, 11, 23)));
 
-        shiftAssignmentList.add(new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 24)));
-        shiftAssignmentList.add(new ShiftAssignment(k++, s2, LocalDate.of(2022, 11, 24)));
-        shiftAssignmentList.add(new ShiftAssignment(k++, s3, LocalDate.of(2022, 11, 24)));
-        shiftAssignmentList.add(new ShiftAssignment(k++, s4, LocalDate.of(2022, 11, 24)));
+        shiftAssignmentList.add(new ShiftAssignment("13", s1, LocalDate.of(2022, 11, 24)));
+        shiftAssignmentList.add(new ShiftAssignment("14", s2, LocalDate.of(2022, 11, 24)));
+        shiftAssignmentList.add(new ShiftAssignment("15", s3, LocalDate.of(2022, 11, 24)));
+        shiftAssignmentList.add(new ShiftAssignment("16", s4, LocalDate.of(2022, 11, 24)));
 
-        shiftAssignmentList.add(new ShiftAssignment(k++, s1, LocalDate.of(2022, 11, 25)));
-        shiftAssignmentList.add(new ShiftAssignment(k++, s2, LocalDate.of(2022, 11, 25)));
-        shiftAssignmentList.add(new ShiftAssignment(k++, s3, LocalDate.of(2022, 11, 25)));
-        shiftAssignmentList.add(new ShiftAssignment(k++, s4, LocalDate.of(2022, 11, 25)));
+        shiftAssignmentList.add(new ShiftAssignment("17", s1, LocalDate.of(2022, 11, 25)));
+        shiftAssignmentList.add(new ShiftAssignment("18", s2, LocalDate.of(2022, 11, 25)));
+        shiftAssignmentList.add(new ShiftAssignment("19", s3, LocalDate.of(2022, 11, 25)));
+        shiftAssignmentList.add(new ShiftAssignment("20", s4, LocalDate.of(2022, 11, 25)));
 
         return new Schedule(employeeGroupList, shiftAssignmentList);
     }
