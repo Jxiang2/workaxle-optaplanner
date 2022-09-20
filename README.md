@@ -2,7 +2,7 @@
 
 ## Task:
 
-Schedule shifts for all employees in a specific group
+Schedule shifts for all employees in a specific group in a period of time
 
 ## Requirements:
 
