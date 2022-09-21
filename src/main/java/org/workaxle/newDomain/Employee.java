@@ -13,10 +13,10 @@ public class Employee {
 
     private Set<String> roleSet;
 
-    public Employee(Long id, String name, Set<String> roleList) {
+    public Employee(Long id, String name, Set<String> roleSet) {
         this.id = id;
         this.name = name;
-        this.roleSet = roleList;
+        this.roleSet = roleSet;
     }
 
     public Employee() {

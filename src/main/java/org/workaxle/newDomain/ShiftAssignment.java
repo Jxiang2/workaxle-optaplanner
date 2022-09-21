@@ -22,8 +22,9 @@ public class ShiftAssignment {
 
     private Shift shift;
 
-    public ShiftAssignment(String id, Shift shift) {
+    public ShiftAssignment(String id, String role, Shift shift) {
         this.id = id;
+        this.role = role;
         this.shift = shift;
     }
 

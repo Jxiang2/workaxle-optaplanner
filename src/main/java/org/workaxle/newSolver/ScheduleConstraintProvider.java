@@ -10,7 +10,7 @@ import org.workaxle.newDomain.ShiftAssignment;
 import java.time.Duration;
 import java.util.Set;
 
-public class ShiftScheduleConstraintProvider implements ConstraintProvider {
+public class ScheduleConstraintProvider implements ConstraintProvider {
 
     @Override
     public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
