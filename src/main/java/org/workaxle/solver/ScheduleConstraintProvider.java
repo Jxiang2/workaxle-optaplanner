@@ -43,8 +43,8 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                     int breakLength = (int) Duration.between(
                         first.getEndDatetime(),
                         second.getStartDatetime()
-                    ).toMinutes();
-                    return 12 * 60 - breakLength;
+                    ).toHours();
+                    return 12 - breakLength;
                 }
             );
     }
@@ -85,7 +85,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
             .penalize(
                 "requiredRoles",
                 HardSoftScore.ONE_HARD,
-                (shiftEmployee) -> 12 * 60
+                (shiftEmployee) -> 12
             );
     }
 
