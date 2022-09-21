@@ -94,7 +94,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                 }
             )
             .penalize(
-                "requiredRoles",
+                "onlyRequiredRole",
                 HardSoftScore.ONE_HARD,
                 (shiftEmployee) -> 12
             );
