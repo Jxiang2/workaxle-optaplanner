@@ -11,13 +11,14 @@
       "id": 2,
       "name": "user 2",
       "roles": [
-        "Design"
+        "Dev"
       ]
     },
     {
       "id": 3,
       "name": "user 3",
       "roles": [
+        "Dev",
         "Clean"
       ]
     },
@@ -25,22 +26,7 @@
       "id": 4,
       "name": "user 4",
       "roles": [
-        "Dev"
-      ]
-    },
-    {
-      "id": 5,
-      "name": "user 5",
-      "roles": [
-        "Design"
-      ]
-    },
-    {
-      "id": 6,
-      "name": "user 6",
-      "roles": [
-        "Design",
-        "Dev"
+        "Clean"
       ]
     }
   ],
@@ -56,27 +42,25 @@
       "startAt": "09:00",
       "endAt": "12:00",
       "requiredRoles": {
-        "Dev": 1,
-        "Design": 1
+        "Dev": 1
       }
     },
     {
       "id": 2,
       "name": "clean up",
-      "startAt": "15:00",
-      "endAt": "18:00",
+      "startAt": "20:00",
+      "endAt": "23:00",
       "requiredRoles": {
         "Clean": 1
       }
     },
     {
-      "id": 3,
+      "id": 2,
       "name": "develop new features",
       "startAt": "20:00",
       "endAt": "23:00",
       "requiredRoles": {
-        "Dev": 1,
-        "Design": 1
+        "Dev": 1
       }
     }
   ],

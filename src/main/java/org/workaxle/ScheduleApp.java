@@ -18,13 +18,14 @@ public class ScheduleApp {
 
     public static void main(String[] args) throws Exception {
         // Build solver
-        SolverFactory<Schedule> scheduleSolverFactory = SolverFactory.create(
-            new SolverConfig()
-                .withSolutionClass(Schedule.class)
-                .withEntityClasses(ShiftAssignment.class)
-                .withConstraintProviderClass(ScheduleConstraintProvider.class)
-                .withTerminationSpentLimit(Duration.ofSeconds(2))
-        );
+        SolverConfig solverConfig = new SolverConfig();
+        solverConfig
+            .withSolutionClass(Schedule.class)
+            .withEntityClasses(ShiftAssignment.class)
+            .withConstraintProviderClass(ScheduleConstraintProvider.class)
+            .withTerminationSpentLimit(Duration.ofSeconds(5));
+
+        SolverFactory<Schedule> scheduleSolverFactory = SolverFactory.create(solverConfig);
 
         // load the dataset
         Schedule dataset = Data.generateData();

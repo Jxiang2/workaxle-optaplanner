@@ -6,7 +6,6 @@ import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 @PlanningEntity
@@ -28,8 +27,9 @@ public class ShiftAssignment {
         this.shift = shift;
     }
 
-    public ShiftAssignment(String id, Shift shift, Employee employee) {
+    public ShiftAssignment(String id, String role, Shift shift, Employee employee) {
         this.id = id;
+        this.role = role;
         this.shift = shift;
         this.employee = employee;
     }
@@ -39,14 +39,6 @@ public class ShiftAssignment {
 
     public LocalDate getDate() {
         return shift.getEndAt().toLocalDate();
-    }
-
-    public LocalDateTime getStartDatetime() {
-        return shift.getStartAt();
-    }
-
-    public LocalDateTime getEndDatetime() {
-        return shift.getEndAt();
     }
 
     @Override

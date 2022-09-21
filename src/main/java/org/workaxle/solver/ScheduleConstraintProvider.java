@@ -1,7 +1,10 @@
 package org.workaxle.solver;
 
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
-import org.optaplanner.core.api.score.stream.*;
+import org.optaplanner.core.api.score.stream.Constraint;
+import org.optaplanner.core.api.score.stream.ConstraintFactory;
+import org.optaplanner.core.api.score.stream.ConstraintProvider;
+import org.optaplanner.core.api.score.stream.Joiners;
 import org.workaxle.domain.ShiftAssignment;
 
 import java.time.Duration;
@@ -12,45 +15,43 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
     @Override
     public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
         return new Constraint[]{
-            // any employee can only work 1 shift in 12 hours
             atLeast12HoursBetweenTwoShifts(constraintFactory),
-
-            // an employee can only work 1 shift per day
             atMostOneShiftPerDay(constraintFactory),
-
-            // try to distribute the shifts evenly to employees
-            evenlyShiftsDistribution(constraintFactory),
-
-            // a shift can only be assigned to employees with roles it needs
-            requiredRole(constraintFactory)
+            onlyRequiredRole(constraintFactory)
         };
     }
 
-    private Constraint atLeast12HoursBetweenTwoShifts(ConstraintFactory constraintFactory) {
+    public Constraint atLeast12HoursBetweenTwoShifts(ConstraintFactory constraintFactory) {
+        // any employee can only work 1 shift in 12 hours
+
         return constraintFactory
             .forEachUniquePair(
                 ShiftAssignment.class,
                 Joiners.equal(ShiftAssignment::getEmployee),
-                Joiners.lessThanOrEqual(ShiftAssignment::getEndDatetime, ShiftAssignment::getStartDatetime)
+                Joiners.lessThanOrEqual(
+                    (shiftAssignment1) -> shiftAssignment1.getShift().getEndAt(),
+                    (shiftAssignment2) -> shiftAssignment2.getShift().getStartAt()
+                )
             )
-            .filter((first, second) -> Duration.between(
-                first.getEndDatetime(),
-                second.getStartDatetime()
+            .filter((firstShift, secondShift) -> Duration.between(
+                firstShift.getShift().getEndAt(),
+                secondShift.getShift().getStartAt()
             ).toHours() < 12)
             .penalize(
                 "atLeast12HoursBetweenTwoShifts",
                 HardSoftScore.ONE_HARD,
                 (first, second) -> {
                     int breakLength = (int) Duration.between(
-                        first.getEndDatetime(),
-                        second.getStartDatetime()
+                        first.getShift().getEndAt(),
+                        second.getShift().getStartAt()
                     ).toHours();
                     return 12 - breakLength;
-                }
-            );
+                });
     }
 
-    private Constraint atMostOneShiftPerDay(ConstraintFactory constraintFactory) {
+    public Constraint atMostOneShiftPerDay(ConstraintFactory constraintFactory) {
+        // an employee can only work 1 shift per day
+
         return constraintFactory
             .forEachUniquePair(
                 ShiftAssignment.class,
@@ -63,16 +64,9 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
             );
     }
 
-    private Constraint evenlyShiftsDistribution(ConstraintFactory constraintFactory) {
-        return constraintFactory.forEach(ShiftAssignment.class)
-            .groupBy(ShiftAssignment::getEmployee, ConstraintCollectors.count())
-            .penalize(
-                "evenlyShiftsDistribution",
-                HardSoftScore.ONE_SOFT,
-                (employee, shifts) -> (int) (shifts * Math.log(shifts)));
-    }
+    public Constraint onlyRequiredRole(ConstraintFactory constraintFactory) {
+        // a shift can only be assigned to employees with roles it needs
 
-    private Constraint requiredRole(ConstraintFactory constraintFactory) {
         return constraintFactory
             .forEach(ShiftAssignment.class)
             .filter(
