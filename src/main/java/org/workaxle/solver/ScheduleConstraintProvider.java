@@ -30,16 +30,12 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
         return constraintFactory
             .forEachUniquePair(
                 ShiftAssignment.class,
-                Joiners.equal(ShiftAssignment::getEmployee),
-                Joiners.lessThanOrEqual(
-                    ShiftAssignment::getEndDatetime,
-                    ShiftAssignment::getStartDatetime
-                )
+                Joiners.equal(ShiftAssignment::getEmployee)
             )
             .filter((first, second) -> Duration.between(
                 first.getEndDatetime(),
                 second.getStartDatetime()
-            ).toMinutes() < 12 * 60)
+            ).toHours() < 12)
             .penalize(
                 "atLeast12HoursBetweenTwoShifts",
                 HardSoftScore.ONE_HARD,
@@ -47,7 +43,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                     int breakLength = (int) Duration.between(
                         first.getEndDatetime(),
                         second.getStartDatetime()
-                    ).toHours();
+                    ).toMinutes();
                     return 12 * 60 - breakLength;
                 }
             );
