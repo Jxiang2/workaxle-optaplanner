@@ -1,6 +1,5 @@
 package org.workaxle;
 
-import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.solver.SolverConfig;
 import org.workaxle.newDomain.Employee;
@@ -27,13 +26,6 @@ public class ScheduleApp {
 
         // load the dataset
         Schedule dataset = generateNewData();
-
-        // solve the problem
-        Solver<Schedule> solver = scheduleSolverFactory.buildSolver();
-        Schedule schedule = solver.solve(dataset);
-
-        // print result
-        printResult(schedule);
     }
 
     private static Schedule generateNewData() {
@@ -220,6 +212,16 @@ public class ScheduleApp {
         employees.add(new Employee(Long.valueOf(k++), "user 3", Set.of("Clean")));
         employees.add(new Employee(Long.valueOf(k++), "user 4", Set.of("Dev", "Design")));
         employees.add(new Employee(Long.valueOf(k++), "user 5", Set.of("Dev", "Design")));
+
+
+        System.out.println(shiftAssignments.size());
+        for (ShiftAssignment shiftAssignment : shiftAssignments) {
+            System.out.println(shiftAssignment);
+        }
+
+        for (Employee employee : employees) {
+            System.out.println(employee);
+        }
 
         return new Schedule(employees, shiftAssignments);
 
