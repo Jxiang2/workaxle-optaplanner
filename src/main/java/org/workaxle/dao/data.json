@@ -18,54 +18,29 @@
       "id": 3,
       "name": "user 3",
       "roles": [
-        "Dev"
+        "Clean"
       ]
     },
     {
       "id": 4,
       "name": "user 4",
       "roles": [
-        "Design"
+        "Dev"
       ]
     },
     {
       "id": 5,
       "name": "user 5",
       "roles": [
-        "Clean"
+        "Design"
       ]
     },
     {
       "id": 6,
       "name": "user 6",
       "roles": [
-        "Dev",
-        "Design"
-      ]
-    },
-    {
-      "id": 7,
-      "name": "user 7",
-      "roles": [
-        "Dev",
         "Design",
-        "Bake"
-      ]
-    },
-    {
-      "id": 8,
-      "name": "user 8",
-      "roles": [
-        "Manager",
-        "Boss"
-      ]
-    },
-    {
-      "id": 9,
-      "name": "user 9",
-      "roles": [
-        "Clean",
-        "Security"
+        "Dev"
       ]
     }
   ],

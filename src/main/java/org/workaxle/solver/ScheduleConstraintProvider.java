@@ -30,7 +30,8 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
         return constraintFactory
             .forEachUniquePair(
                 ShiftAssignment.class,
-                Joiners.equal(ShiftAssignment::getEmployee)
+                Joiners.equal(ShiftAssignment::getEmployee),
+                Joiners.lessThanOrEqual(ShiftAssignment::getEndDatetime, ShiftAssignment::getStartDatetime)
             )
             .filter((first, second) -> Duration.between(
                 first.getEndDatetime(),

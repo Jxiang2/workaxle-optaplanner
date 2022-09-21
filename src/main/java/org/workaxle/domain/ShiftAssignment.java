@@ -54,7 +54,7 @@ public class ShiftAssignment {
         return employee != null
             ?
             "ShiftAssignment{" +
-                "id=" + getId() + '\'' +
+                "id=" + getId() + ", " +
                 "shiftName='" + shift.getName() + '\'' +
                 ", employeeName=" + employee.getName() +
                 ", employeeRoles=" + employee.getRoleSet() +
@@ -63,7 +63,7 @@ public class ShiftAssignment {
                 '}'
             :
             "ShiftAssignment{" +
-                "id=" + getId() + '\'' +
+                "id=" + getId() + ", " +
                 "shiftName='" + shift.getName() + '\'' +
                 ", null" +
                 ", roleRequired='" + role + '\'' +
