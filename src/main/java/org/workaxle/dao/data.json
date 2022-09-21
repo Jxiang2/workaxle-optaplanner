@@ -39,44 +39,30 @@
       "id": 6,
       "name": "user 6",
       "roles": [
-        "Dev"
+        "Dev",
+        "Design"
       ]
     },
     {
       "id": 7,
       "name": "user 7",
       "roles": [
-        "Design"
+        "Dev",
+        "Design",
+        "Bake"
       ]
     },
     {
       "id": 8,
       "name": "user 8",
       "roles": [
-        "Design",
-        "Dev"
-      ]
-    },
-    {
-      "id": 9,
-      "name": "user 9",
-      "roles": [
-        "Design",
-        "Dev",
-        "Bake"
-      ]
-    },
-    {
-      "id": 10,
-      "name": "user 10",
-      "roles": [
         "Manager",
         "Boss"
       ]
     },
     {
-      "id": 11,
-      "name": "user 11",
+      "id": 9,
+      "name": "user 9",
       "roles": [
         "Clean",
         "Security"
@@ -84,8 +70,8 @@
     }
   ],
   "roles": [
-    "Design",
     "Dev",
+    "Design",
     "Clean"
   ],
   "shifts": [
