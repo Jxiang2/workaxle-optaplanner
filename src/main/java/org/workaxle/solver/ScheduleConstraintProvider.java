@@ -39,7 +39,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
             .filter((first, second) -> Duration.between(
                 first.getEndDatetime(),
                 second.getStartDatetime()
-            ).toHours() < 12)
+            ).toMinutes() < 12 * 60)
             .penalize(
                 "atLeast12HoursBetweenTwoShifts",
                 HardSoftScore.ONE_HARD,
@@ -48,7 +48,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                         first.getEndDatetime(),
                         second.getStartDatetime()
                     ).toHours();
-                    return 12 - breakLength;
+                    return 12 * 60 - breakLength;
                 }
             );
     }
@@ -89,7 +89,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
             .penalize(
                 "requiredRoles",
                 HardSoftScore.ONE_HARD,
-                (shiftEmployee) -> 10
+                (shiftEmployee) -> 12 * 60
             );
     }
 

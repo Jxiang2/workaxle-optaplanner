@@ -111,7 +111,7 @@
     {
       "id": 3,
       "name": "develop new features",
-      "startAt": "18:00",
+      "startAt": "20:00",
       "endAt": "23:00",
       "requiredRoles": {
         "Dev": 1,
