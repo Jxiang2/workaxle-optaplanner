@@ -27,10 +27,33 @@
       "roles": [
         "Clean"
       ]
+    },
+    {
+      "id": 5,
+      "name": "user 5",
+      "roles": [
+        "Design"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "user 6",
+      "roles": [
+        "Design"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "user 7",
+      "roles": [
+        "Dev",
+        "Design"
+      ]
     }
   ],
   "roles": [
     "Dev",
+    "Design",
     "Clean"
   ],
   "shifts": [
@@ -40,7 +63,8 @@
       "startAt": "09:00",
       "endAt": "12:00",
       "requiredRoles": {
-        "Dev": 1
+        "Dev": 1,
+        "Design": 1
       }
     },
     {
@@ -53,12 +77,13 @@
       }
     },
     {
-      "id": 2,
+      "id": 3,
       "name": "develop new features",
       "startAt": "20:00",
       "endAt": "23:00",
       "requiredRoles": {
-        "Dev": 1
+        "Dev": 1,
+        "Design": 1
       }
     }
   ],
