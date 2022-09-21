@@ -2,7 +2,7 @@ package org.workaxle.solver;
 
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.api.score.stream.*;
-import org.workaxle.domain.ShiftAssignment;
+import org.workaxle.domain.ShiftEmployee;
 
 import java.time.Duration;
 import java.util.Set;
@@ -29,9 +29,9 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
     private Constraint atMostOneShiftPerDay(ConstraintFactory constraintFactory) {
         return constraintFactory
             .forEachUniquePair(
-                ShiftAssignment.class,
-                Joiners.equal(ShiftAssignment::getEmployee),
-                Joiners.equal(ShiftAssignment::getDate)
+                ShiftEmployee.class,
+                Joiners.equal(ShiftEmployee::getEmployee),
+                Joiners.equal(ShiftEmployee::getDate)
             )
             .penalize(
                 "atMostOneShiftPerDay",
@@ -42,11 +42,11 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
     private Constraint atLeast12HoursBetweenTwoShifts(ConstraintFactory constraintFactory) {
         return constraintFactory
             .forEachUniquePair(
-                ShiftAssignment.class,
-                Joiners.equal(ShiftAssignment::getEmployee),
+                ShiftEmployee.class,
+                Joiners.equal(ShiftEmployee::getEmployee),
                 Joiners.lessThanOrEqual(
-                    ShiftAssignment::getEndDatetime,
-                    ShiftAssignment::getStartDatetime
+                    ShiftEmployee::getEndDatetime,
+                    ShiftEmployee::getStartDatetime
                 )
             )
             .filter((first, second) -> Duration.between(
@@ -67,8 +67,8 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
     }
 
     private Constraint evenlyShiftsDistribution(ConstraintFactory constraintFactory) {
-        return constraintFactory.forEach(ShiftAssignment.class)
-            .groupBy(ShiftAssignment::getEmployee, ConstraintCollectors.count())
+        return constraintFactory.forEach(ShiftEmployee.class)
+            .groupBy(ShiftEmployee::getEmployee, ConstraintCollectors.count())
             .penalize(
                 "evenlyShiftsDistribution",
                 HardSoftScore.ONE_SOFT,
@@ -77,11 +77,11 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
 
     private Constraint requiredRole(ConstraintFactory constraintFactory) {
         return constraintFactory
-            .forEach(ShiftAssignment.class)
+            .forEach(ShiftEmployee.class)
             .filter(
-                shiftAssignment -> {
-                    String requiredRole = shiftAssignment.getRole();
-                    Set<String> providedRoles = shiftAssignment.getEmployee().getRoleSet();
+                shiftEmployee -> {
+                    String requiredRole = shiftEmployee.getRole();
+                    Set<String> providedRoles = shiftEmployee.getEmployee().getRoleSet();
 
                     return !providedRoles.contains(requiredRole);
                 }
@@ -89,7 +89,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
             .penalize(
                 "requiredRoles",
                 HardSoftScore.ONE_HARD,
-                (shiftAssignment) -> 10
+                (shiftEmployee) -> 10
             );
     }
 

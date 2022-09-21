@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Data
 @PlanningEntity
-public class ShiftAssignment {
+public class ShiftEmployee {
 
     @PlanningId
     private String id;
@@ -22,19 +22,19 @@ public class ShiftAssignment {
 
     private Shift shift;
 
-    public ShiftAssignment(String id, String role, Shift shift) {
+    public ShiftEmployee(String id, String role, Shift shift) {
         this.id = id;
         this.role = role;
         this.shift = shift;
     }
 
-    public ShiftAssignment(String id, Shift shift, Employee employee) {
+    public ShiftEmployee(String id, Shift shift, Employee employee) {
         this.id = id;
         this.shift = shift;
         this.employee = employee;
     }
 
-    public ShiftAssignment() {
+    public ShiftEmployee() {
     }
 
     public LocalDate getDate() {

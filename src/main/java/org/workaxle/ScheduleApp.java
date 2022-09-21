@@ -6,7 +6,7 @@ import org.optaplanner.core.config.solver.SolverConfig;
 import org.workaxle.domain.Employee;
 import org.workaxle.domain.Schedule;
 import org.workaxle.domain.Shift;
-import org.workaxle.domain.ShiftAssignment;
+import org.workaxle.domain.ShiftEmployee;
 import org.workaxle.solver.ScheduleConstraintProvider;
 
 import java.time.Duration;
@@ -21,9 +21,9 @@ public class ScheduleApp {
         SolverFactory<Schedule> scheduleSolverFactory = SolverFactory.create(
             new SolverConfig()
                 .withSolutionClass(Schedule.class)
-                .withEntityClasses(ShiftAssignment.class)
+                .withEntityClasses(ShiftEmployee.class)
                 .withConstraintProviderClass(ScheduleConstraintProvider.class)
-                .withTerminationSpentLimit(Duration.ofSeconds(5))
+                .withTerminationSpentLimit(Duration.ofSeconds(2))
         );
 
         // load the dataset
@@ -201,14 +201,14 @@ public class ScheduleApp {
         ));
 
         // prepare for shiftAssignments
-        List<ShiftAssignment> shiftAssignments = new ArrayList<>();
+        List<ShiftEmployee> shiftEmployees = new ArrayList<>();
         int j = 1;
         for (Shift shift : shifts) {
             Map<String, Integer> requiredRoles = shift.getRequiredRoles();
             for (String role : requiredRoles.keySet()) {
                 int number = requiredRoles.get(role);
                 for (int n = 0; n < number; n++) {
-                    shiftAssignments.add(new ShiftAssignment(String.valueOf(j++), role, shift));
+                    shiftEmployees.add(new ShiftEmployee(String.valueOf(j++), role, shift));
                 }
             }
         }
@@ -223,27 +223,25 @@ public class ScheduleApp {
         employees.add(new Employee((long) k++, "user5", Set.of("Design", "Clean")));
         employees.add(new Employee((long) k++, "user6", Set.of("Dev", "Clean")));
 
-        System.out.println(employees);
-
-        return new Schedule(employees, shiftAssignments);
+        return new Schedule(employees, shiftEmployees);
     }
 
     private static void printResult(Schedule schedule) {
-        List<ShiftAssignment> shiftAssignmentList = schedule.getShiftAssignmentList();
-        System.out.println(shiftAssignmentList.size());
-        for (int i = 0; i < shiftAssignmentList.size() - 1; i++) {
-            ShiftAssignment shiftAssignment = shiftAssignmentList.get(i);
-            LocalDate currentDate = shiftAssignment.getDate();
-            if (shiftAssignmentList.get(i + 1) != null) {
-                if (!shiftAssignmentList.get(i + 1).getDate().equals(currentDate)) {
-                    System.out.println(shiftAssignment);
+        List<ShiftEmployee> shiftEmployeeList = schedule.getShiftEmployeeList();
+        System.out.println("Total number of shift assignments: " + shiftEmployeeList.size() + "\n");
+        for (int i = 0; i < shiftEmployeeList.size() - 1; i++) {
+            ShiftEmployee shiftEmployee = shiftEmployeeList.get(i);
+            LocalDate currentDate = shiftEmployee.getDate();
+            if (shiftEmployeeList.get(i + 1) != null) {
+                if (!shiftEmployeeList.get(i + 1).getDate().equals(currentDate)) {
+                    System.out.println(shiftEmployee);
                     System.out.println();
                 } else {
-                    System.out.println(shiftAssignment);
+                    System.out.println(shiftEmployee);
                 }
             }
         }
-        System.out.println(shiftAssignmentList.get(shiftAssignmentList.size() - 1));
+        System.out.println(shiftEmployeeList.get(shiftEmployeeList.size() - 1));
     }
 
 }
