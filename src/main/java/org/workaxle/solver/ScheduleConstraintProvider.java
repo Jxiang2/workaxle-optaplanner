@@ -17,6 +17,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
         return new Constraint[]{
             atLeast12HoursBetweenTwoShifts(constraintFactory),
             atMostOneShiftPerDay(constraintFactory),
+//            evenlyShiftsDistribution(constraintFactory),
             onlyRequiredRole(constraintFactory)
         };
     }
@@ -81,6 +82,21 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                 "requiredRoles",
                 HardSoftScore.ONE_HARD,
                 (shiftEmployee) -> 12
+            );
+    }
+
+    public Constraint evenlyShiftsDistribution(ConstraintFactory constraintFactory) {
+        // try to distribute the shifts evenly to employees
+
+        return constraintFactory
+            .forEachUniquePair(
+                ShiftAssignment.class,
+                Joiners.equal(ShiftAssignment::getEmployee),
+                Joiners.lessThan(ShiftAssignment::getId)
+            )
+            .penalize(
+                "evenlyShiftsDistribution",
+                HardSoftScore.ONE_SOFT
             );
     }
 

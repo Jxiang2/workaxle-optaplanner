@@ -19,6 +19,7 @@ public class ScheduleApp {
     public static void main(String[] args) throws Exception {
         // Build solver
         SolverConfig solverConfig = new SolverConfig();
+
         solverConfig
             .withSolutionClass(Schedule.class)
             .withEntityClasses(ShiftAssignment.class)

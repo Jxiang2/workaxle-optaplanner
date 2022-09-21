@@ -20,10 +20,6 @@ import java.util.*;
 
 public class Data {
 
-    public static void main(String[] args) throws IOException, ParseException {
-        generateData();
-    }
-
     public static Schedule generateData() throws IOException, ParseException {
         final JSONParser parser = new JSONParser();
         final FileReader fileReader = new FileReader("src/main/java/org/workaxle/dao/data.json");
@@ -32,9 +28,6 @@ public class Data {
         List<Employee> employeeList = generateValidEmployees(jsonInput);
         List<Shift> shiftList = generateShifts(jsonInput);
         List<ShiftAssignment> shiftAssignmentList = generateShiftAssignments(shiftList);
-        for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
-            System.out.println(shiftAssignment);
-        }
 
         return new Schedule(employeeList, shiftAssignmentList);
     }
@@ -80,6 +73,8 @@ public class Data {
             }
             employeesInputSize--;
         }
+
+        Collections.reverse(validatedEmployeesInput);
 
         return validatedEmployeesInput;
     }
