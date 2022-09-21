@@ -22,11 +22,11 @@ public class Schedule {
     private List<Employee> employeeList;
 
     @PlanningEntityCollectionProperty
-    private List<ShiftEmployee> shiftEmployeeList;
+    private List<ShiftAssignment> shiftAssignmentList;
 
-    public Schedule(List<Employee> employeeList, List<ShiftEmployee> shiftEmployeeList) {
+    public Schedule(List<Employee> employeeList, List<ShiftAssignment> shiftAssignmentList) {
         this.employeeList = employeeList;
-        this.shiftEmployeeList = shiftEmployeeList;
+        this.shiftAssignmentList = shiftAssignmentList;
     }
 
     public Schedule() {

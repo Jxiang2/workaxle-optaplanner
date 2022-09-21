@@ -3,12 +3,12 @@ package org.workaxle.solver;
 import org.junit.jupiter.api.Test;
 import org.optaplanner.test.api.score.stream.ConstraintVerifier;
 import org.workaxle.domain.Schedule;
-import org.workaxle.domain.ShiftEmployee;
+import org.workaxle.domain.ShiftAssignment;
 
 public class ScheduleConstraintProviderTest {
 
     ConstraintVerifier<ScheduleConstraintProvider, Schedule> constraintVerifier = ConstraintVerifier.build(
-        new ScheduleConstraintProvider(), Schedule.class, ShiftEmployee.class
+        new ScheduleConstraintProvider(), Schedule.class, ShiftAssignment.class
     );
 
     @Test

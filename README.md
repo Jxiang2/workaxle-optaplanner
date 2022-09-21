@@ -169,7 +169,7 @@ Schedule shifts for all employees in a specific group in a period of time
 A list containning all the scheduled shift assignments
 
 ```text
-List<ShiftAssignment> shiftEmployees;
+List<ShiftAssignment> shiftAssignments;
 ```
 
 #### e.g.
