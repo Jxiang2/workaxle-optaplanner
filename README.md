@@ -6,7 +6,7 @@ Schedule shifts for all employees in a specific group in a period of time
 
 ### Constraints:
 
-1. Each shift is assigned to 1 Dev role and 1 Design role
+1. Each shift is assigned to one to many employees who work as required roles
 2. Try to distribute the shifts evenly to all employees
 3. No employee works more than 1 shift in 1 day
 4. No employee works more than 1 shift in 12 hours
@@ -15,17 +15,15 @@ Schedule shifts for all employees in a specific group in a period of time
 
 1. Shift (Input)
 2. ShiftAssignment (Planning entity)
-3. EmployeeGroup (Planning entity variable)
-4. Employee (Input)
-5. Schedule (Planning solution)
+3. Employee (Input)
+4. Schedule (Planning solution)
 
 ### Input:
 
 1. employees: all employees in a specified group
-2. roles: all roles required to fulfill the shifts
-3. shifts: all shifts for scheduling
-4. startDate: start date of the first shift
-5. endDate: end date of the last shift
+2. shifts: all shifts for scheduling
+3. startDate: start date of the first shift
+4. endDate: end date of the last shift
 
 #### e.g.
 
@@ -120,11 +118,6 @@ Schedule shifts for all employees in a specific group in a period of time
       ]
     }
   ],
-  "roles": [
-    "Dev",
-    "Design",
-    "Clean"
-  ],
   "shifts": [
     {
       "id": 1,
@@ -172,9 +165,11 @@ Schedule shifts for all employees in a specific group in a period of time
 ```
 
 ### Output:
+
 A list containning all the scheduled shift assignments
-```java
-List<ShiftAssignment>
+
+```text
+List<ShiftAssignment> shiftAssignments;
 ```
 
 #### e.g.

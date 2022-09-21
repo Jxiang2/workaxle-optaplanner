@@ -1,92 +1,91 @@
 package org.workaxle.solver;
 
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
-import org.optaplanner.core.api.score.stream.Constraint;
-import org.optaplanner.core.api.score.stream.ConstraintFactory;
-import org.optaplanner.core.api.score.stream.ConstraintProvider;
-import org.optaplanner.core.api.score.stream.Joiners;
+import org.optaplanner.core.api.score.stream.*;
 import org.workaxle.domain.ShiftAssignment;
 
 import java.time.Duration;
-import java.util.Map;
+import java.util.Set;
 
 public class ScheduleConstraintProvider implements ConstraintProvider {
 
     @Override
     public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
         return new Constraint[]{
-            oneShiftPerEmployeePerDay(constraintFactory),
+            // an employee can only work 1 shift per day
+            atMostOneShiftPerDay(constraintFactory),
+
+            // any employee can only work 1 shift in 12 hours
             atLeast12HoursBetweenTwoShifts(constraintFactory),
+
+            // try to distribute the shifts evenly to employees
             evenlyShiftsDistribution(constraintFactory),
-            requiredRoles(constraintFactory)
+
+            // a shift can only be assigned to employees with roles it needs
+            requiredRole(constraintFactory)
         };
     }
 
-    public Constraint oneShiftPerEmployeePerDay(ConstraintFactory constraintFactory) {
-        // an employee can be assigned to at most 1 shiftAssignment at the same day
-
+    private Constraint atMostOneShiftPerDay(ConstraintFactory constraintFactory) {
         return constraintFactory
             .forEachUniquePair(
                 ShiftAssignment.class,
-                Joiners.equal(ShiftAssignment::getEmployeeGroup),
+                Joiners.equal(ShiftAssignment::getEmployee),
                 Joiners.equal(ShiftAssignment::getDate)
             )
-            .penalize("oneShiftPerEmployeeGroupPerDay", HardSoftScore.ONE_HARD);
+            .penalize(
+                "atMostOneShiftPerDay",
+                HardSoftScore.ONE_HARD
+            );
     }
 
-    public Constraint atLeast12HoursBetweenTwoShifts(ConstraintFactory constraintFactory) {
-        // any employee can only work 1 shiftAssignment in 12 hours
-
+    private Constraint atLeast12HoursBetweenTwoShifts(ConstraintFactory constraintFactory) {
         return constraintFactory
             .forEachUniquePair(
                 ShiftAssignment.class,
-                Joiners.equal(ShiftAssignment::getEmployeeGroup),
+                Joiners.equal(ShiftAssignment::getEmployee),
                 Joiners.lessThanOrEqual(
-                    ShiftAssignment::getEndDateTime,
+                    ShiftAssignment::getEndDatetime,
                     ShiftAssignment::getStartDatetime
                 )
             )
-            .filter((firstShift, secondShift) -> Duration.between(
-                firstShift.getEndDateTime(),
-                secondShift.getStartDatetime()
+            .filter((first, second) -> Duration.between(
+                first.getEndDatetime(),
+                second.getStartDatetime()
             ).toHours() < 12)
-            .penalize("atLeast12HoursBetweenTwoShifts", HardSoftScore.ONE_HARD, (first, second) -> {
-                int breakLength = (int) Duration.between(
-                    first.getEndDateTime(),
-                    second.getStartDatetime()
-                ).toHours();
-                return 12 - breakLength;
-            });
+            .penalize(
+                "atLeast12HoursBetweenTwoShifts",
+                HardSoftScore.ONE_HARD,
+                (first, second) -> {
+                    int breakLength = (int) Duration.between(
+                        first.getEndDatetime(),
+                        second.getStartDatetime()
+                    ).toHours();
+                    return 12 - breakLength;
+                }
+            );
     }
 
-    public Constraint evenlyShiftsDistribution(ConstraintFactory constraintFactory) {
-        // try to distribute the shifts evenly to employees
+    private Constraint evenlyShiftsDistribution(ConstraintFactory constraintFactory) {
+        return constraintFactory.forEach(ShiftAssignment.class)
+            .groupBy(ShiftAssignment::getEmployee, ConstraintCollectors.count())
+            .penalize(
+                "evenlyShiftsDistribution",
+                HardSoftScore.ONE_SOFT,
+                (employee, shifts) -> (int) (shifts * Math.log(shifts)));
+    }
 
+    private Constraint requiredRole(ConstraintFactory constraintFactory) {
         return constraintFactory
-            // select a shiftAssignment
             .forEach(ShiftAssignment.class)
-            // and pair it with another shiftAssignment
-            .join(
-                ShiftAssignment.class,
-                Joiners.equal(ShiftAssignment::getShift),
-                Joiners.equal(ShiftAssignment::getEmployeeGroup),
-                Joiners.lessThan(ShiftAssignment::getId)
+            .filter(
+                shiftAssignment -> {
+                    String requiredRole = shiftAssignment.getRole();
+                    Set<String> providedRoles = shiftAssignment.getEmployee().getRoleSet();
+
+                    return !providedRoles.contains(requiredRole);
+                }
             )
-            .penalize("evenlyShiftsDistribution", HardSoftScore.ONE_SOFT);
-    }
-
-    public Constraint requiredRoles(ConstraintFactory constraintFactory) {
-        // a shiftAssignment can only take employees with roles it needs
-
-        return constraintFactory
-            .forEach(ShiftAssignment.class)
-            .filter(shiftAssignment -> {
-                Map<String, Integer> requiredRoles = shiftAssignment.getShift().getRequiredRoles();
-                Map<String, Integer> providedRoles = shiftAssignment.getEmployeeGroup().getRoles();
-
-                // check if requiredRoles is a subset of providedRoles
-                return !requiredRoles.equals(providedRoles);
-            })
             .penalize(
                 "requiredRoles",
                 HardSoftScore.ONE_HARD,

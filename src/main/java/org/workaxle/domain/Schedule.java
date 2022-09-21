@@ -17,15 +17,15 @@ public class Schedule {
     @PlanningScore
     private HardSoftScore score;
 
-    @ValueRangeProvider(id = "employeeGroupRange")
+    @ValueRangeProvider(id = "employeeRange")
     @ProblemFactCollectionProperty
-    private List<EmployeeGroup> employeeGroupList;
+    private List<Employee> employeeList;
 
     @PlanningEntityCollectionProperty
     private List<ShiftAssignment> shiftAssignmentList;
 
-    public Schedule(List<EmployeeGroup> employeeGroupList, List<ShiftAssignment> shiftAssignmentList) {
-        this.employeeGroupList = employeeGroupList;
+    public Schedule(List<Employee> employeeList, List<ShiftAssignment> shiftAssignmentList) {
+        this.employeeList = employeeList;
         this.shiftAssignmentList = shiftAssignmentList;
     }
 

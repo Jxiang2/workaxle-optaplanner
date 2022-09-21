@@ -7,8 +7,6 @@ import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-
 
 @Data
 @PlanningEntity
@@ -17,59 +15,49 @@ public class ShiftAssignment {
     @PlanningId
     private String id;
 
-    @PlanningVariable(valueRangeProviderRefs = "employeeGroupRange")
-    private EmployeeGroup employeeGroup;
+    @PlanningVariable(valueRangeProviderRefs = "employeeRange")
+    private Employee employee;
+
+    private String role;
 
     private Shift shift;
 
-    private LocalDate date;
-
-    public ShiftAssignment(String id, Shift shift, LocalDate date) {
+    public ShiftAssignment(String id, String role, Shift shift) {
         this.id = id;
+        this.role = role;
         this.shift = shift;
-        this.date = date;
     }
 
-    public ShiftAssignment(String id, Shift shift, LocalDate date, EmployeeGroup employeeGroup) {
+    public ShiftAssignment(String id, Shift shift, Employee employee) {
         this.id = id;
         this.shift = shift;
-        this.date = date;
-        this.employeeGroup = employeeGroup;
+        this.employee = employee;
     }
 
     public ShiftAssignment() {
     }
 
+    public LocalDate getDate() {
+        return shift.getStartAt().toLocalDate();
+    }
+
     public LocalDateTime getStartDatetime() {
-        LocalTime endTime = getShift().getStartAt();
-        LocalDate date = getDate();
-        return LocalDateTime.of(date, endTime);
+        return shift.getStartAt();
     }
 
-    public LocalDateTime getEndDateTime() {
-        LocalTime endTime = getShift().getEndAt();
-        LocalDate date = getDate();
-        return LocalDateTime.of(date, endTime);
+    public LocalDateTime getEndDatetime() {
+        return shift.getStartAt();
     }
-
 
     @Override
     public String toString() {
-        if (employeeGroup != null) {
-            return
-                "Employee group id: " +
-                    employeeGroup.getId() + "(" + employeeGroup.getEmployeeList() + ")"
-                    + " ; "
-                    + "Shift id: "
-                    + shift.getId()
-                    + " ; "
-                    + "Shift required roles: "
-                    + shift.getRequiredRoles()
-                    + " ; "
-                    + "Date time: "
-                    + shift.getStartAt() + "~" + shift.getEndAt() + ", " + date;
-        }
-        return "null" + " ; " + shift.getStartAt() + "~" + shift.getEndAt() + " ; " + date;
+        return "ShiftAssignment{" +
+            "shiftName='" + shift.getName() + '\'' +
+            ", employeeName=" + employee.getName() +
+            ", employeeRoles=" + employee.getRoleSet() +
+            ", roleRequired='" + role + '\'' +
+            ", shift=" + shift.getStartAt() + " ; " + shift.getEndAt() +
+            '}';
     }
 
 }

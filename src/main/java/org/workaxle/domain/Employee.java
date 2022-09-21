@@ -2,7 +2,7 @@ package org.workaxle.domain;
 
 import lombok.Data;
 
-import java.util.List;
+import java.util.Set;
 
 @Data
 public class Employee {
@@ -11,14 +11,12 @@ public class Employee {
 
     private String name;
 
-    private List<String> roleList;
+    private Set<String> roleSet;
 
-    private Boolean used = false;
-
-    public Employee(Long id, String name, List<String> roleList) {
+    public Employee(Long id, String name, Set<String> roleSet) {
         this.id = id;
         this.name = name;
-        this.roleList = roleList;
+        this.roleSet = roleSet;
     }
 
     public Employee() {
@@ -27,9 +25,9 @@ public class Employee {
     @Override
     public String toString() {
         return "Employee{" +
-            "roleList=" + roleList +
+            "id=" + id + " ; " +
+            "roleSet=" + roleSet +
             '}';
     }
-
 
 }
