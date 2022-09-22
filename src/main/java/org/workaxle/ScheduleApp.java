@@ -7,7 +7,7 @@ import org.workaxle.dao.Data;
 import org.workaxle.domain.Schedule;
 import org.workaxle.domain.ShiftAssignment;
 import org.workaxle.solver.ScheduleConstraintProvider;
-import org.workaxle.util.SolutionHandler;
+import org.workaxle.util.solution.SolutionPrinter;
 
 import java.time.Duration;
 
@@ -34,7 +34,7 @@ public class ScheduleApp {
         Schedule schedule = solver.solve(dataset);
 
         // print result
-        SolutionHandler.printResult(schedule);
+        SolutionPrinter.printResult(schedule);
     }
 
 }

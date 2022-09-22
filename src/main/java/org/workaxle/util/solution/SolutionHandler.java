@@ -1,12 +1,8 @@
-package org.workaxle.util;
+package org.workaxle.util.solution;
 
-import org.json.simple.parser.ParseException;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
-import org.workaxle.dao.Data;
-import org.workaxle.domain.Schedule;
 import org.workaxle.domain.ShiftAssignment;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,31 +14,6 @@ import java.util.stream.Collectors;
 public class SolutionHandler {
 
     static Random r = new Random();
-
-    public static void printResult(Schedule schedule) throws IOException, ParseException {
-        List<ShiftAssignment> shiftAssignmentList = schedule.getShiftAssignmentList();
-
-        final LocalDate shiftSStartDay = Data.generateStartEndDates()[0];
-        final LocalDate shiftsEndDay = Data.generateStartEndDates()[1];
-
-        int duration = 12;
-        markInvalidDailyShiftGap(schedule.getScore(), shiftAssignmentList, shiftSStartDay, shiftsEndDay);
-        markInvalidHourlyShiftGap(duration, shiftAssignmentList);
-        shiftAssignmentList = getValidShiftAssignmentList(shiftAssignmentList);
-
-        System.out.println("Total number of valid shift assignments: " + shiftAssignmentList.size() + "\n");
-
-        LocalDate currentDay = shiftSStartDay;
-        while (currentDay.isBefore(shiftsEndDay.plusDays(1))) {
-            for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
-                if (shiftAssignment.getDate().equals(currentDay)) {
-                    System.out.println(shiftAssignment);
-                }
-            }
-            currentDay = currentDay.plusDays(1);
-            System.out.println();
-        }
-    }
 
     public static void markInvalidDailyShiftGap(
         HardSoftScore score,
@@ -108,7 +79,7 @@ public class SolutionHandler {
         }
     }
 
-    private static List<ShiftAssignment> getValidShiftAssignmentList(List<ShiftAssignment> shiftAssignmentList) {
+    public static List<ShiftAssignment> getValidShiftAssignmentList(List<ShiftAssignment> shiftAssignmentList) {
         shiftAssignmentList = shiftAssignmentList
             .stream()
             .filter(shiftAssignment -> {
