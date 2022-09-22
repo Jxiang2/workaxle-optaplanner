@@ -24,8 +24,8 @@ public class ShiftAssignment {
     private Shift shift;
 
     private Map<String, Boolean> conflicts = new HashMap<>() {{
-        put("hourlyGap", true);
-        put("dailyGap", true);
+        put("hourlyGap", false);
+        put("dailyGap", false);
     }};
 
     public ShiftAssignment(String id, String role, Shift shift) {
