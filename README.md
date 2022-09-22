@@ -41,41 +41,42 @@ Schedule shifts for all employees in a specific group in a period of time
       "id": 2,
       "name": "user 2",
       "roles": [
-        "Design"
+        "Dev"
       ]
     },
     {
       "id": 3,
       "name": "user 3",
       "roles": [
-        "Dev"
+        "Clean"
       ]
     },
     {
       "id": 4,
       "name": "user 4",
       "roles": [
-        "Design"
+        "Clean"
       ]
     },
     {
       "id": 5,
       "name": "user 5",
       "roles": [
-        "Clean"
+        "Design"
       ]
     },
     {
       "id": 6,
       "name": "user 6",
       "roles": [
-        "Dev"
+        "Design"
       ]
     },
     {
       "id": 7,
       "name": "user 7",
       "roles": [
+        "Dev",
         "Design"
       ]
     },
@@ -83,40 +84,15 @@ Schedule shifts for all employees in a specific group in a period of time
       "id": 8,
       "name": "user 8",
       "roles": [
-        "Dev"
-      ]
-    },
-    {
-      "id": 9,
-      "name": "user 9",
-      "roles": [
+        "Dev",
         "Design"
       ]
-    },
-    {
-      "id": 10,
-      "name": "user 10",
-      "roles": [
-        "Dev"
-      ]
-    },
-    {
-      "id": 11,
-      "name": "user 11",
-      "roles": [
-        "Design",
-        "Dev",
-        "???"
-      ]
-    },
-    {
-      "id": 12,
-      "name": "user 12",
-      "roles": [
-        "???",
-        " ? "
-      ]
     }
+  ],
+  "roles": [
+    "Dev",
+    "Design",
+    "Clean"
   ],
   "shifts": [
     {
@@ -125,42 +101,30 @@ Schedule shifts for all employees in a specific group in a period of time
       "startAt": "09:00",
       "endAt": "12:00",
       "requiredRoles": {
-        "Dev": 1,
-        "Design": 1
+        "Dev": 2
       }
     },
     {
       "id": 2,
-      "name": "develop new features",
-      "startAt": "12:00",
-      "endAt": "15:00",
+      "name": "clean up",
+      "startAt": "15:00",
+      "endAt": "17:00",
       "requiredRoles": {
-        "Dev": 1,
-        "Design": 1
+        "Clean": 1
       }
     },
     {
       "id": 3,
       "name": "develop new features",
-      "startAt": "15:00",
-      "endAt": "18:00",
-      "requiredRoles": {
-        "Dev": 1,
-        "Design": 1
-      }
-    },
-    {
-      "id": 4,
-      "name": "clean up",
-      "startAt": "18:00",
+      "startAt": "20:00",
       "endAt": "23:00",
       "requiredRoles": {
-        "Clean": 1
+        "Design": 2
       }
     }
   ],
   "startDate": "2022-11-21",
-  "endDate": "2022-11-25"
+  "endDate": "2022-11-26"
 }
 ```
 
