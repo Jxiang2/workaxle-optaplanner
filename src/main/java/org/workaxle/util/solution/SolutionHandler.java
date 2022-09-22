@@ -15,7 +15,7 @@ public class SolutionHandler {
 
     static Random r = new Random();
 
-    public static void markInvalidDailyShiftGap(
+    public static void markInvalidByDailyShiftGap(
         HardSoftScore score,
         List<ShiftAssignment> shiftAssignmentList,
         LocalDate shiftsStartDay,
@@ -57,7 +57,7 @@ public class SolutionHandler {
         }
     }
 
-    public static void markInvalidHourlyShiftGap(
+    public static void markInvalidByHourlyShiftGap(
         int duration,
         List<ShiftAssignment> shiftAssignmentList
     ) {

@@ -67,7 +67,7 @@
   "shifts": [
     {
       "id": 1,
-      "name": "develop new features",
+      "name": "design and develop new features",
       "startAt": "09:00",
       "endAt": "12:00",
       "requiredRoles": {

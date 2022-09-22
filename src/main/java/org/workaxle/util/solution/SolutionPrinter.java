@@ -18,8 +18,8 @@ public class SolutionPrinter {
         final LocalDate shiftsEndDay = Data.generateStartEndDates()[1];
 
         int duration = 12;
-        SolutionHandler.markInvalidDailyShiftGap(schedule.getScore(), shiftAssignmentList, shiftSStartDay, shiftsEndDay);
-        SolutionHandler.markInvalidHourlyShiftGap(duration, shiftAssignmentList);
+        SolutionHandler.markInvalidByDailyShiftGap(schedule.getScore(), shiftAssignmentList, shiftSStartDay, shiftsEndDay);
+        SolutionHandler.markInvalidByHourlyShiftGap(duration, shiftAssignmentList);
         shiftAssignmentList = SolutionHandler.getValidShiftAssignmentList(shiftAssignmentList);
 
         System.out.println("Total number of valid shift assignments: " + shiftAssignmentList.size() + "\n");
