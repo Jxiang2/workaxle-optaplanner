@@ -6,6 +6,8 @@ import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 @Data
 @PlanningEntity
@@ -21,7 +23,10 @@ public class ShiftAssignment {
 
     private Shift shift;
 
-    private boolean valid = true;
+    private Map<String, Boolean> conflicts = new HashMap<>() {{
+        put("hourlyGap", true);
+        put("dailyGap", true);
+    }};
 
     public ShiftAssignment(String id, String role, Shift shift) {
         this.id = id;
@@ -39,21 +44,17 @@ public class ShiftAssignment {
     public ShiftAssignment() {
     }
 
-    public LocalDate getDate() {
-        return shift.getEndAt().toLocalDate();
-    }
-
     @Override
     public String toString() {
         return employee != null
             ?
             "ShiftAssignment{" +
-                "validity=" + isValid() + ", " +
+                conflicts + ", " +
                 "shiftName='" + shift.getName() + '\'' +
-                ", employeeName=" + employee.getName() +
+                ", employeeId=" + employee.getId() +
                 ", employeeRoles=" + employee.getRoleSet() +
                 ", roleRequired='" + role + '\'' +
-                ", shift=" + shift.getStartAt() + " ; " + shift.getEndAt() +
+                ", time=" + shift.getStartAt().toLocalTime() + "~" + shift.getEndAt().toLocalTime() + "," + getDate() +
                 '}'
             :
             "ShiftAssignment{" +
@@ -61,8 +62,12 @@ public class ShiftAssignment {
                 "shiftName='" + shift.getName() + '\'' +
                 ", null" +
                 ", roleRequired='" + role + '\'' +
-                ", shift=" + shift.getStartAt() + " ; " + shift.getEndAt() +
+                ", time=" + shift.getStartAt().toLocalTime() + "~" + shift.getEndAt().toLocalTime() + "," + getDate() +
                 '}';
+    }
+
+    public LocalDate getDate() {
+        return shift.getEndAt().toLocalDate();
     }
 
 }

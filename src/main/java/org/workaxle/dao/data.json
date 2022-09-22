@@ -77,8 +77,8 @@
     {
       "id": 2,
       "name": "clean up",
-      "startAt": "20:00",
-      "endAt": "23:00",
+      "startAt": "15:00",
+      "endAt": "17:00",
       "requiredRoles": {
         "Clean": 1
       }
