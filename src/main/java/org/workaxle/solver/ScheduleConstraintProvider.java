@@ -1,10 +1,7 @@
 package org.workaxle.solver;
 
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
-import org.optaplanner.core.api.score.stream.Constraint;
-import org.optaplanner.core.api.score.stream.ConstraintFactory;
-import org.optaplanner.core.api.score.stream.ConstraintProvider;
-import org.optaplanner.core.api.score.stream.Joiners;
+import org.optaplanner.core.api.score.stream.*;
 import org.workaxle.domain.ShiftAssignment;
 
 import java.time.Duration;
@@ -68,16 +65,12 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
     public Constraint evenlyShiftsDistribution(ConstraintFactory constraintFactory) {
         // try to distribute the shifts evenly to employees
 
-        return constraintFactory
-            .forEachUniquePair(
-                ShiftAssignment.class,
-                Joiners.equal(ShiftAssignment::getEmployee),
-                Joiners.equal(shiftAssignment -> shiftAssignment.getShift().getStartAt().toLocalTime())
-            )
+        return constraintFactory.forEach(ShiftAssignment.class)
+            .groupBy(ShiftAssignment::getEmployee, ConstraintCollectors.count())
             .penalize(
                 "evenlyShiftsDistribution",
-                HardSoftScore.ONE_SOFT
-            );
+                HardSoftScore.ONE_SOFT,
+                (employee, shifts) -> shifts * shifts);
     }
 
     public Constraint onlyRequiredRole(ConstraintFactory constraintFactory) {

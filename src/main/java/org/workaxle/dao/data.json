@@ -49,6 +49,14 @@
         "Dev",
         "Design"
       ]
+    },
+    {
+      "id": 8,
+      "name": "user 8",
+      "roles": [
+        "Dev",
+        "Design"
+      ]
     }
   ],
   "roles": [

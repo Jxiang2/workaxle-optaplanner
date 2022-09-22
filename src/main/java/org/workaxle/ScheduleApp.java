@@ -18,7 +18,7 @@ public class ScheduleApp {
 
     public static void main(String[] args) throws Exception {
         // Build solver
-        SolverConfig solverConfig = new SolverConfig();
+        SolverConfig solverConfig = SolverConfig.createFromXmlResource("scheduleConfig.xml");
 
         solverConfig
             .withSolutionClass(Schedule.class)
