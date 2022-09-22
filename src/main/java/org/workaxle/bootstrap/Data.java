@@ -1,4 +1,4 @@
-package org.workaxle.dao;
+package org.workaxle.bootstrap;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,7 +22,7 @@ public class Data {
 
     public static Schedule generateData() throws IOException, ParseException {
         final JSONParser parser = new JSONParser();
-        final FileReader fileReader = new FileReader("src/main/java/org/workaxle/dao/data.json");
+        final FileReader fileReader = new FileReader("src/main/java/org/workaxle/bootstrap/data.json");
         JSONObject jsonInput = (JSONObject) parser.parse(fileReader);
 
         List<Employee> employeeList = generateValidEmployees(jsonInput);
@@ -136,7 +136,7 @@ public class Data {
 
     public static LocalDate[] generateStartEndDates() throws IOException, ParseException {
         final JSONParser parser = new JSONParser();
-        final FileReader fileReader = new FileReader("src/main/java/org/workaxle/dao/data.json");
+        final FileReader fileReader = new FileReader("src/main/java/org/workaxle/bootstrap/data.json");
         JSONObject jsonInput = (JSONObject) parser.parse(fileReader);
 
         return new LocalDate[]{

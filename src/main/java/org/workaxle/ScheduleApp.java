@@ -3,7 +3,7 @@ package org.workaxle;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.solver.SolverConfig;
-import org.workaxle.dao.Data;
+import org.workaxle.bootstrap.Data;
 import org.workaxle.domain.Schedule;
 import org.workaxle.domain.ShiftAssignment;
 import org.workaxle.solver.ScheduleConstraintProvider;

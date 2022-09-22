@@ -49,12 +49,11 @@ public class ShiftAssignment {
         return employee != null
             ?
             "ShiftAssignment{" +
-                conflicts + ", " +
-                "shiftName='" + shift.getName() + '\'' +
+                "shiftId='" + shift.getId() + '\'' +
                 ", employeeId=" + employee.getId() +
                 ", employeeRoles=" + employee.getRoleSet() +
                 ", roleRequired='" + role + '\'' +
-                ", time=" + shift.getStartAt().toLocalTime() + "~" + shift.getEndAt().toLocalTime() + "," + getDate() +
+                ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() + "~" + shift.getEndAt().toLocalTime() +
                 '}'
             :
             "ShiftAssignment{" +
@@ -62,7 +61,7 @@ public class ShiftAssignment {
                 "shiftName='" + shift.getName() + '\'' +
                 ", null" +
                 ", roleRequired='" + role + '\'' +
-                ", time=" + shift.getStartAt().toLocalTime() + "~" + shift.getEndAt().toLocalTime() + "," + getDate() +
+                ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() + "~" + shift.getEndAt().toLocalTime() +
                 '}';
     }
 

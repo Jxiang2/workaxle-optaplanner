@@ -1,7 +1,7 @@
 package org.workaxle.util.solution;
 
 import org.json.simple.parser.ParseException;
-import org.workaxle.dao.Data;
+import org.workaxle.bootstrap.Data;
 import org.workaxle.domain.Schedule;
 import org.workaxle.domain.ShiftAssignment;
 
