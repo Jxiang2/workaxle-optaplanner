@@ -21,6 +21,8 @@ public class ShiftAssignment {
 
     private Shift shift;
 
+    private boolean valid = true;
+
     public ShiftAssignment(String id, String role, Shift shift) {
         this.id = id;
         this.role = role;
@@ -46,7 +48,7 @@ public class ShiftAssignment {
         return employee != null
             ?
             "ShiftAssignment{" +
-                "id=" + getId() + ", " +
+                "validity=" + isValid() + ", " +
                 "shiftName='" + shift.getName() + '\'' +
                 ", employeeName=" + employee.getName() +
                 ", employeeRoles=" + employee.getRoleSet() +

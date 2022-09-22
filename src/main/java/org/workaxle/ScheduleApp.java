@@ -12,11 +12,13 @@ import org.workaxle.solver.ScheduleConstraintProvider;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ScheduleApp {
 
     public static void main(String[] args) throws Exception {
+
         // Build solver
         SolverConfig solverConfig = SolverConfig.createFromXmlResource("scheduleConfig.xml");
 
@@ -41,14 +43,17 @@ public class ScheduleApp {
 
     private static void printResult(Schedule schedule) throws IOException, ParseException {
         List<ShiftAssignment> shiftAssignmentList = schedule.getShiftAssignmentList();
+
+        final LocalDate shiftSStartDay = Data.generateStartEndDates()[0];
+        final LocalDate shiftsEndDay = Data.generateStartEndDates()[1];
+
+        int duration = 12;
+        dropInvalidByInterShiftDuration(duration, shiftAssignmentList);
+
         System.out.println("Total number of shift assignments: " + shiftAssignmentList.size() + "\n");
 
-        final LocalDate[] localDates = Data.generateStartEndDates();
-        LocalDate startDay = localDates[0];
-        LocalDate endDay = localDates[1];
-
-        LocalDate currentDay = startDay;
-        while (currentDay.isBefore(endDay.plusDays(1))) {
+        LocalDate currentDay = shiftSStartDay;
+        while (currentDay.isBefore(shiftsEndDay.plusDays(1))) {
             for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
                 if (shiftAssignment.getDate().equals(currentDay)) {
                     System.out.println(shiftAssignment);
@@ -58,6 +63,26 @@ public class ScheduleApp {
             System.out.println();
         }
 
+    }
+
+    private static void dropInvalidByInterShiftDuration(
+        int duration,
+        List<ShiftAssignment> shiftAssignmentList
+    ) {
+        for (int i = 0; i < shiftAssignmentList.size(); i++) {
+            ShiftAssignment first = shiftAssignmentList.get(i);
+            LocalDateTime firstEndAt = first.getShift().getEndAt();
+            for (ShiftAssignment second : shiftAssignmentList) {
+                LocalDateTime secondStartAt = second.getShift().getStartAt();
+                if (first.getEmployee().equals(second.getEmployee()) &&
+                    secondStartAt.isAfter(firstEndAt) &&
+                    Math.abs(Duration.between(firstEndAt, secondStartAt).toHours()) < duration
+                ) {
+                    first.setValid(false);
+                }
+
+            }
+        }
     }
 
 }

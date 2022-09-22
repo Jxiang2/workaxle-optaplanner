@@ -86,7 +86,7 @@ public class Data {
         List<Shift> shiftsInput = new ArrayList<>();
         for (Object o : (JSONArray) jsonInput.get("shifts")) {
             LocalDate currentDate = startDate;
-            while (currentDate.isBefore(endDate.plusDays(2))) {
+            while (currentDate.isBefore(endDate.plusDays(1))) {
                 JSONObject shiftJson = (JSONObject) o;
                 JSONObject requiredRolesJson = (JSONObject) shiftJson.get("requiredRoles");
 

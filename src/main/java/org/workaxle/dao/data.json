@@ -71,8 +71,7 @@
       "startAt": "09:00",
       "endAt": "12:00",
       "requiredRoles": {
-        "Dev": 1,
-        "Design": 1
+        "Dev": 2
       }
     },
     {
@@ -90,11 +89,10 @@
       "startAt": "20:00",
       "endAt": "23:00",
       "requiredRoles": {
-        "Dev": 1,
-        "Design": 1
+        "Design": 2
       }
     }
   ],
   "startDate": "2022-11-21",
-  "endDate": "2022-11-25"
+  "endDate": "2022-11-26"
 }
