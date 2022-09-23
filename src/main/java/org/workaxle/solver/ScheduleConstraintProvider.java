@@ -84,9 +84,9 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
         return constraintFactory
             .forEach(ShiftAssignment.class)
             .filter(
-                shiftEmployee -> {
-                    String requiredRole = shiftEmployee.getRole();
-                    Set<String> providedRoles = shiftEmployee.getEmployee().getRoleSet();
+                shiftAssignment -> {
+                    String requiredRole = shiftAssignment.getRole();
+                    Set<String> providedRoles = shiftAssignment.getEmployee().getRoleSet();
 
                     return !providedRoles.contains(requiredRole);
                 }

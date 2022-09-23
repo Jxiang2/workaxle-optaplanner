@@ -59,7 +59,7 @@ public class ShiftAssignment {
             :
             "ShiftAssignment{" +
                 "id=" + getId() + ", " +
-                "shiftName='" + shift.getName() + '\'' +
+                "shiftID='" + shift.getId() + '\'' +
                 ", null" +
                 ", roleRequired='" + role + '\'' +
                 ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() + "~" + shift.getEndAt().toLocalTime() +

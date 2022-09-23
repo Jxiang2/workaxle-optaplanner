@@ -13,10 +13,12 @@ import org.workaxle.domain.ShiftAssignment;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Data {
 
@@ -116,7 +118,14 @@ public class Data {
             }
         }
 
-        return shiftsInput;
+        return shiftsInput
+            .stream()
+            .sorted(Comparator.comparing(shift ->
+                shift.getStartAt().plusMinutes(
+                    Duration.between(shift.getEndAt(), shift.getStartAt()).toMinutes() / 2
+                )
+            ))
+            .collect(Collectors.toList());
     }
 
     private static List<ShiftAssignment> generateShiftAssignments(List<Shift> shifts) {
@@ -131,7 +140,17 @@ public class Data {
                 }
             }
         }
-        return shiftAssignments;
+
+        return shiftAssignments
+            .stream()
+            .sorted(Comparator.comparing(
+                sa -> {
+                    final LocalDateTime startAt = sa.getShift().getStartAt();
+                    final LocalDateTime endAt = sa.getShift().getEndAt();
+                    return startAt.plusMinutes(Duration.between(endAt, startAt).toMinutes() / 2);
+                }
+            ))
+            .collect(Collectors.toList());
     }
 
     public static LocalDate[] generateStartEndDates() throws IOException, ParseException {

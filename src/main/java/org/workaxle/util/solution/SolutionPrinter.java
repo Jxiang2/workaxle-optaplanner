@@ -20,7 +20,7 @@ public class SolutionPrinter {
         int duration = 12;
         SolutionHandler.markInvalidByDailyShiftGap(schedule.getScore(), shiftAssignmentList, shiftSStartDay, shiftsEndDay);
         SolutionHandler.markInvalidByHourlyShiftGap(duration, shiftAssignmentList);
-        shiftAssignmentList = SolutionHandler.getValidShiftAssignmentList(shiftAssignmentList);
+//        shiftAssignmentList = SolutionHandler.getValidShiftAssignmentList(shiftAssignmentList);
 
         System.out.println("Total number of valid shift assignments: " + shiftAssignmentList.size() + "\n");
 
