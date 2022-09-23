@@ -76,8 +76,6 @@ public class Data {
             employeesInputSize--;
         }
 
-        Collections.reverse(validatedEmployeesInput);
-
         return validatedEmployeesInput;
     }
 
