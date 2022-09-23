@@ -50,6 +50,7 @@ public class ShiftAssignment {
             ?
             "ShiftAssignment{" +
                 "shiftId='" + shift.getId() + '\'' +
+                ", conflicts=" + getConflicts() +
                 ", employeeId=" + employee.getId() +
                 ", employeeRoles=" + employee.getRoleSet() +
                 ", roleRequired='" + role + '\'' +

@@ -2,6 +2,7 @@ package org.workaxle.solver;
 
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.api.score.stream.*;
+import org.workaxle.constants.Conflict;
 import org.workaxle.domain.ShiftAssignment;
 
 import java.time.Duration;
@@ -12,15 +13,17 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
     @Override
     public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
         return new Constraint[]{
-            atLeast12HoursBetweenTwoShifts(constraintFactory),
+            atLeastNHoursBetweenTwoShifts(constraintFactory),
             atMostOneShiftPerDay(constraintFactory),
             evenlyShiftsDistribution(constraintFactory),
             onlyRequiredRole(constraintFactory)
         };
     }
 
-    public Constraint atLeast12HoursBetweenTwoShifts(ConstraintFactory constraintFactory) {
+    public Constraint atLeastNHoursBetweenTwoShifts(ConstraintFactory constraintFactory) {
         // any employee can only work 1 shift in 12 hours
+
+        int n = 12;
 
         return constraintFactory
             .forEachUniquePair(
@@ -34,16 +37,16 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
             .filter((firstShift, secondShift) -> Duration.between(
                 firstShift.getShift().getEndAt(),
                 secondShift.getShift().getStartAt()
-            ).toHours() < 12)
+            ).toHours() < n)
             .penalize(
-                "atLeast12HoursBetweenTwoShifts",
+                Conflict.AT_LEAST_N_HOURS_BETWEEN_TWO_SHIFTS.getCodeName(),
                 HardSoftScore.ONE_HARD,
                 (first, second) -> {
                     int breakLength = (int) Duration.between(
                         first.getShift().getEndAt(),
                         second.getShift().getStartAt()
                     ).toHours();
-                    return 12 - breakLength;
+                    return n - breakLength;
                 });
     }
 
@@ -57,7 +60,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                 Joiners.equal(ShiftAssignment::getDate)
             )
             .penalize(
-                "atMostOneShiftPerDay",
+                Conflict.AT_MOST_ONE_SHIFT_PER_DAY.getCodeName(),
                 HardSoftScore.ONE_HARD
             );
     }
@@ -68,7 +71,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
         return constraintFactory.forEach(ShiftAssignment.class)
             .groupBy(ShiftAssignment::getEmployee, ConstraintCollectors.count())
             .penalize(
-                "evenlyShiftsDistribution",
+                Conflict.EVENLY_SHIFT_DISTRIBUTION.getCodeName(),
                 HardSoftScore.ONE_SOFT,
                 (employee, shifts) -> shifts * shifts);
     }
@@ -87,7 +90,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                 }
             )
             .penalize(
-                "onlyRequiredRole",
+                Conflict.ONLY_REQUIRED_ROLES.getCodeName(),
                 HardSoftScore.ONE_HARD,
                 (shiftEmployee) -> 12
             );

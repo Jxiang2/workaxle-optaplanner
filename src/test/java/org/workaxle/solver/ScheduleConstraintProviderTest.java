@@ -25,7 +25,7 @@ public class ScheduleConstraintProviderTest {
     }
 
     @Test
-    void testAtLeast12HoursBetweenTwoShifts() {
+    void testAtLeastNHoursBetweenTwoShifts() {
         long i = 1L;
         Shift s1 = new Shift(
             i++,
@@ -57,7 +57,7 @@ public class ScheduleConstraintProviderTest {
         ShiftAssignment conflictSa = new ShiftAssignment(String.valueOf(j++), "Dev", s2, e2);
 
         constraintVerifier
-            .verifyThat(ScheduleConstraintProvider::atLeast12HoursBetweenTwoShifts)
+            .verifyThat(ScheduleConstraintProvider::atLeastNHoursBetweenTwoShifts)
             .given(sa, conflictSa)
             .penalizesBy(2);
     }

@@ -22,7 +22,7 @@ public class ScheduleApp {
             .withSolutionClass(Schedule.class)
             .withEntityClasses(ShiftAssignment.class)
             .withConstraintProviderClass(ScheduleConstraintProvider.class)
-            .withTerminationSpentLimit(Duration.ofSeconds(3));
+            .withTerminationSpentLimit(Duration.ofSeconds(5));
 
         SolverFactory<Schedule> scheduleSolverFactory = SolverFactory.create(solverConfig);
 
