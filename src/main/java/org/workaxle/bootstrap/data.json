@@ -32,7 +32,7 @@
       "id": 5,
       "name": "user 5",
       "roles": [
-        "Dev"
+        "Design"
       ]
     },
     {
@@ -49,17 +49,9 @@
         "Dev",
         "Design"
       ]
-    },
-    {
-      "id": 8,
-      "name": "user 8",
-      "roles": [
-        "Dev",
-        "Design"
-      ]
     }
   ],
-  "roles": [
+  "allRequiredRoles": [
     "Dev",
     "Design",
     "Clean"
@@ -71,7 +63,7 @@
       "startAt": "09:00",
       "endAt": "12:00",
       "requiredRoles": {
-        "Dev": 2,
+        "Dev": 1,
         "Design": 1
       }
     },
@@ -86,14 +78,15 @@
     },
     {
       "id": 3,
-      "name": "develop new features",
+      "name": "design and develop new features",
       "startAt": "20:00",
       "endAt": "23:00",
       "requiredRoles": {
-        "Dev": 2
+        "Dev": 1,
+        "Design": 1
       }
     }
   ],
   "startDate": "2022-11-21",
-  "endDate": "2022-11-26"
+  "endDate": "2022-11-25"
 }

@@ -52,7 +52,7 @@ public class Data {
         }
 
         ArrayList allRoleList =
-            new ObjectMapper().readValue(jsonInput.get("roles").toString(), ArrayList.class);
+            new ObjectMapper().readValue(jsonInput.get("allRequiredRoles").toString(), ArrayList.class);
         ArrayList<Employee> validatedEmployeesInput = new ArrayList<>();
 
         int employeesInputSize = employeesInput.size();
@@ -125,7 +125,8 @@ public class Data {
                     Duration.between(shift.getEndAt(), shift.getStartAt()).toMinutes() / 2
                 )
             ))
-            .collect(Collectors.toList());
+            .collect(Collectors.toList())
+            ;
     }
 
     private static List<ShiftAssignment> generateShiftAssignments(List<Shift> shifts) {
@@ -150,7 +151,8 @@ public class Data {
                     return startAt.plusMinutes(Duration.between(endAt, startAt).toMinutes() / 2);
                 }
             ))
-            .collect(Collectors.toList());
+            .collect(Collectors.toList())
+            ;
     }
 
     public static LocalDate[] generateStartEndDates() throws IOException, ParseException {
