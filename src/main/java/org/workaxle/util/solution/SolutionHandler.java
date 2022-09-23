@@ -80,7 +80,7 @@ public class SolutionHandler {
     }
 
     public static List<ShiftAssignment> getValidShiftAssignmentList(List<ShiftAssignment> shiftAssignmentList) {
-        shiftAssignmentList = shiftAssignmentList
+        return shiftAssignmentList
             .stream()
             .filter(shiftAssignment -> {
                 Map<String, Boolean> conflicts = shiftAssignment.getConflicts();
@@ -91,7 +91,6 @@ public class SolutionHandler {
                 return true;
             })
             .collect(Collectors.toList());
-        return shiftAssignmentList;
     }
 
 }

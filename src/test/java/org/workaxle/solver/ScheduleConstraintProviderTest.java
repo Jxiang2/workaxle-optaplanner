@@ -59,7 +59,7 @@ public class ScheduleConstraintProviderTest {
         constraintVerifier
             .verifyThat(ScheduleConstraintProvider::atLeastNHoursBetweenTwoShifts)
             .given(sa, conflictSa)
-            .penalizesBy(2);
+            .penalizesBy(2 * 60);
     }
 
     @Test

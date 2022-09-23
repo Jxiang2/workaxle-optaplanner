@@ -10,6 +10,8 @@ import java.util.Set;
 
 public class ScheduleConstraintProvider implements ConstraintProvider {
 
+    int n = 12;
+
     @Override
     public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
         return new Constraint[]{
@@ -22,8 +24,6 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
 
     public Constraint atLeastNHoursBetweenTwoShifts(ConstraintFactory constraintFactory) {
         // any employee can only work 1 shift in 12 hours
-
-        int n = 12;
 
         return constraintFactory
             .forEachUniquePair(
@@ -45,8 +45,8 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                     int breakLength = (int) Duration.between(
                         first.getShift().getEndAt(),
                         second.getShift().getStartAt()
-                    ).toHours();
-                    return n - breakLength;
+                    ).toMinutes();
+                    return n * 60 - breakLength;
                 });
     }
 
@@ -61,7 +61,8 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
             )
             .penalize(
                 Conflict.AT_MOST_ONE_SHIFT_PER_DAY.getCodeName(),
-                HardSoftScore.ONE_HARD
+                HardSoftScore.ONE_HARD,
+                (shiftAssignment1, shiftAssignment2) -> n * 60
             );
     }
 
@@ -73,7 +74,8 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
             .penalize(
                 Conflict.EVENLY_SHIFT_DISTRIBUTION.getCodeName(),
                 HardSoftScore.ONE_SOFT,
-                (employee, shifts) -> shifts * shifts);
+                (employee, shifts) -> shifts * shifts
+            );
     }
 
     public Constraint onlyRequiredRole(ConstraintFactory constraintFactory) {
@@ -92,7 +94,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
             .penalize(
                 Conflict.ONLY_REQUIRED_ROLES.getCodeName(),
                 HardSoftScore.ONE_HARD,
-                (shiftEmployee) -> 12
+                (shiftEmployee) -> 12 * 60
             );
     }
 
