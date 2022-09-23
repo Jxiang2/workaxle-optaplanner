@@ -22,7 +22,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
         };
     }
 
-    public Constraint atLeastNHoursBetweenTwoShifts(ConstraintFactory constraintFactory) {
+    Constraint atLeastNHoursBetweenTwoShifts(ConstraintFactory constraintFactory) {
         // any employee can only work 1 shift in 12 hours
 
         return constraintFactory
@@ -35,9 +35,10 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                 )
             )
             .filter((firstShift, secondShift) -> Duration.between(
-                firstShift.getShift().getEndAt(),
-                secondShift.getShift().getStartAt()
-            ).toHours() < n)
+                    firstShift.getShift().getEndAt(),
+                    secondShift.getShift().getStartAt()
+                ).toHours() < n
+            )
             .penalize(
                 Conflict.AT_LEAST_N_HOURS_BETWEEN_TWO_SHIFTS.getCodeName(),
                 HardSoftScore.ONE_HARD,
@@ -47,10 +48,11 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                         second.getShift().getStartAt()
                     ).toMinutes();
                     return n * 60 - breakLength;
-                });
+                }
+            );
     }
 
-    public Constraint atMostOneShiftPerDay(ConstraintFactory constraintFactory) {
+    Constraint atMostOneShiftPerDay(ConstraintFactory constraintFactory) {
         // an employee can only work 1 shift per day
 
         return constraintFactory
@@ -66,7 +68,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
             );
     }
 
-    public Constraint evenlyShiftsDistribution(ConstraintFactory constraintFactory) {
+    Constraint evenlyShiftsDistribution(ConstraintFactory constraintFactory) {
         // try to distribute the shifts evenly to employees
 
         return constraintFactory.forEach(ShiftAssignment.class)
@@ -78,7 +80,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
             );
     }
 
-    public Constraint onlyRequiredRole(ConstraintFactory constraintFactory) {
+    Constraint onlyRequiredRole(ConstraintFactory constraintFactory) {
         // a shift can only be assigned to employees with roles it needs
 
         return constraintFactory
