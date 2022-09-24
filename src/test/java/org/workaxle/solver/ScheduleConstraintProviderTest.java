@@ -124,7 +124,7 @@ public class ScheduleConstraintProviderTest {
         ShiftAssignment sa2 = new ShiftAssignment(String.valueOf(j++), "Design", s1, e2);
         ShiftAssignment sa3 = new ShiftAssignment(String.valueOf(j++), "Design", s2, e3);
         ShiftAssignment sa4 = new ShiftAssignment(String.valueOf(j++), "Dev", s2, e3);
-        int penalty = 2 * 2 + 1 * 1 + 1 * 1;
+        int penalty = 2 * 2 + 1 + 1;
         constraintVerifier
             .verifyThat(ScheduleConstraintProvider::evenlyShiftsDistribution)
             .given(
