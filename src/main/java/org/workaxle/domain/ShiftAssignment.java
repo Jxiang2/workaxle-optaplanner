@@ -4,10 +4,13 @@ import lombok.Data;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
+import org.workaxle.constants.Conflict;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @Data
 @PlanningEntity
@@ -23,9 +26,9 @@ public class ShiftAssignment {
 
     private Shift shift;
 
-    private Map<String, Boolean> conflicts = new HashMap<>() {{
-        put("hourlyGap", false);
-        put("dailyGap", false);
+    private Map<String, Set<String>> conflicts = new HashMap<>() {{
+        put(Conflict.AT_LEAST_N_HOURS_BETWEEN_TWO_SHIFTS.getName(), new HashSet<>());
+        put(Conflict.AT_MOST_ONE_SHIFT_PER_DAY.getName(), new HashSet<>());
     }};
 
     public ShiftAssignment(String id, String role, Shift shift) {
@@ -49,19 +52,20 @@ public class ShiftAssignment {
         return employee != null
             ?
             "ShiftAssignment{" +
-                "shiftId='" + shift.getId() + '\'' +
-                ", conflicts=" + getConflicts() +
+                "id=" + getId() + '\'' +
+                ", shiftId=" + shift.getId() + '\'' +
                 ", employeeId=" + employee.getId() +
                 ", employeeRoles=" + employee.getRoleSet() +
-                ", roleRequired='" + role + '\'' +
+                ", roleRequired=" + role + '\'' +
                 ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() + "~" + shift.getEndAt().toLocalTime() +
+                ", conflicts=" + getConflicts().toString() + '\'' +
                 '}'
             :
             "ShiftAssignment{" +
                 "id=" + getId() + ", " +
-                "shiftID='" + shift.getId() + '\'' +
+                "shiftID=" + shift.getId() + '\'' +
                 ", null" +
-                ", roleRequired='" + role + '\'' +
+                ", roleRequired=" + role + '\'' +
                 ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() + "~" + shift.getEndAt().toLocalTime() +
                 '}';
     }

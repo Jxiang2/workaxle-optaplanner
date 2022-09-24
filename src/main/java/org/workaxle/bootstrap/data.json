@@ -82,7 +82,7 @@
       "startAt": "20:00",
       "endAt": "23:00",
       "requiredRoles": {
-        "Dev": 1,
+        "Dev": 2,
         "Design": 1
       }
     }

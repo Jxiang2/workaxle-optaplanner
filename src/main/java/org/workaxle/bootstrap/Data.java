@@ -25,25 +25,24 @@ public class Data {
     public static Schedule generateData() throws IOException, ParseException {
         final JSONParser parser = new JSONParser();
         final FileReader fileReader = new FileReader("src/main/java/org/workaxle/bootstrap/data.json");
-        JSONObject jsonInput = (JSONObject) parser.parse(fileReader);
+        final JSONObject jsonInput = (JSONObject) parser.parse(fileReader);
 
-        List<Employee> employeeList = generateValidEmployees(jsonInput);
-        List<Shift> shiftList = generateShifts(jsonInput);
-        List<ShiftAssignment> shiftAssignmentList = generateShiftAssignments(shiftList);
+        final List<Employee> employeeList = generateValidEmployees(jsonInput);
+        final List<ShiftAssignment> shiftAssignmentList = generateShiftAssignments(generateShifts(jsonInput));
 
         return new Schedule(employeeList, shiftAssignmentList);
     }
 
     private static List<Employee> generateValidEmployees(JSONObject jsonInput) throws JsonProcessingException {
-        List<Employee> employeesInput = new ArrayList<>();
+        final List<Employee> employeesInput = new ArrayList<>();
 
         for (Object o : (JSONArray) jsonInput.get("employees")) {
-            JSONObject employeeJson = (JSONObject) o;
-            JSONArray rolesJson = (JSONArray) employeeJson.get("roles");
+            final JSONObject employeeJson = (JSONObject) o;
+            final JSONArray rolesJson = (JSONArray) employeeJson.get("roles");
 
-            Set<String> roleSet = new HashSet<>();
+            final Set<String> roleSet = new HashSet<>();
             rolesJson.forEach(role -> roleSet.add(role.toString()));
-            Employee employee = new Employee(
+            final Employee employee = new Employee(
                 (Long) employeeJson.get("id"),
                 (String) employeeJson.get("name"),
                 roleSet
@@ -51,17 +50,17 @@ public class Data {
             employeesInput.add(employee);
         }
 
-        ArrayList allRoleList =
+        final ArrayList allRoleList =
             new ObjectMapper().readValue(jsonInput.get("allRequiredRoles").toString(), ArrayList.class);
-        ArrayList<Employee> validatedEmployeesInput = new ArrayList<>();
+        final ArrayList<Employee> validatedEmployeesInput = new ArrayList<>();
 
         int employeesInputSize = employeesInput.size();
         while (employeesInputSize > 0) {
             int employeeIndex = employeesInputSize - 1;
-            Employee currentEmployee = employeesInput.get(employeeIndex);
+            final Employee currentEmployee = employeesInput.get(employeeIndex);
 
-            Set<String> employeeRoleSet = currentEmployee.getRoleSet();
-            Set<String> validatedEmployeeRoleSet = new HashSet<>();
+            final Set<String> employeeRoleSet = currentEmployee.getRoleSet();
+            final Set<String> validatedEmployeeRoleSet = new HashSet<>();
             boolean contains = false;
             for (String employeeRole : employeeRoleSet) {
                 if (allRoleList.contains(employeeRole)) {
@@ -79,61 +78,13 @@ public class Data {
         return validatedEmployeesInput;
     }
 
-    private static List<Shift> generateShifts(JSONObject jsonInput) throws JsonProcessingException {
-        LocalDate startDate = LocalDate.parse((String) jsonInput.get("startDate"));
-        LocalDate endDate = LocalDate.parse((String) jsonInput.get("endDate"));
-
-        List<Shift> shiftsInput = new ArrayList<>();
-        for (Object o : (JSONArray) jsonInput.get("shifts")) {
-            LocalDate currentDate = startDate;
-            while (currentDate.isBefore(endDate.plusDays(1))) {
-                JSONObject shiftJson = (JSONObject) o;
-                JSONObject requiredRolesJson = (JSONObject) shiftJson.get("requiredRoles");
-
-                HashMap requiredRoles = new ObjectMapper()
-                    .readValue(requiredRolesJson.toJSONString(), HashMap.class);
-
-                LocalDateTime currentStartDatetime = LocalDateTime.of(
-                    currentDate,
-                    LocalTime.parse((String) shiftJson.get("startAt"))
-                );
-
-                LocalDateTime currentEndDatetime = LocalDateTime.of(
-                    currentDate,
-                    LocalTime.parse((String) shiftJson.get("endAt"))
-                );
-
-                Shift shift = new Shift(
-                    (Long) shiftJson.get("id"),
-                    (String) shiftJson.get("name"),
-                    currentStartDatetime,
-                    currentEndDatetime,
-                    requiredRoles
-                );
-                shiftsInput.add(shift);
-
-                currentDate = currentDate.plusDays(1);
-            }
-        }
-
-        return shiftsInput
-            .stream()
-            .sorted(Comparator.comparing(shift ->
-                shift.getStartAt().plusMinutes(
-                    Duration.between(shift.getEndAt(), shift.getStartAt()).toMinutes() / 2
-                )
-            ))
-            .collect(Collectors.toList())
-            ;
-    }
-
     private static List<ShiftAssignment> generateShiftAssignments(List<Shift> shifts) {
-        List<ShiftAssignment> shiftAssignments = new ArrayList<>();
+        final List<ShiftAssignment> shiftAssignments = new ArrayList<>();
         long j = 1;
         for (Shift shift : shifts) {
-            Map<String, Integer> requiredRoles = shift.getRequiredRoles();
+            final Map<String, Integer> requiredRoles = shift.getRequiredRoles();
             for (String role : requiredRoles.keySet()) {
-                int number = requiredRoles.get(role);
+                final int number = requiredRoles.get(role);
                 for (int n = 0; n < number; n++) {
                     shiftAssignments.add(new ShiftAssignment(String.valueOf(j++), role, shift));
                 }
@@ -153,10 +104,52 @@ public class Data {
             ;
     }
 
+    private static List<Shift> generateShifts(JSONObject jsonInput) throws JsonProcessingException {
+        final LocalDate startDate = LocalDate.parse((String) jsonInput.get("startDate"));
+        final LocalDate endDate = LocalDate.parse((String) jsonInput.get("endDate"));
+
+        final List<Shift> shiftsInput = new ArrayList<>();
+        for (Object o : (JSONArray) jsonInput.get("shifts")) {
+            LocalDate currentDate = startDate;
+            while (currentDate.isBefore(endDate.plusDays(1))) {
+                final JSONObject shiftJson = (JSONObject) o;
+                final JSONObject requiredRolesJson = (JSONObject) shiftJson.get("requiredRoles");
+
+                shiftsInput.add(
+                    new Shift(
+                        (Long) shiftJson.get("id"),
+                        (String) shiftJson.get("name"),
+                        LocalDateTime.of(
+                            currentDate,
+                            LocalTime.parse((String) shiftJson.get("startAt"))
+                        ),
+                        LocalDateTime.of(
+                            currentDate,
+                            LocalTime.parse((String) shiftJson.get("endAt"))
+                        ),
+                        new ObjectMapper().readValue(requiredRolesJson.toJSONString(), HashMap.class)
+                    )
+                );
+
+                currentDate = currentDate.plusDays(1);
+            }
+        }
+
+        return shiftsInput
+            .stream()
+            .sorted(Comparator.comparing(shift ->
+                shift.getStartAt().plusMinutes(
+                    Duration.between(shift.getEndAt(), shift.getStartAt()).toMinutes() / 2
+                )
+            ))
+            .collect(Collectors.toList())
+            ;
+    }
+
     public static LocalDate[] generateStartEndDates() throws IOException, ParseException {
         final JSONParser parser = new JSONParser();
         final FileReader fileReader = new FileReader("src/main/java/org/workaxle/bootstrap/data.json");
-        JSONObject jsonInput = (JSONObject) parser.parse(fileReader);
+        final JSONObject jsonInput = (JSONObject) parser.parse(fileReader);
 
         return new LocalDate[]{
             LocalDate.parse((String) jsonInput.get("startDate")),

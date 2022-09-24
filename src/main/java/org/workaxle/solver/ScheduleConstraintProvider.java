@@ -40,7 +40,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                 ).toHours() < n
             )
             .penalize(
-                Conflict.AT_LEAST_N_HOURS_BETWEEN_TWO_SHIFTS.getCodeName(),
+                Conflict.AT_LEAST_N_HOURS_BETWEEN_TWO_SHIFTS.getName(),
                 HardSoftScore.ONE_HARD,
                 (first, second) -> {
                     int breakLength = (int) Duration.between(
@@ -62,7 +62,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                 Joiners.equal(ShiftAssignment::getDate)
             )
             .penalize(
-                Conflict.AT_MOST_ONE_SHIFT_PER_DAY.getCodeName(),
+                Conflict.AT_MOST_ONE_SHIFT_PER_DAY.getName(),
                 HardSoftScore.ONE_HARD,
                 (shiftAssignment1, shiftAssignment2) -> n * 60
             );
@@ -74,7 +74,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
         return constraintFactory.forEach(ShiftAssignment.class)
             .groupBy(ShiftAssignment::getEmployee, ConstraintCollectors.count())
             .penalize(
-                Conflict.EVENLY_SHIFT_DISTRIBUTION.getCodeName(),
+                Conflict.EVENLY_SHIFT_DISTRIBUTION.getName(),
                 HardSoftScore.ONE_SOFT,
                 (employee, shifts) -> shifts * shifts
             );
@@ -94,9 +94,9 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                 }
             )
             .penalize(
-                Conflict.ONLY_REQUIRED_ROLES.getCodeName(),
+                Conflict.ONLY_REQUIRED_ROLES.getName(),
                 HardSoftScore.ONE_HARD,
-                (shiftEmployee) -> 12 * 60
+                (shiftEmployee) -> (n * 60) * 10
             );
     }
 
