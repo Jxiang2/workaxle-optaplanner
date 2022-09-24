@@ -57,9 +57,6 @@ public class SolutionHandler {
 
         firstConflictSet.add(second.getId());
         secondConflictSet.add(first.getId());
-
-        first.getConflicts().put(conflictCName, firstConflictSet);
-        second.getConflicts().put(conflictCName, secondConflictSet);
     }
 
     public static void markInvalidByHourlyBetween(
