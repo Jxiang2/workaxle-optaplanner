@@ -1,13 +1,6 @@
 {
   "employees": [
     {
-      "id": 71,
-      "name": "Java Dev",
-      "roles": [
-        "Dev"
-      ]
-    },
-    {
       "id": 74,
       "name": "Database Design",
       "roles": [
@@ -26,6 +19,13 @@
       "name": "Frontend Design",
       "roles": [
         "Design"
+      ]
+    },
+    {
+      "id": 101,
+      "name": "Frontend Dev",
+      "roles": [
+        "Dev"
       ]
     },
     {
@@ -73,7 +73,7 @@
       "startAt": "15:00",
       "endAt": "17:00",
       "requiredRoles": {
-        "Clean": 1
+        "Clean": 2
       }
     },
     {
@@ -82,7 +82,7 @@
       "startAt": "20:00",
       "endAt": "23:00",
       "requiredRoles": {
-        "Dev": 2,
+        "Dev": 1,
         "Design": 1
       }
     }

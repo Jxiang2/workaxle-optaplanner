@@ -49,7 +49,25 @@ public class ShiftAssignment {
 
     @Override
     public String toString() {
-        return employee != null
+        if (employee == null) {
+            return "ShiftAssignment{" +
+                "id=" + getId() + ", " +
+                "shiftID=" + shift.getId() + '\'' +
+                ", null" +
+                ", roleRequired=" + role + '\'' +
+                ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() + "~" + shift.getEndAt().toLocalTime() +
+                '}';
+        }
+
+        boolean empty = true;
+        for (String conflictName : conflicts.keySet()) {
+            if (conflicts.get(conflictName).size() != 0) {
+                empty = false;
+                break;
+            }
+        }
+
+        return empty
             ?
             "ShiftAssignment{" +
                 "id=" + getId() + '\'' +
@@ -58,15 +76,16 @@ public class ShiftAssignment {
                 ", employeeRoles=" + employee.getRoleSet() +
                 ", roleRequired=" + role + '\'' +
                 ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() + "~" + shift.getEndAt().toLocalTime() +
-                ", conflicts=" + getConflicts().toString() + '\'' +
                 '}'
             :
             "ShiftAssignment{" +
-                "id=" + getId() + ", " +
-                "shiftID=" + shift.getId() + '\'' +
-                ", null" +
+                "id=" + getId() + '\'' +
+                ", shiftId=" + shift.getId() + '\'' +
+                ", employeeId=" + employee.getId() +
+                ", employeeRoles=" + employee.getRoleSet() +
                 ", roleRequired=" + role + '\'' +
                 ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() + "~" + shift.getEndAt().toLocalTime() +
+                ", conflicts=" + getConflicts().toString() + '\'' +
                 '}';
     }
 
