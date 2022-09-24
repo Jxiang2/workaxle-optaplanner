@@ -44,7 +44,15 @@
     },
     {
       "id": 12,
-      "name": "Team Leader",
+      "name": "Team Leader 1",
+      "roles": [
+        "Dev",
+        "Design"
+      ]
+    },
+    {
+      "id": 65,
+      "name": "Team Leader 2",
       "roles": [
         "Dev",
         "Design"
@@ -63,8 +71,7 @@
       "startAt": "09:00",
       "endAt": "12:00",
       "requiredRoles": {
-        "Dev": 1,
-        "Design": 1
+        "Design": 2
       }
     },
     {
@@ -73,7 +80,7 @@
       "startAt": "15:00",
       "endAt": "17:00",
       "requiredRoles": {
-        "Clean": 2
+        "Clean": 1
       }
     },
     {
@@ -82,7 +89,7 @@
       "startAt": "20:00",
       "endAt": "23:00",
       "requiredRoles": {
-        "Dev": 1,
+        "Dev": 2,
         "Design": 1
       }
     }
