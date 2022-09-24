@@ -12,9 +12,6 @@ import org.workaxle.util.solution.SolutionPrinter;
 import java.time.Duration;
 
 public class ScheduleApp {
-    // TODO:
-    //  1. make n=12 as an input variable
-    //  3. finish the remaining tests
 
     public static void main(String[] args) throws Exception {
 
