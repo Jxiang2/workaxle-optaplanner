@@ -24,6 +24,7 @@ Schedule shifts for all employees in a specific group in a period of time
 2. shifts: all shifts for scheduling
 3. startDate: start date of the first shift
 4. endDate: end date of the last shift
+5. allRequiredRoles: a set of roles that the shifts to be scheduled require
 
 #### e.g.
 
@@ -89,7 +90,7 @@ Schedule shifts for all employees in a specific group in a period of time
       ]
     }
   ],
-  "roles": [
+  "allRequiredRoles": [
     "Dev",
     "Design",
     "Clean"
