@@ -106,7 +106,8 @@ public class Data {
                     return startAt.plusMinutes(Duration.between(endAt, startAt).toMinutes() / 2);
                 }
             ))
-            .collect(Collectors.toList());
+            .collect(Collectors.toList())
+            ;
     }
 
     private static List<Shift> generateShifts(JSONObject jsonInput) throws JsonProcessingException {
@@ -141,14 +142,7 @@ public class Data {
             }
         }
 
-        return shiftsInput
-            .stream()
-            .sorted(Comparator.comparing(shift ->
-                shift.getStartAt().plusMinutes(
-                    Duration.between(shift.getEndAt(), shift.getStartAt()).toMinutes() / 2
-                )
-            ))
-            .collect(Collectors.toList());
+        return shiftsInput;
     }
 
     public static LocalDate[] generateStartEndDates() throws IOException, ParseException {

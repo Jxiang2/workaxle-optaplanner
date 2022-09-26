@@ -23,8 +23,9 @@ public class BaseConstraintProvider implements org.optaplanner.core.api.score.st
         return new Constraint[]{
             atLeastNHoursBetweenTwoShifts(constraintFactory),
             atMostOneShiftPerDay(constraintFactory),
-            evenlyShiftsDistribution(constraintFactory),
-            onlyRequiredRole(constraintFactory)
+            //            evenlyShiftsDistribution(constraintFactory),
+            onlyRequiredRole(constraintFactory),
+            noOverlappingShifts(constraintFactory),
         };
     }
 
@@ -49,12 +50,12 @@ public class BaseConstraintProvider implements org.optaplanner.core.api.score.st
                 Conflict.AT_LEAST_N_HOURS_BETWEEN_TWO_SHIFTS.getName(),
                 HardSoftScore.ONE_HARD,
                 (first, second) -> {
-                    long breakLength = Duration.between(
+                    long breakLength = Math.abs(Duration.between(
                         first.getShift().getEndAt(),
                         second.getShift().getStartAt()
-                    ).toMinutes();
+                    ).toMinutes());
 
-                    return n - convertMinutesToHours(breakLength);
+                    return Math.abs(n - convertMinutesToHours(breakLength));
                 }
             );
     }
@@ -72,18 +73,6 @@ public class BaseConstraintProvider implements org.optaplanner.core.api.score.st
                 Conflict.AT_MOST_ONE_SHIFT_PER_DAY.getName(),
                 HardSoftScore.ONE_HARD,
                 (shiftAssignment1, shiftAssignment2) -> n
-            );
-    }
-
-    Constraint evenlyShiftsDistribution(ConstraintFactory constraintFactory) {
-        // try to distribute the shifts evenly to employees
-
-        return constraintFactory.forEach(ShiftAssignment.class)
-            .groupBy(ShiftAssignment::getEmployee, ConstraintCollectors.count())
-            .penalize(
-                Conflict.EVENLY_SHIFT_DISTRIBUTION.getName(),
-                HardSoftScore.ONE_SOFT,
-                (employee, shifts) -> shifts * shifts
             );
     }
 
@@ -107,7 +96,6 @@ public class BaseConstraintProvider implements org.optaplanner.core.api.score.st
             );
     }
 
-
     Constraint noOverlappingShifts(ConstraintFactory constraintFactory) {
         // no employee takes 2 or more shifts at the same time
 
@@ -123,6 +111,19 @@ public class BaseConstraintProvider implements org.optaplanner.core.api.score.st
                 Conflict.No_OVERLAPPING_SHIFTS.getName(),
                 HardSoftScore.ONE_HARD,
                 ConstraintProviderUtils::getHourlyOverlap
+            );
+    }
+
+    Constraint evenlyShiftsDistribution(ConstraintFactory constraintFactory) {
+        // try to distribute the shifts evenly to employees
+        // activate only if there are more employees than positions
+
+        return constraintFactory.forEach(ShiftAssignment.class)
+            .groupBy(ShiftAssignment::getEmployee, ConstraintCollectors.count())
+            .penalize(
+                Conflict.EVENLY_SHIFT_DISTRIBUTION.getName(),
+                HardSoftScore.ONE_SOFT,
+                (employee, shifts) -> shifts * shifts
             );
     }
 
