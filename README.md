@@ -1,4 +1,4 @@
-# Shift-rostering
+# Workaxle-optaplanner
 
 ## Task:
 
