@@ -6,10 +6,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.workaxle.domain.Employee;
-import org.workaxle.domain.Schedule;
-import org.workaxle.domain.Shift;
-import org.workaxle.domain.ShiftAssignment;
+import org.workaxle.domain.*;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -27,12 +24,19 @@ public class Data {
         );
         final JSONObject jsonInput = (JSONObject) parser.parse(fileReader);
 
+        final Settings settings = generateSettings(jsonInput);
         final List<Employee> employeeList = generateValidEmployees(jsonInput);
         final List<ShiftAssignment> shiftAssignmentList = generateShiftAssignments(
             generateShifts(jsonInput)
         );
 
-        return new Schedule(employeeList, shiftAssignmentList);
+        return new Schedule(settings, employeeList, shiftAssignmentList);
+    }
+
+    private static Settings generateSettings(JSONObject jsonInput) throws JsonProcessingException {
+        JSONObject settingsJson = (JSONObject) jsonInput.get("settings");
+        return new ObjectMapper()
+            .readValue(settingsJson.toJSONString(), Settings.class);
     }
 
     private static List<Employee> generateValidEmployees(
