@@ -32,58 +32,58 @@ Schedule shifts for all employees in a specific group in a period of time
 {
   "employees": [
     {
-      "id": 1,
-      "name": "user 1",
-      "roles": [
-        "Dev"
-      ]
-    },
-    {
-      "id": 2,
-      "name": "user 2",
-      "roles": [
-        "Dev"
-      ]
-    },
-    {
-      "id": 3,
-      "name": "user 3",
-      "roles": [
-        "Clean"
-      ]
-    },
-    {
-      "id": 4,
-      "name": "user 4",
-      "roles": [
-        "Clean"
-      ]
-    },
-    {
-      "id": 5,
-      "name": "user 5",
+      "id": 74,
+      "name": "Database Design",
       "roles": [
         "Design"
       ]
     },
     {
-      "id": 6,
-      "name": "user 6",
+      "id": 31,
+      "name": "JS Dev",
+      "roles": [
+        "Dev"
+      ]
+    },
+    {
+      "id": 90,
+      "name": "Frontend Design",
       "roles": [
         "Design"
       ]
     },
     {
-      "id": 7,
-      "name": "user 7",
+      "id": 101,
+      "name": "Frontend Dev",
+      "roles": [
+        "Dev"
+      ]
+    },
+    {
+      "id": 43,
+      "name": "First Cleaner",
+      "roles": [
+        "Clean"
+      ]
+    },
+    {
+      "id": 84,
+      "name": "Second Cleaner",
+      "roles": [
+        "Clean"
+      ]
+    },
+    {
+      "id": 12,
+      "name": "Team Leader 1",
       "roles": [
         "Dev",
         "Design"
       ]
     },
     {
-      "id": 8,
-      "name": "user 8",
+      "id": 65,
+      "name": "Team Leader 2",
       "roles": [
         "Dev",
         "Design"
@@ -97,16 +97,16 @@ Schedule shifts for all employees in a specific group in a period of time
   ],
   "shifts": [
     {
-      "id": 1,
-      "name": "develop new features",
+      "id": 108,
+      "name": "design new features",
       "startAt": "09:00",
       "endAt": "12:00",
       "requiredRoles": {
-        "Dev": 2
+        "Design": 2
       }
     },
     {
-      "id": 2,
+      "id": 73,
       "name": "clean up",
       "startAt": "15:00",
       "endAt": "17:00",
@@ -115,23 +115,24 @@ Schedule shifts for all employees in a specific group in a period of time
       }
     },
     {
-      "id": 3,
+      "id": 90,
       "name": "develop new features",
       "startAt": "20:00",
       "endAt": "23:00",
       "requiredRoles": {
-        "Design": 2
+        "Dev": 2,
+        "Design": 1
       }
     }
   ],
   "startDate": "2022-11-21",
-  "endDate": "2022-11-26"
+  "endDate": "2022-11-25"
 }
 ```
 
 ### Output:
 
-A list containning all the scheduled shift assignments
+A list containing all the scheduled shift assignments
 
 ```text
 List<ShiftAssignment> shiftAssignments;
@@ -139,5 +140,40 @@ List<ShiftAssignment> shiftAssignments;
 
 #### e.g.
 
-<img width="1336" alt="Screen Shot 2022-09-19 at 9 39 53 PM" src="https://user-images.githubusercontent.com/46456200/191148679-840716ce-26e1-4ac4-a57d-684a002fa763.png">
-
+```json
+[
+  {
+    "id": 1,
+    "role": "Dev",
+    "shift": {
+      "shiftId": 108,
+      "name": "develop new feature",
+      "startAt": "09:00",
+      "endAt": "12:00",
+      "requiredRoles": {
+        "Dev": 2,
+        "Design": 1
+      }
+    },
+    "employee": {
+      "employeeId": 65,
+      "name": "employee 1",
+      "roles": [
+        "Dev",
+        "Design"
+      ]
+    },
+    "conflicts": {
+      "atLeastNHoursBetweenTwoShifts": [
+        2,
+        7
+      ],
+      "atMostOneShiftPerDay": [
+        7
+      ],
+      "onlyRequiredRole": []
+    }
+  },
+  "..."
+]
+```

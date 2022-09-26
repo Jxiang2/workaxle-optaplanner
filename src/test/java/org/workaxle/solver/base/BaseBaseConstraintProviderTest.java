@@ -1,4 +1,4 @@
-package org.workaxle.solver;
+package org.workaxle.solver.base;
 
 import org.junit.jupiter.api.Test;
 import org.optaplanner.test.api.score.stream.ConstraintVerifier;
@@ -12,10 +12,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class ScheduleConstraintProviderTest {
+public class BaseBaseConstraintProviderTest {
 
-    ConstraintVerifier<ScheduleConstraintProvider, Schedule> constraintVerifier = ConstraintVerifier.build(
-        new ScheduleConstraintProvider(), Schedule.class, ShiftAssignment.class
+    ConstraintVerifier<BaseConstraintProvider, Schedule> constraintVerifier = ConstraintVerifier.build(
+        new BaseConstraintProvider(), Schedule.class, ShiftAssignment.class
     );
 
     @Test
@@ -46,9 +46,9 @@ public class ScheduleConstraintProviderTest {
         ShiftAssignment sa1 = new ShiftAssignment(String.valueOf(j++), "Dev", s1, e1);
         ShiftAssignment sa2 = new ShiftAssignment(String.valueOf(j++), "Design", s1, e1);
         constraintVerifier
-            .verifyThat(ScheduleConstraintProvider::atMostOneShiftPerDay)
+            .verifyThat(BaseConstraintProvider::atMostOneShiftPerDay)
             .given(sa1, sa2)
-            .penalizesBy(12 * 60);
+            .penalizesBy(12);
     }
 
     @Test
@@ -83,14 +83,14 @@ public class ScheduleConstraintProviderTest {
         ShiftAssignment sa3 = new ShiftAssignment(String.valueOf(j++), "Dev", s2, e3);
         ShiftAssignment sa4 = new ShiftAssignment(String.valueOf(j++), "Design", s2, e2);
         constraintVerifier
-            .verifyThat(ScheduleConstraintProvider::atLeastNHoursBetweenTwoShifts)
+            .verifyThat(BaseConstraintProvider::atLeastNHoursBetweenTwoShifts)
             .given(
                 sa1,
                 sa2,
                 sa3,
                 sa4
             )
-            .penalizesBy(2 * 60);
+            .penalizesBy(2);
     }
 
     @Test
@@ -125,7 +125,7 @@ public class ScheduleConstraintProviderTest {
         ShiftAssignment sa4 = new ShiftAssignment(String.valueOf(j++), "Dev", s2, e3);
         int penalty = 2 * 2 + 1 + 1;
         constraintVerifier
-            .verifyThat(ScheduleConstraintProvider::evenlyShiftsDistribution)
+            .verifyThat(BaseConstraintProvider::evenlyShiftsDistribution)
             .given(
                 sa1,
                 sa2,
@@ -162,12 +162,12 @@ public class ScheduleConstraintProviderTest {
         ShiftAssignment sa1 = new ShiftAssignment(String.valueOf(j++), "Dev", s1, e1);
         ShiftAssignment sa2 = new ShiftAssignment(String.valueOf(j++), "Design", s2, e1);
         constraintVerifier
-            .verifyThat(ScheduleConstraintProvider::noOverlappingShifts)
+            .verifyThat(BaseConstraintProvider::noOverlappingShifts)
             .given(
                 sa1,
                 sa2
             )
-            .penalizesBy(2 * 60);
+            .penalizesBy(2);
     }
 
     @Test
@@ -185,11 +185,11 @@ public class ScheduleConstraintProviderTest {
         Employee e1 = new Employee(1L, "user 1", new HashSet<>(Arrays.asList("Security", "Clean")));
         ShiftAssignment sa1 = new ShiftAssignment(String.valueOf(1), "Dev", s1, e1);
         constraintVerifier
-            .verifyThat(ScheduleConstraintProvider::onlyRequiredRole)
+            .verifyThat(BaseConstraintProvider::onlyRequiredRole)
             .given(
                 sa1
             )
-            .penalizesBy(12 * 60 * 10);
+            .penalizesBy(12 * 10);
     }
 
 }

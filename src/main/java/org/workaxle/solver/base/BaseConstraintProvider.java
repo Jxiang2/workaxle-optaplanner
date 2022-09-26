@@ -1,15 +1,20 @@
-package org.workaxle.solver;
+package org.workaxle.solver.base;
 
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
-import org.optaplanner.core.api.score.stream.*;
+import org.optaplanner.core.api.score.stream.Constraint;
+import org.optaplanner.core.api.score.stream.ConstraintCollectors;
+import org.optaplanner.core.api.score.stream.ConstraintFactory;
+import org.optaplanner.core.api.score.stream.Joiners;
 import org.workaxle.constants.Conflict;
 import org.workaxle.domain.ShiftAssignment;
+import org.workaxle.solver.ConstraintProviderUtils;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Set;
 
-public class ScheduleConstraintProvider implements ConstraintProvider {
+import static org.workaxle.solver.ConstraintProviderUtils.convertMinutesToHours;
+
+public class BaseConstraintProvider implements org.optaplanner.core.api.score.stream.ConstraintProvider {
 
     int n = 12;
 
@@ -44,11 +49,12 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                 Conflict.AT_LEAST_N_HOURS_BETWEEN_TWO_SHIFTS.getName(),
                 HardSoftScore.ONE_HARD,
                 (first, second) -> {
-                    int breakLength = (int) Duration.between(
+                    long breakLength = Duration.between(
                         first.getShift().getEndAt(),
                         second.getShift().getStartAt()
                     ).toMinutes();
-                    return n * 60 - breakLength;
+
+                    return n - convertMinutesToHours(breakLength);
                 }
             );
     }
@@ -65,7 +71,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
             .penalize(
                 Conflict.AT_MOST_ONE_SHIFT_PER_DAY.getName(),
                 HardSoftScore.ONE_HARD,
-                (shiftAssignment1, shiftAssignment2) -> n * 60
+                (shiftAssignment1, shiftAssignment2) -> n
             );
     }
 
@@ -97,9 +103,10 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
             .penalize(
                 Conflict.ONLY_REQUIRED_ROLES.getName(),
                 HardSoftScore.ONE_HARD,
-                (shiftEmployee) -> (n * 60) * 10
+                (shiftEmployee) -> n * 10
             );
     }
+
 
     Constraint noOverlappingShifts(ConstraintFactory constraintFactory) {
         // no employee takes 2 or more shifts at the same time
@@ -115,24 +122,8 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
             .penalize(
                 Conflict.No_OVERLAPPING_SHIFTS.getName(),
                 HardSoftScore.ONE_HARD,
-                ScheduleConstraintProvider::getMinuteOverlap
+                ConstraintProviderUtils::getHourlyOverlap
             );
-    }
-
-    private static int getMinuteOverlap(ShiftAssignment first, ShiftAssignment second) {
-        // The overlap of two timeslot occurs in the range common to both timeslots.
-        // Both timeslots are active after the higher of their two start times,
-        // and before the lower of their two end times.
-
-        LocalDateTime shift1Start = first.getShift().getStartAt();
-        LocalDateTime shift1End = first.getShift().getEndAt();
-        LocalDateTime shift2Start = second.getShift().getStartAt();
-        LocalDateTime shift2End = second.getShift().getEndAt();
-
-        return (int) Duration.between(
-            (shift1Start.compareTo(shift2Start) > 0) ? shift1Start : shift2Start,
-            (shift1End.compareTo(shift2End) < 0) ? shift1End : shift2End
-        ).toMinutes();
     }
 
 }

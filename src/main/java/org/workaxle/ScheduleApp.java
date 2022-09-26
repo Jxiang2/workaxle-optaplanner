@@ -6,7 +6,7 @@ import org.optaplanner.core.config.solver.SolverConfig;
 import org.workaxle.bootstrap.Data;
 import org.workaxle.domain.Schedule;
 import org.workaxle.domain.ShiftAssignment;
-import org.workaxle.solver.ScheduleConstraintProvider;
+import org.workaxle.solver.base.BaseConstraintProvider;
 import org.workaxle.util.solution.SolutionPrinter;
 
 import java.time.Duration;
@@ -21,7 +21,7 @@ public class ScheduleApp {
         solverConfig
             .withSolutionClass(Schedule.class)
             .withEntityClasses(ShiftAssignment.class)
-            .withConstraintProviderClass(ScheduleConstraintProvider.class)
+            .withConstraintProviderClass(BaseConstraintProvider.class)
             .withTerminationSpentLimit(Duration.ofSeconds(5));
 
         SolverFactory<Schedule> scheduleSolverFactory = SolverFactory.create(solverConfig);
