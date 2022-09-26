@@ -39,14 +39,14 @@ Schedule shifts for all employees in a specific group in a period of time
       ]
     },
     {
-      "id": 31,
-      "name": "JS Dev",
+      "id": 88,
+      "name": "Java Dev",
       "roles": [
         "Dev"
       ]
     },
     {
-      "id": 90,
+      "id": 99,
       "name": "Frontend Design",
       "roles": [
         "Design"
@@ -70,11 +70,12 @@ Schedule shifts for all employees in a specific group in a period of time
       "id": 84,
       "name": "Second Cleaner",
       "roles": [
-        "Clean"
+        "Clean",
+        "Security"
       ]
     },
     {
-      "id": 12,
+      "id": 59,
       "name": "Team Leader 1",
       "roles": [
         "Dev",
@@ -102,7 +103,8 @@ Schedule shifts for all employees in a specific group in a period of time
       "startAt": "09:00",
       "endAt": "12:00",
       "requiredRoles": {
-        "Design": 2
+        "Design": 2,
+        "Dev": 1
       }
     },
     {
@@ -126,7 +128,10 @@ Schedule shifts for all employees in a specific group in a period of time
     }
   ],
   "startDate": "2022-11-21",
-  "endDate": "2022-11-25"
+  "endDate": "2022-11-25",
+  "settings": {
+    "hoursBetweenShifts": 12
+  }
 }
 ```
 
