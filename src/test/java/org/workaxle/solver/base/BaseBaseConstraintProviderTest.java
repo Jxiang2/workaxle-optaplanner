@@ -48,7 +48,7 @@ public class BaseBaseConstraintProviderTest {
         constraintVerifier
             .verifyThat(BaseConstraintProvider::atMostOneShiftPerDay)
             .given(sa1, sa2)
-            .penalizesBy(12);
+            .penalizesBy(24);
     }
 
     @Test
@@ -90,7 +90,7 @@ public class BaseBaseConstraintProviderTest {
                 sa3,
                 sa4
             )
-            .penalizesBy(2);
+            .penalizesBy(0);
     }
 
     @Test
@@ -189,7 +189,7 @@ public class BaseBaseConstraintProviderTest {
             .given(
                 sa1
             )
-            .penalizesBy(12 * 10);
+            .penalizesBy(100);
     }
 
 }

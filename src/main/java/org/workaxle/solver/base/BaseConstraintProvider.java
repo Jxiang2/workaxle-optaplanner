@@ -27,7 +27,7 @@ public class BaseConstraintProvider implements ConstraintProvider {
     }
 
     Constraint atLeastNHoursBetweenTwoShifts(ConstraintFactory constraintFactory) {
-        // any employee can only work 1 shift in 12 hours
+        // any employee can only work 1 shift in N hours
 
         return constraintFactory
             .forEachUniquePair(
