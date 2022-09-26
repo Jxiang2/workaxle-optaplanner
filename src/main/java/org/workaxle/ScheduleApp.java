@@ -2,6 +2,7 @@ package org.workaxle;
 
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
+import org.optaplanner.core.config.solver.EnvironmentMode;
 import org.optaplanner.core.config.solver.SolverConfig;
 import org.workaxle.bootstrap.Data;
 import org.workaxle.domain.Schedule;
@@ -22,6 +23,7 @@ public class ScheduleApp {
             .withSolutionClass(Schedule.class)
             .withEntityClasses(ShiftAssignment.class)
             .withConstraintProviderClass(BaseConstraintProvider.class)
+            .withEnvironmentMode(EnvironmentMode.REPRODUCIBLE)
             .withTerminationSpentLimit(Duration.ofSeconds(5));
 
         SolverFactory<Schedule> scheduleSolverFactory = SolverFactory.create(solverConfig);
