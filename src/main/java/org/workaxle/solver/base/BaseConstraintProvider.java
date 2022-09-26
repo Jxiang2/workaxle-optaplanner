@@ -1,20 +1,18 @@
 package org.workaxle.solver.base;
 
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
-import org.optaplanner.core.api.score.stream.Constraint;
-import org.optaplanner.core.api.score.stream.ConstraintCollectors;
-import org.optaplanner.core.api.score.stream.ConstraintFactory;
-import org.optaplanner.core.api.score.stream.Joiners;
+import org.optaplanner.core.api.score.stream.*;
 import org.workaxle.constants.Conflict;
 import org.workaxle.domain.ShiftAssignment;
 import org.workaxle.solver.ConstraintProviderUtils;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import static org.workaxle.solver.ConstraintProviderUtils.convertMinutesToHours;
 
-public class BaseConstraintProvider implements org.optaplanner.core.api.score.stream.ConstraintProvider {
+public class BaseConstraintProvider implements ConstraintProvider {
 
     int n = 12;
 
@@ -23,7 +21,7 @@ public class BaseConstraintProvider implements org.optaplanner.core.api.score.st
         return new Constraint[]{
             atLeastNHoursBetweenTwoShifts(constraintFactory),
             atMostOneShiftPerDay(constraintFactory),
-            //            evenlyShiftsDistribution(constraintFactory),
+            evenlyShiftsDistribution(constraintFactory),
             onlyRequiredRole(constraintFactory),
             noOverlappingShifts(constraintFactory),
         };
@@ -35,22 +33,23 @@ public class BaseConstraintProvider implements org.optaplanner.core.api.score.st
         return constraintFactory
             .forEachUniquePair(
                 ShiftAssignment.class,
-                Joiners.equal(ShiftAssignment::getEmployee),
-                Joiners.lessThanOrEqual(
-                    (shiftAssignment1) -> shiftAssignment1.getShift().getEndAt(),
-                    (shiftAssignment2) -> shiftAssignment2.getShift().getStartAt()
-                )
+                Joiners.equal(ShiftAssignment::getEmployee)
             )
-            .filter((firstShift, secondShift) -> Duration.between(
-                    firstShift.getShift().getEndAt(),
-                    secondShift.getShift().getStartAt()
-                ).toHours() < n
+            .filter((firstShift, secondShift) -> {
+                    final LocalDateTime firstStartAt = firstShift.getShift().getStartAt();
+                    final LocalDateTime firstEndAt = firstShift.getShift().getEndAt();
+                    final LocalDateTime secondStartAt = secondShift.getShift().getStartAt();
+                    final LocalDateTime secondEndAt = secondShift.getShift().getEndAt();
+
+                    return Math.abs(Duration.between(firstEndAt, secondStartAt).toHours()) < n
+                        || Math.abs(Duration.between(secondEndAt, firstStartAt).toHours()) < n;
+                }
             )
             .penalize(
                 Conflict.AT_LEAST_N_HOURS_BETWEEN_TWO_SHIFTS.getName(),
                 HardSoftScore.ONE_HARD,
                 (first, second) -> {
-                    long breakLength = Math.abs(Duration.between(
+                    final long breakLength = Math.abs(Duration.between(
                         first.getShift().getEndAt(),
                         second.getShift().getStartAt()
                     ).toMinutes());
@@ -76,6 +75,19 @@ public class BaseConstraintProvider implements org.optaplanner.core.api.score.st
             );
     }
 
+    Constraint evenlyShiftsDistribution(ConstraintFactory constraintFactory) {
+        // try to distribute the shifts evenly to employees
+        // activate only if there are more employees than positions
+
+        return constraintFactory.forEach(ShiftAssignment.class)
+            .groupBy(ShiftAssignment::getEmployee, ConstraintCollectors.count())
+            .penalize(
+                Conflict.EVENLY_SHIFT_DISTRIBUTION.getName(),
+                HardSoftScore.ONE_SOFT,
+                (employee, shifts) -> shifts * shifts
+            );
+    }
+
     Constraint onlyRequiredRole(ConstraintFactory constraintFactory) {
         // a shift can only be assigned to employees with roles it needs
 
@@ -83,8 +95,8 @@ public class BaseConstraintProvider implements org.optaplanner.core.api.score.st
             .forEach(ShiftAssignment.class)
             .filter(
                 shiftAssignment -> {
-                    String requiredRole = shiftAssignment.getRole();
-                    Set<String> providedRoles = shiftAssignment.getEmployee().getRoleSet();
+                    final String requiredRole = shiftAssignment.getRole();
+                    final Set<String> providedRoles = shiftAssignment.getEmployee().getRoleSet();
 
                     return !providedRoles.contains(requiredRole);
                 }
@@ -111,19 +123,6 @@ public class BaseConstraintProvider implements org.optaplanner.core.api.score.st
                 Conflict.No_OVERLAPPING_SHIFTS.getName(),
                 HardSoftScore.ONE_HARD,
                 ConstraintProviderUtils::getHourlyOverlap
-            );
-    }
-
-    Constraint evenlyShiftsDistribution(ConstraintFactory constraintFactory) {
-        // try to distribute the shifts evenly to employees
-        // activate only if there are more employees than positions
-
-        return constraintFactory.forEach(ShiftAssignment.class)
-            .groupBy(ShiftAssignment::getEmployee, ConstraintCollectors.count())
-            .penalize(
-                Conflict.EVENLY_SHIFT_DISTRIBUTION.getName(),
-                HardSoftScore.ONE_SOFT,
-                (employee, shifts) -> shifts * shifts
             );
     }
 

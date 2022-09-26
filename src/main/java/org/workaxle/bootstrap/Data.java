@@ -13,12 +13,10 @@ import org.workaxle.domain.ShiftAssignment;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Data {
 
@@ -97,17 +95,7 @@ public class Data {
             }
         }
 
-        return shiftAssignments
-            .stream()
-            .sorted(Comparator.comparing(
-                sa -> {
-                    final LocalDateTime startAt = sa.getShift().getStartAt();
-                    final LocalDateTime endAt = sa.getShift().getEndAt();
-                    return startAt.plusMinutes(Duration.between(endAt, startAt).toMinutes() / 2);
-                }
-            ))
-            .collect(Collectors.toList())
-            ;
+        return shiftAssignments;
     }
 
     private static List<Shift> generateShifts(JSONObject jsonInput) throws JsonProcessingException {
