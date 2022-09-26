@@ -128,7 +128,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
         LocalDateTime shift1End = first.getShift().getEndAt();
         LocalDateTime shift2Start = second.getShift().getStartAt();
         LocalDateTime shift2End = second.getShift().getEndAt();
-        
+
         return (int) Duration.between(
             (shift1Start.compareTo(shift2Start) > 0) ? shift1Start : shift2Start,
             (shift1End.compareTo(shift2End) < 0) ? shift1End : shift2End
