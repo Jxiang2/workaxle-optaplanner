@@ -5,7 +5,6 @@ import org.workaxle.constants.Conflict;
 import org.workaxle.domain.ShiftAssignment;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -22,49 +21,25 @@ public class SolutionHandler {
         this.shiftAssignmentList = shiftAssignmentList;
     }
 
-    // Todo: refactor using set to reduce runtime complexity to O(n)
-    public SolutionHandler markInvalidDueToByDailyBetween(
-        LocalDate shiftsStartDay,
-        LocalDate shiftsEndDay
-    ) {
+    public SolutionHandler markInvalidDueToByDailyBetween() {
         if (score.getHardScore() < 0) {
-            while (shiftsStartDay.isBefore(shiftsEndDay.plusDays(1))) {
-                final LocalDate shiftsStartDayCopy = shiftsStartDay;
-                final List<ShiftAssignment> currentDateShiftAssignments = shiftAssignmentList
-                    .stream()
-                    .filter(shiftAssignment -> shiftAssignment.getDate().equals(shiftsStartDayCopy))
-                    .collect(Collectors.toList());
+            for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
+                final Set<String> conflictSet =
+                    shiftAssignment.getConflicts().get(Conflict.AT_MOST_ONE_SHIFT_PER_DAY);
 
-                for (ShiftAssignment first : currentDateShiftAssignments) {
-                    for (ShiftAssignment second : currentDateShiftAssignments) {
-                        if (!first.equals(second) &&
-                            first.getEmployee().equals(second.getEmployee())
-                        ) {
-                            addConflictToMutualConflictSets(
-                                first,
-                                second,
-                                Conflict.AT_MOST_ONE_SHIFT_PER_DAY.getName()
-                            );
-                        }
-                    }
-                }
-
-                shiftsStartDay = shiftsStartDay.plusDays(1);
+                conflictSet.addAll(
+                    shiftAssignmentList
+                        .stream()
+                        .filter(other -> !shiftAssignment.equals(other)
+                            && shiftAssignment.getEmployee().equals(other.getEmployee())
+                            && shiftAssignment.getDate().equals(other.getDate())
+                        )
+                        .map(other -> other.getId())
+                        .collect(Collectors.toSet())
+                );
             }
         }
         return this;
-    }
-
-    private void addConflictToMutualConflictSets(
-        ShiftAssignment first,
-        ShiftAssignment second,
-        String conflictCName
-    ) {
-        final Set<String> firstConflictSet = first.getConflicts().get(conflictCName);
-        final Set<String> secondConflictSet = second.getConflicts().get(conflictCName);
-
-        firstConflictSet.add(second.getId());
-        secondConflictSet.add(first.getId());
     }
 
     public SolutionHandler markInvalidDueToRequiredRole() {
@@ -82,25 +57,25 @@ public class SolutionHandler {
         return this;
     }
 
-    // Todo: refactor using set to reduce runtime complexity to O(n)
     public SolutionHandler markInvalidDueToHourlyBetween(int duration) {
         if (score.getHardScore() < 0) {
-            for (ShiftAssignment first : shiftAssignmentList) {
-                final LocalDateTime firstEndAt = first.getShift().getEndAt();
-                for (ShiftAssignment second : shiftAssignmentList) {
-                    final LocalDateTime secondStartAt = second.getShift().getStartAt();
-                    if (!first.equals(second) &&
-                        first.getEmployee().equals(second.getEmployee()) &&
-                        secondStartAt.isAfter(firstEndAt) &&
-                        Math.abs(Duration.between(firstEndAt, secondStartAt).toHours()) < duration
-                    ) {
-                        addConflictToMutualConflictSets(
-                            first,
-                            second,
-                            Conflict.AT_LEAST_N_HOURS_BETWEEN_TWO_SHIFTS.getName()
-                        );
-                    }
-                }
+            for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
+                final Set<String> conflictSet =
+                    shiftAssignment.getConflicts().get(Conflict.AT_LEAST_N_HOURS_BETWEEN_TWO_SHIFTS);
+                final LocalDateTime endAt = shiftAssignment.getShift().getEndAt();
+
+                conflictSet.addAll(
+                    shiftAssignmentList
+                        .stream()
+                        .filter(other -> !other.equals(shiftAssignment)
+                                && shiftAssignment.getEmployee().equals(other.getEmployee())
+                                && Math.abs(
+                                Duration.between(endAt, other.getShift().getStartAt()).toHours()
+                            ) < duration
+                        )
+                        .map(other -> other.getId())
+                        .collect(Collectors.toSet())
+                );
             }
         }
         return this;

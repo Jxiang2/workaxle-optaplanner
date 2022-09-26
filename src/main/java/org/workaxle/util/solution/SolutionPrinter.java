@@ -19,7 +19,7 @@ public class SolutionPrinter {
 
         int duration = 12;
         new SolutionHandler(schedule.getScore(), shiftAssignmentList)
-            .markInvalidDueToByDailyBetween(startDay, endDay)
+            .markInvalidDueToByDailyBetween()
             .markInvalidDueToHourlyBetween(duration)
             .markInvalidDueToRequiredRole()
         ;
