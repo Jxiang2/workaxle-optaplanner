@@ -1,0 +1,96 @@
+{
+  "employees": [
+    {
+      "id": 74,
+      "name": "Database Design",
+      "roles": [
+        "Design"
+      ]
+    },
+    {
+      "id": 88,
+      "name": "Java Dev",
+      "roles": [
+        "Dev"
+      ]
+    },
+    {
+      "id": 99,
+      "name": "Frontend Design",
+      "roles": [
+        "Design"
+      ]
+    },
+    {
+      "id": 101,
+      "name": "Frontend Dev",
+      "roles": [
+        "Dev"
+      ]
+    },
+    {
+      "id": 43,
+      "name": "First Cleaner",
+      "roles": [
+        "Clean"
+      ]
+    },
+    {
+      "id": 84,
+      "name": "Second Cleaner",
+      "roles": [
+        "Clean",
+        "Security"
+      ]
+    },
+    {
+      "id": 59,
+      "name": "Team Leader",
+      "roles": [
+        "Dev",
+        "Design"
+      ]
+    }
+  ],
+  "allRequiredRoles": [
+    "Dev",
+    "Design",
+    "Clean"
+  ],
+  "shifts": [
+    {
+      "id": 108,
+      "name": "design & develop new features",
+      "startAt": "09:00",
+      "endAt": "12:00",
+      "requiredRoles": {
+        "Design": 1,
+        "Dev": 1
+      }
+    },
+    {
+      "id": 73,
+      "name": "clean up",
+      "startAt": "15:00",
+      "endAt": "17:00",
+      "requiredRoles": {
+        "Clean": 2
+      }
+    },
+    {
+      "id": 90,
+      "name": "design & develop new features",
+      "startAt": "20:00",
+      "endAt": "23:00",
+      "requiredRoles": {
+        "Design": 1,
+        "Dev": 1
+      }
+    }
+  ],
+  "startDate": "2022-11-21",
+  "endDate": "2022-11-25",
+  "settings": {
+    "hoursBetweenShifts": 0
+  }
+}

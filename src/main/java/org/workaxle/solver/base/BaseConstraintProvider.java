@@ -15,8 +15,6 @@ import static org.workaxle.solver.ConstraintProviderUtils.convertMinutesToHours;
 
 public class BaseConstraintProvider implements ConstraintProvider {
 
-    int n = 12;
-
     @Override
     public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
         return new Constraint[]{
@@ -76,7 +74,7 @@ public class BaseConstraintProvider implements ConstraintProvider {
             .penalize(
                 Conflict.AT_MOST_ONE_SHIFT_PER_DAY.getName(),
                 HardSoftScore.ONE_HARD,
-                (shiftAssignment1, shiftAssignment2) -> n
+                (shiftAssignment1, shiftAssignment2) -> 24
             );
     }
 
@@ -99,7 +97,7 @@ public class BaseConstraintProvider implements ConstraintProvider {
         return constraintFactory
             .forEach(ShiftAssignment.class)
             .filter(
-                shiftAssignment -> {
+                (shiftAssignment) -> {
                     final String requiredRole = shiftAssignment.getRole();
                     final Set<String> providedRoles = shiftAssignment.getEmployee().getRoleSet();
 
@@ -109,7 +107,7 @@ public class BaseConstraintProvider implements ConstraintProvider {
             .penalize(
                 Conflict.ONLY_REQUIRED_ROLES.getName(),
                 HardSoftScore.ONE_HARD,
-                (shiftEmployee) -> n * 10
+                (shiftEmployee) -> 100
             );
     }
 

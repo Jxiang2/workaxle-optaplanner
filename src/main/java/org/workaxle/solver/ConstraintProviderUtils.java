@@ -8,12 +8,12 @@ import java.time.LocalDateTime;
 public class ConstraintProviderUtils {
 
     public static int getHourlyOverlap(ShiftAssignment first, ShiftAssignment second) {
-        LocalDateTime shift1Start = first.getShift().getStartAt();
-        LocalDateTime shift1End = first.getShift().getEndAt();
-        LocalDateTime shift2Start = second.getShift().getStartAt();
-        LocalDateTime shift2End = second.getShift().getEndAt();
+        final LocalDateTime shift1Start = first.getShift().getStartAt();
+        final LocalDateTime shift1End = first.getShift().getEndAt();
+        final LocalDateTime shift2Start = second.getShift().getStartAt();
+        final LocalDateTime shift2End = second.getShift().getEndAt();
 
-        long minutes = Duration.between(
+        final long minutes = Duration.between(
             (shift1Start.compareTo(shift2Start) > 0) ? shift1Start : shift2Start,
             (shift1End.compareTo(shift2End) < 0) ? shift1End : shift2End
         ).toMinutes();
@@ -22,7 +22,7 @@ public class ConstraintProviderUtils {
     }
 
     public static int convertMinutesToHours(long minutes) {
-        if (minutes > 0 && minutes < 60) {
+        if (minutes > 0l && minutes < 60l) {
             return 1;
         }
         return (int) (minutes / 60l);

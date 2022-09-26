@@ -17,11 +17,11 @@ import java.util.*;
 
 public class Data {
 
+    static String dataFilePath = "src/main/java/org/workaxle/bootstrap/examples/data.json";
+
     public static Schedule generateData() throws IOException, ParseException {
         final JSONParser parser = new JSONParser();
-        final FileReader fileReader = new FileReader(
-            "src/main/java/org/workaxle/bootstrap/data.json"
-        );
+        final FileReader fileReader = new FileReader(dataFilePath);
         final JSONObject jsonInput = (JSONObject) parser.parse(fileReader);
 
         final Settings settings = generateSettings(jsonInput);
@@ -64,7 +64,7 @@ public class Data {
 
         int employeesInputSize = employeesInput.size();
         while (employeesInputSize > 0) {
-            int employeeIndex = employeesInputSize - 1;
+            final int employeeIndex = employeesInputSize - 1;
             final Employee currentEmployee = employeesInput.get(employeeIndex);
 
             final Set<String> employeeRoleSet = currentEmployee.getRoleSet();
@@ -139,9 +139,7 @@ public class Data {
 
     public static LocalDate[] generateStartEndDates() throws IOException, ParseException {
         final JSONParser parser = new JSONParser();
-        final FileReader fileReader = new FileReader(
-            "src/main/java/org/workaxle/bootstrap/data.json"
-        );
+        final FileReader fileReader = new FileReader(dataFilePath);
         final JSONObject jsonInput = (JSONObject) parser.parse(fileReader);
 
         return new LocalDate[]{
