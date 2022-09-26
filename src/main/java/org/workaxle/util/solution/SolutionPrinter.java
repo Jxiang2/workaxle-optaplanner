@@ -16,7 +16,7 @@ public class SolutionPrinter {
 
         final LocalDate startDay = Data.generateStartEndDates()[0];
         final LocalDate endDay = Data.generateStartEndDates()[1];
-        
+
         new SolutionHandler(schedule.getScore(), shiftAssignmentList)
             .markInvalidDueToByDailyBetween()
             .markInvalidDueToHourlyBetween(schedule.getSettings().getHoursBetweenShifts())
