@@ -14,17 +14,22 @@ public class SolutionPrinter {
     public static void printResult(Schedule schedule) throws IOException, ParseException {
         List<ShiftAssignment> shiftAssignmentList = schedule.getShiftAssignmentList();
 
-        final LocalDate shiftSStartDay = Data.generateStartEndDates()[0];
-        final LocalDate shiftsEndDay = Data.generateStartEndDates()[1];
+        final LocalDate startDay = Data.generateStartEndDates()[0];
+        final LocalDate endDay = Data.generateStartEndDates()[1];
 
         int duration = 12;
-        SolutionHandler.markInvalidByDailyBetween(schedule.getScore(), shiftAssignmentList, shiftSStartDay, shiftsEndDay);
-        SolutionHandler.markInvalidByHourlyBetween(schedule.getScore(), shiftAssignmentList, duration);
+        new SolutionHandler(schedule.getScore(), shiftAssignmentList)
+            .markInvalidDueToByDailyBetween(startDay, endDay)
+            .markInvalidDueToHourlyBetween(duration)
+            .markInvalidDueToRequiredRole()
+        ;
 
-        System.out.println("Total number of valid shift assignments: " + shiftAssignmentList.size() + "\n");
+        System.out.println(
+            "Total number of valid shift assignments: " + shiftAssignmentList.size() + "\n"
+        );
 
-        LocalDate currentDay = shiftSStartDay;
-        while (currentDay.isBefore(shiftsEndDay.plusDays(1))) {
+        LocalDate currentDay = startDay;
+        while (currentDay.isBefore(endDay.plusDays(1))) {
             for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
                 if (shiftAssignment.getDate().equals(currentDay)) {
                     System.out.println(shiftAssignment);

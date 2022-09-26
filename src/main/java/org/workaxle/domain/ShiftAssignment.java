@@ -29,6 +29,7 @@ public class ShiftAssignment {
     private Map<String, Set<String>> conflicts = new HashMap<>() {{
         put(Conflict.AT_LEAST_N_HOURS_BETWEEN_TWO_SHIFTS.getName(), new HashSet<>());
         put(Conflict.AT_MOST_ONE_SHIFT_PER_DAY.getName(), new HashSet<>());
+        put(Conflict.ONLY_REQUIRED_ROLES.getName(), new HashSet<>());
     }};
 
     public ShiftAssignment(String id, String role, Shift shift) {

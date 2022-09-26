@@ -6,6 +6,7 @@ import org.workaxle.constants.Conflict;
 import org.workaxle.domain.ShiftAssignment;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 public class ScheduleConstraintProvider implements ConstraintProvider {
@@ -98,6 +99,40 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                 HardSoftScore.ONE_HARD,
                 (shiftEmployee) -> (n * 60) * 10
             );
+    }
+
+    Constraint noOverlappingShifts(ConstraintFactory constraintFactory) {
+        // no employee takes 2 or more shifts at the same time
+
+        return constraintFactory
+            .forEachUniquePair(ShiftAssignment.class,
+                Joiners.equal(ShiftAssignment::getEmployee),
+                Joiners.overlapping(
+                    (shiftAssignment) -> shiftAssignment.getShift().getStartAt(),
+                    (shiftAssignment) -> shiftAssignment.getShift().getEndAt()
+                )
+            )
+            .penalize(
+                Conflict.No_OVERLAPPING_SHIFTS.getName(),
+                HardSoftScore.ONE_HARD,
+                ScheduleConstraintProvider::getMinuteOverlap
+            );
+    }
+
+    private static int getMinuteOverlap(ShiftAssignment first, ShiftAssignment second) {
+        // The overlap of two timeslot occurs in the range common to both timeslots.
+        // Both timeslots are active after the higher of their two start times,
+        // and before the lower of their two end times.
+
+        LocalDateTime shift1Start = first.getShift().getStartAt();
+        LocalDateTime shift1End = first.getShift().getEndAt();
+        LocalDateTime shift2Start = second.getShift().getStartAt();
+        LocalDateTime shift2End = second.getShift().getEndAt();
+        
+        return (int) Duration.between(
+            (shift1Start.compareTo(shift2Start) > 0) ? shift1Start : shift2Start,
+            (shift1End.compareTo(shift2End) < 0) ? shift1End : shift2End
+        ).toMinutes();
     }
 
 }

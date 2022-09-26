@@ -115,7 +115,6 @@ public class ScheduleConstraintProviderTest {
                 put("Design", 1);
             }}
         );
-        // same employee
         Employee e1 = new Employee(1L, "user 1", new HashSet<>(Arrays.asList("Dev", "Design")));
         Employee e2 = new Employee(2L, "user 2", new HashSet<>(Arrays.asList("Dev", "Design")));
         Employee e3 = new Employee(3L, "user 3", new HashSet<>(Arrays.asList("Dev", "Design")));
@@ -137,7 +136,42 @@ public class ScheduleConstraintProviderTest {
     }
 
     @Test
-    void onlyRequiredRole() {
+    void testNoOverlappingShifts() {
+        Shift s1 = new Shift(
+            1L,
+            "shift A3",
+            LocalDateTime.of(2022, 11, 21, 9, 0),
+            LocalDateTime.of(2022, 11, 21, 12, 0),
+            new HashMap<>() {{
+                put("Dev", 1);
+                put("Design", 1);
+            }}
+        );
+        Shift s2 = new Shift(
+            1L,
+            "shift A3",
+            LocalDateTime.of(2022, 11, 21, 8, 0),
+            LocalDateTime.of(2022, 11, 21, 11, 0),
+            new HashMap<>() {{
+                put("Dev", 1);
+                put("Design", 1);
+            }}
+        );
+        Employee e1 = new Employee(1L, "user 1", new HashSet<>(Arrays.asList("Dev", "Design")));
+        long j = 1;
+        ShiftAssignment sa1 = new ShiftAssignment(String.valueOf(j++), "Dev", s1, e1);
+        ShiftAssignment sa2 = new ShiftAssignment(String.valueOf(j++), "Design", s2, e1);
+        constraintVerifier
+            .verifyThat(ScheduleConstraintProvider::noOverlappingShifts)
+            .given(
+                sa1,
+                sa2
+            )
+            .penalizesBy(2 * 60);
+    }
+
+    @Test
+    void testOnlyRequiredRole() {
         Shift s1 = new Shift(
             1L,
             "shift A3",

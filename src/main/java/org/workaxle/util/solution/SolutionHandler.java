@@ -8,15 +8,22 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class SolutionHandler {
 
-    public static void markInvalidByDailyBetween(
-        HardSoftScore score,
-        List<ShiftAssignment> shiftAssignmentList,
+    List<ShiftAssignment> shiftAssignmentList;
+
+    HardSoftScore score;
+
+    public SolutionHandler(HardSoftScore score, List<ShiftAssignment> shiftAssignmentList) {
+        this.score = score;
+        this.shiftAssignmentList = shiftAssignmentList;
+    }
+
+    // Todo: refactor using set to reduce runtime complexity to O(n)
+    public SolutionHandler markInvalidDueToByDailyBetween(
         LocalDate shiftsStartDay,
         LocalDate shiftsEndDay
     ) {
@@ -45,9 +52,10 @@ public class SolutionHandler {
                 shiftsStartDay = shiftsStartDay.plusDays(1);
             }
         }
+        return this;
     }
 
-    private static void addConflictToMutualConflictSets(
+    private void addConflictToMutualConflictSets(
         ShiftAssignment first,
         ShiftAssignment second,
         String conflictCName
@@ -59,11 +67,23 @@ public class SolutionHandler {
         secondConflictSet.add(first.getId());
     }
 
-    public static void markInvalidByHourlyBetween(
-        HardSoftScore score,
-        List<ShiftAssignment> shiftAssignmentList,
-        int duration
-    ) {
+    public SolutionHandler markInvalidDueToRequiredRole() {
+        if (score.getHardScore() < 0) {
+            for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
+                Set<String> employeeRoles = shiftAssignment.getEmployee().getRoleSet();
+                if (!employeeRoles.contains(shiftAssignment.getRole())) {
+                    final Set<String> invalidRoles = shiftAssignment
+                        .getConflicts()
+                        .get(Conflict.ONLY_REQUIRED_ROLES.getName());
+                    invalidRoles.addAll(employeeRoles);
+                }
+            }
+        }
+        return this;
+    }
+
+    // Todo: refactor using set to reduce runtime complexity to O(n)
+    public SolutionHandler markInvalidDueToHourlyBetween(int duration) {
         if (score.getHardScore() < 0) {
             for (ShiftAssignment first : shiftAssignmentList) {
                 final LocalDateTime firstEndAt = first.getShift().getEndAt();
@@ -83,21 +103,7 @@ public class SolutionHandler {
                 }
             }
         }
-    }
-
-    @Deprecated
-    public static List<ShiftAssignment> getValidShiftAssignmentList(List<ShiftAssignment> shiftAssignmentList) {
-        return shiftAssignmentList
-            .stream()
-            .filter(shiftAssignment -> {
-                Map<String, Set<String>> conflicts = shiftAssignment.getConflicts();
-                for (String type : conflicts.keySet()) {
-                    if (conflicts.get(type).size() > 0)
-                        return false;
-                }
-                return true;
-            })
-            .collect(Collectors.toList());
+        return this;
     }
 
 }

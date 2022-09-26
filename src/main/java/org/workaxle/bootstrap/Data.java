@@ -24,16 +24,22 @@ public class Data {
 
     public static Schedule generateData() throws IOException, ParseException {
         final JSONParser parser = new JSONParser();
-        final FileReader fileReader = new FileReader("src/main/java/org/workaxle/bootstrap/data.json");
+        final FileReader fileReader = new FileReader(
+            "src/main/java/org/workaxle/bootstrap/data.json"
+        );
         final JSONObject jsonInput = (JSONObject) parser.parse(fileReader);
 
         final List<Employee> employeeList = generateValidEmployees(jsonInput);
-        final List<ShiftAssignment> shiftAssignmentList = generateShiftAssignments(generateShifts(jsonInput));
+        final List<ShiftAssignment> shiftAssignmentList = generateShiftAssignments(
+            generateShifts(jsonInput)
+        );
 
         return new Schedule(employeeList, shiftAssignmentList);
     }
 
-    private static List<Employee> generateValidEmployees(JSONObject jsonInput) throws JsonProcessingException {
+    private static List<Employee> generateValidEmployees(
+        JSONObject jsonInput
+    ) throws JsonProcessingException {
         final List<Employee> employeesInput = new ArrayList<>();
 
         for (Object o : (JSONArray) jsonInput.get("employees")) {
@@ -50,8 +56,8 @@ public class Data {
             employeesInput.add(employee);
         }
 
-        final ArrayList allRoleList =
-            new ObjectMapper().readValue(jsonInput.get("allRequiredRoles").toString(), ArrayList.class);
+        final ArrayList allRoleList = new ObjectMapper()
+            .readValue(jsonInput.get("allRequiredRoles").toString(), ArrayList.class);
         final ArrayList<Employee> validatedEmployeesInput = new ArrayList<>();
 
         int employeesInputSize = employeesInput.size();
@@ -100,8 +106,7 @@ public class Data {
                     return startAt.plusMinutes(Duration.between(endAt, startAt).toMinutes() / 2);
                 }
             ))
-            .collect(Collectors.toList())
-            ;
+            .collect(Collectors.toList());
     }
 
     private static List<Shift> generateShifts(JSONObject jsonInput) throws JsonProcessingException {
@@ -127,7 +132,8 @@ public class Data {
                             currentDate,
                             LocalTime.parse((String) shiftJson.get("endAt"))
                         ),
-                        new ObjectMapper().readValue(requiredRolesJson.toJSONString(), HashMap.class)
+                        new ObjectMapper()
+                            .readValue(requiredRolesJson.toJSONString(), HashMap.class)
                     )
                 );
 
@@ -142,13 +148,14 @@ public class Data {
                     Duration.between(shift.getEndAt(), shift.getStartAt()).toMinutes() / 2
                 )
             ))
-            .collect(Collectors.toList())
-            ;
+            .collect(Collectors.toList());
     }
 
     public static LocalDate[] generateStartEndDates() throws IOException, ParseException {
         final JSONParser parser = new JSONParser();
-        final FileReader fileReader = new FileReader("src/main/java/org/workaxle/bootstrap/data.json");
+        final FileReader fileReader = new FileReader(
+            "src/main/java/org/workaxle/bootstrap/data.json"
+        );
         final JSONObject jsonInput = (JSONObject) parser.parse(fileReader);
 
         return new LocalDate[]{

@@ -31,10 +31,10 @@ public class Http {
                 HttpEntity entity = response.getEntity();
                 if (entity != null) {
                     String data = EntityUtils.toString(entity);
-                    return Result.success(data);
+                    return Result.success(200, data);
                 }
                 response.close();
-                return Result.success(null);
+                return Result.success(200, null);
             }
 
             response.close();
@@ -62,10 +62,10 @@ public class Http {
                 HttpEntity entity = response.getEntity();
                 if (entity != null) {
                     String responseData = EntityUtils.toString(entity);
-                    return Result.success(responseData);
+                    return Result.success(201, responseData);
                 }
                 response.close();
-                return Result.success(null);
+                return Result.success(200, null);
             }
 
             response.close();
