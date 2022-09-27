@@ -1,11 +1,11 @@
-package org.workaxle.solver.base;
+package org.workaxle.solver;
 
 import org.workaxle.domain.ShiftAssignment;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class BaseConstraintUtil {
+public class ConstraintUtil {
 
     public static int getHourlyOverlap(ShiftAssignment first, ShiftAssignment second) {
         final LocalDateTime shift1Start = first.getShift().getStartAt();

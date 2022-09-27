@@ -50,47 +50,6 @@ public class BaseConstraintProviderTest {
             .penalizesBy(24);
     }
 
-    @Test
-    void testAtLeastNHoursBetweenTwoShifts() {
-        Shift s1 = new Shift(
-            1L,
-            "shift A3",
-            LocalDateTime.of(2022, 11, 21, 20, 0),
-            LocalDateTime.of(2022, 11, 21, 23, 0),
-            new HashMap<>() {{
-                put("Dev", 1);
-                put("Design", 1);
-            }}
-        );
-        Shift s2 = new Shift(
-            2L,
-            "shift B1",
-            LocalDateTime.of(2022, 11, 22, 9, 0),
-            LocalDateTime.of(2022, 11, 22, 12, 0),
-            new HashMap<>() {{
-                put("Dev", 1);
-                put("Design", 1);
-            }}
-        );
-        // same employee
-        Employee e1 = new Employee(1L, "user 1", new HashSet<>(Arrays.asList("Dev", "Design")));
-        Employee e2 = new Employee(2L, "user 2", new HashSet<>(Arrays.asList("Dev", "Design")));
-        Employee e3 = new Employee(3L, "user 3", new HashSet<>(Arrays.asList("Dev", "Design")));
-        long j = 1;
-        ShiftAssignment sa1 = new ShiftAssignment(String.valueOf(j++), "Dev", s1, e1);
-        ShiftAssignment sa2 = new ShiftAssignment(String.valueOf(j++), "Design", s1, e2);
-        ShiftAssignment sa3 = new ShiftAssignment(String.valueOf(j++), "Dev", s2, e3);
-        ShiftAssignment sa4 = new ShiftAssignment(String.valueOf(j++), "Design", s2, e2);
-        constraintVerifier
-            .verifyThat(BaseConstraintProvider::atLeastNHoursBetweenTwoShifts)
-            .given(
-                sa1,
-                sa2,
-                sa3,
-                sa4
-            )
-            .penalizesBy(0);
-    }
 
     @Test
     void testEvenlyShiftsDistribution() {

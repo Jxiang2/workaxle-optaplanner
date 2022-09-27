@@ -7,4 +7,6 @@ public class Settings {
 
     private int hoursBetweenShifts;
 
+    private boolean workOnWeekends;
+
 }
