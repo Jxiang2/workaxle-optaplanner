@@ -2,8 +2,11 @@ package org.workaxle.solver;
 
 import org.workaxle.domain.ShiftAssignment;
 
+import java.time.DayOfWeek;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoField;
 
 public class ConstraintUtil {
 
@@ -26,6 +29,11 @@ public class ConstraintUtil {
             return 1;
         }
         return (int) (minutes / 60l);
+    }
+
+    public static boolean isWeekend(LocalDate localDate) {
+        DayOfWeek day = DayOfWeek.of(localDate.get(ChronoField.DAY_OF_WEEK));
+        return day == DayOfWeek.SUNDAY || day == DayOfWeek.SATURDAY;
     }
 
 }

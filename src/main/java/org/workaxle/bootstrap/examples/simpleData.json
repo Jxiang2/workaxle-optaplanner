@@ -92,6 +92,6 @@
   "endDate": "2022-11-25",
   "settings": {
     "hoursBetweenShifts": 0,
-    "workOnWeekends": false
+    "weekendShifts": false
   }
 }

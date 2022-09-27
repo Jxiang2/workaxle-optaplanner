@@ -13,6 +13,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 import static org.workaxle.solver.ConstraintUtil.convertMinutesToHours;
+import static org.workaxle.solver.ConstraintUtil.isWeekend;
 
 public class OptionalConstraintProvider implements ConstraintProvider {
 
@@ -25,8 +26,22 @@ public class OptionalConstraintProvider implements ConstraintProvider {
     @Override
     public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
         return new Constraint[]{
-            atLeastNHoursBetweenTwoShifts(constraintFactory)
+            atLeastNHoursBetweenTwoShifts(constraintFactory),
+            noShiftOnWeekends(constraintFactory),
         };
+    }
+
+    private Constraint noShiftOnWeekends(ConstraintFactory constraintFactory) {
+        // no employees work on weekends
+        
+        return constraintFactory
+            .forEach(ShiftAssignment.class)
+            .filter((shiftAssignment -> isWeekend(shiftAssignment.getDate())))
+            .penalize(
+                Conflict.NO_SHIFT_ON_WEEKENDS.getName(),
+                HardSoftScore.ONE_HARD,
+                (shiftAssignment) -> 24
+            );
     }
 
     Constraint atLeastNHoursBetweenTwoShifts(ConstraintFactory constraintFactory) {
@@ -39,14 +54,14 @@ public class OptionalConstraintProvider implements ConstraintProvider {
             )
             .join(Settings.class)
             .filter((firstShift, secondShift, settings) -> {
-                    final int constraint = settings.getHoursBetweenShifts();
+                    final int gap = settings.getHoursBetweenShifts();
                     final LocalDateTime firstStartAt = firstShift.getShift().getStartAt();
                     final LocalDateTime firstEndAt = firstShift.getShift().getEndAt();
                     final LocalDateTime secondStartAt = secondShift.getShift().getStartAt();
                     final LocalDateTime secondEndAt = secondShift.getShift().getEndAt();
 
-                    return Math.abs(Duration.between(firstEndAt, secondStartAt).toHours()) < constraint
-                        || Math.abs(Duration.between(secondEndAt, firstStartAt).toHours()) < constraint;
+                    return Math.abs(Duration.between(firstEndAt, secondStartAt).toHours()) < gap
+                        || Math.abs(Duration.between(secondEndAt, firstStartAt).toHours()) < gap;
                 }
             )
             .penalize(

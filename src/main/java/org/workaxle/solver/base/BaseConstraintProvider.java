@@ -49,7 +49,8 @@ public class BaseConstraintProvider implements ConstraintProvider {
         // try to distribute the shifts evenly to employees
         // activate only if there are more employees than positions
 
-        return constraintFactory.forEach(ShiftAssignment.class)
+        return constraintFactory
+            .forEach(ShiftAssignment.class)
             .groupBy(ShiftAssignment::getEmployee, ConstraintCollectors.count())
             .penalize(
                 Conflict.EVENLY_SHIFT_DISTRIBUTION.getName(),
@@ -90,7 +91,7 @@ public class BaseConstraintProvider implements ConstraintProvider {
                 )
             )
             .penalize(
-                Conflict.No_OVERLAPPING_SHIFTS.getName(),
+                Conflict.NO_OVERLAPPING_SHIFTS.getName(),
                 HardSoftScore.ONE_HARD,
                 ConstraintUtil::getHourlyOverlap
             );
