@@ -14,12 +14,9 @@ public class SolutionPrinter {
     public static void printResult(Schedule schedule) throws IOException, ParseException {
         List<ShiftAssignment> shiftAssignmentList = schedule.getShiftAssignmentList();
 
-        final LocalDate startDay = Data.generateStartEndDates()[0];
-        final LocalDate endDay = Data.generateStartEndDates()[1];
-
-        new SolutionHandler(schedule.getScore(), shiftAssignmentList)
+        new SolutionHandler(schedule)
             .markInvalidDueToByDailyBetween()
-            .markInvalidDueToHourlyBetween(schedule.getSettings().getHoursBetweenShifts())
+            .markInvalidDueToHourlyBetween()
             .markInvalidDueToRequiredRole()
             .markInvalidDueToWeekendShifts();
 
@@ -27,7 +24,10 @@ public class SolutionPrinter {
             "Total number of valid shift assignments: " + shiftAssignmentList.size() + "\n"
         );
 
+        final LocalDate startDay = Data.generateStartEndDates()[0];
+        final LocalDate endDay = Data.generateStartEndDates()[1];
         LocalDate currentDay = startDay;
+        
         while (currentDay.isBefore(endDay.plusDays(1))) {
             for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
                 if (shiftAssignment.getDate().equals(currentDay)) {

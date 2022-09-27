@@ -2,6 +2,8 @@ package org.workaxle.util.solution;
 
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.workaxle.constants.Conflict;
+import org.workaxle.domain.Schedule;
+import org.workaxle.domain.Settings;
 import org.workaxle.domain.ShiftAssignment;
 import org.workaxle.solver.ConstraintUtil;
 
@@ -13,21 +15,26 @@ import java.util.stream.Collectors;
 
 public class SolutionHandler {
 
-    final List<ShiftAssignment> shiftAssignmentList;
+    HardSoftScore score;
 
-    final HardSoftScore score;
+    Settings settings;
 
-    public SolutionHandler(HardSoftScore score, List<ShiftAssignment> shiftAssignmentList) {
-        this.score = score;
-        this.shiftAssignmentList = shiftAssignmentList;
+    List<ShiftAssignment> shiftAssignmentList;
+
+    public SolutionHandler(Schedule schedule) {
+        shiftAssignmentList = schedule.getShiftAssignmentList();
+        score = schedule.getScore();
+        settings = schedule.getSettings();
     }
 
     public SolutionHandler markInvalidDueToWeekendShifts() {
-        for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
-            if (ConstraintUtil.isWeekend(shiftAssignment.getDate())) {
-                final Set<String> conflictSet = shiftAssignment
-                    .getConflicts().get(Conflict.NO_SHIFT_ON_WEEKENDS.getName());
-                conflictSet.add(shiftAssignment.getId());
+        if (!settings.isWeekendShifts()) {
+            for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
+                if (ConstraintUtil.isWeekend(shiftAssignment.getDate())) {
+                    final Set<String> conflictSet = shiftAssignment
+                        .getConflicts().get(Conflict.NO_SHIFT_ON_WEEKENDS.getName());
+                    conflictSet.add(shiftAssignment.getId());
+                }
             }
         }
         return this;
@@ -66,8 +73,9 @@ public class SolutionHandler {
         return this;
     }
 
-    public SolutionHandler markInvalidDueToHourlyBetween(int duration) {
-        if (duration != 0) {
+    public SolutionHandler markInvalidDueToHourlyBetween() {
+        int shiftsBetween = settings.getHoursBetweenShifts();
+        if (shiftsBetween != 0) {
             for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
                 final Set<String> conflictSet = shiftAssignment
                     .getConflicts()
@@ -84,8 +92,8 @@ public class SolutionHandler {
 
                             return !other.equals(shiftAssignment)
                                 && shiftAssignment.getEmployee().equals(other.getEmployee())
-                                && (Math.abs(Duration.between(endAt, otherStartAt).toHours()) < duration
-                                || Math.abs(Duration.between(otherEndAt, startAt).toHours()) < duration);
+                                && (Math.abs(Duration.between(endAt, otherStartAt).toHours()) < shiftsBetween
+                                || Math.abs(Duration.between(otherEndAt, startAt).toHours()) < shiftsBetween);
                         })
                         .map(other -> other.getId())
                         .collect(Collectors.toSet())
