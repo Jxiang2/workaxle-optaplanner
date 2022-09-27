@@ -5,11 +5,15 @@
 Schedule shifts for all employees in a specific group in a period of time
 
 ### Constraints:
-
+Base constraints
 1. Each shift is assigned to one to many employees who work as required roles
 2. Try to distribute the shifts evenly to all employees
 3. No employee works more than 1 shift in 1 day
-4. No employee works more than 1 shift in 12 hours
+
+Optional constraints
+1. No employee works more than 1 shift in N hours
+2. No employee works on weekands or holidays
+
 
 ### Models:
 
