@@ -30,6 +30,7 @@ public class ShiftAssignment {
         put(Conflict.AT_LEAST_N_HOURS_BETWEEN_TWO_SHIFTS.getName(), new HashSet<>());
         put(Conflict.AT_MOST_ONE_SHIFT_PER_DAY.getName(), new HashSet<>());
         put(Conflict.ONLY_REQUIRED_ROLES.getName(), new HashSet<>());
+        put(Conflict.NO_SHIFT_ON_WEEKENDS.getName(), new HashSet<>());
     }};
 
     public ShiftAssignment(String id, String role, Shift shift) {

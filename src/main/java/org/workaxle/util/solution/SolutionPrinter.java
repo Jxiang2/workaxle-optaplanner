@@ -21,7 +21,7 @@ public class SolutionPrinter {
             .markInvalidDueToByDailyBetween()
             .markInvalidDueToHourlyBetween(schedule.getSettings().getHoursBetweenShifts())
             .markInvalidDueToRequiredRole()
-        ;
+            .markInvalidDueToWeekendShifts();
 
         System.out.println(
             "Total number of valid shift assignments: " + shiftAssignmentList.size() + "\n"

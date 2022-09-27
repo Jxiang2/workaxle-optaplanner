@@ -3,6 +3,7 @@ package org.workaxle.util.solution;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.workaxle.constants.Conflict;
 import org.workaxle.domain.ShiftAssignment;
+import org.workaxle.solver.ConstraintUtil;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -19,6 +20,17 @@ public class SolutionHandler {
     public SolutionHandler(HardSoftScore score, List<ShiftAssignment> shiftAssignmentList) {
         this.score = score;
         this.shiftAssignmentList = shiftAssignmentList;
+    }
+
+    public SolutionHandler markInvalidDueToWeekendShifts() {
+        for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
+            if (ConstraintUtil.isWeekend(shiftAssignment.getDate())) {
+                final Set<String> conflictSet = shiftAssignment
+                    .getConflicts().get(Conflict.NO_SHIFT_ON_WEEKENDS.getName());
+                conflictSet.add(shiftAssignment.getId());
+            }
+        }
+        return this;
     }
 
     public SolutionHandler markInvalidDueToByDailyBetween() {
