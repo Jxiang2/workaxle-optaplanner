@@ -20,6 +20,7 @@ public class OptionalConstraintProvider implements ConstraintProvider {
     public Constraint[] exportConstraints(ConstraintFactory constraintFactory) {
         return new Constraint[]{
             atLeastNHoursBetweenTwoShifts(constraintFactory),
+            noShiftOnWeekends(constraintFactory),
         };
     }
 
@@ -31,16 +32,19 @@ public class OptionalConstraintProvider implements ConstraintProvider {
         };
     }
 
-    private Constraint noShiftOnWeekends(ConstraintFactory constraintFactory) {
-        // no employees work on weekends
-        
+    Constraint noShiftOnWeekends(ConstraintFactory constraintFactory) {
+        // no employee work on weekends
+
         return constraintFactory
             .forEach(ShiftAssignment.class)
-            .filter((shiftAssignment -> isWeekend(shiftAssignment.getDate())))
+            .join(Settings.class)
+            .filter((shiftAssignment, settings) ->
+                !settings.isWeekendShifts() && isWeekend(shiftAssignment.getDate())
+            )
             .penalize(
                 Conflict.NO_SHIFT_ON_WEEKENDS.getName(),
                 HardSoftScore.ONE_HARD,
-                (shiftAssignment) -> 24
+                (shiftAssignment, settings) -> 24
             );
     }
 
