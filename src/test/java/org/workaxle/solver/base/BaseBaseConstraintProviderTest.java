@@ -14,9 +14,8 @@ import java.util.HashSet;
 
 public class BaseBaseConstraintProviderTest {
 
-    ConstraintVerifier<BaseConstraintProvider, Schedule> constraintVerifier = ConstraintVerifier.build(
-        new BaseConstraintProvider(), Schedule.class, ShiftAssignment.class
-    );
+    ConstraintVerifier<BaseConstraintProvider, Schedule> constraintVerifier = ConstraintVerifier
+        .build(new BaseConstraintProvider(), Schedule.class, ShiftAssignment.class);
 
     @Test
     void testAtMostOneShiftPerDay() {

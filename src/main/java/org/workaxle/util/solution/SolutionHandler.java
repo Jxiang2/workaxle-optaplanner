@@ -55,28 +55,30 @@ public class SolutionHandler {
     }
 
     public SolutionHandler markInvalidDueToHourlyBetween(int duration) {
-        for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
-            final Set<String> conflictSet = shiftAssignment
-                .getConflicts()
-                .get(Conflict.AT_LEAST_N_HOURS_BETWEEN_TWO_SHIFTS.getName());
-            final LocalDateTime startAt = shiftAssignment.getShift().getStartAt();
-            final LocalDateTime endAt = shiftAssignment.getShift().getEndAt();
+        if (duration != 0) {
+            for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
+                final Set<String> conflictSet = shiftAssignment
+                    .getConflicts()
+                    .get(Conflict.AT_LEAST_N_HOURS_BETWEEN_TWO_SHIFTS.getName());
+                final LocalDateTime startAt = shiftAssignment.getShift().getStartAt();
+                final LocalDateTime endAt = shiftAssignment.getShift().getEndAt();
 
-            conflictSet.addAll(
-                shiftAssignmentList
-                    .stream()
-                    .filter(other -> {
-                        final LocalDateTime otherStartAt = other.getShift().getStartAt();
-                        final LocalDateTime otherEndAt = other.getShift().getEndAt();
+                conflictSet.addAll(
+                    shiftAssignmentList
+                        .stream()
+                        .filter(other -> {
+                            final LocalDateTime otherStartAt = other.getShift().getStartAt();
+                            final LocalDateTime otherEndAt = other.getShift().getEndAt();
 
-                        return !other.equals(shiftAssignment)
-                            && shiftAssignment.getEmployee().equals(other.getEmployee())
-                            && (Math.abs(Duration.between(endAt, otherStartAt).toHours()) < duration
-                            || Math.abs(Duration.between(otherEndAt, startAt).toHours()) < duration);
-                    })
-                    .map(other -> other.getId())
-                    .collect(Collectors.toSet())
-            );
+                            return !other.equals(shiftAssignment)
+                                && shiftAssignment.getEmployee().equals(other.getEmployee())
+                                && (Math.abs(Duration.between(endAt, otherStartAt).toHours()) < duration
+                                || Math.abs(Duration.between(otherEndAt, startAt).toHours()) < duration);
+                        })
+                        .map(other -> other.getId())
+                        .collect(Collectors.toSet())
+                );
+            }
         }
         return this;
     }
