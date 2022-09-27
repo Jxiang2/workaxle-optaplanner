@@ -74,7 +74,7 @@ public class SolutionHandler {
     }
 
     public SolutionHandler markInvalidDueToHourlyBetween() {
-        int shiftsBetween = settings.getHoursBetweenShifts();
+        int shiftsBetween = settings.getShiftsBetween();
         if (shiftsBetween != 0) {
             for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
                 final Set<String> conflictSet = shiftAssignment

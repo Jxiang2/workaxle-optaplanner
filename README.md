@@ -142,6 +142,8 @@ Optional constraints
 }
 ```
 
+more example inputs can be found at src/main/org/workaxle/bootstrap/examples
+
 ### Output:
 
 A list containing all the scheduled shift assignments

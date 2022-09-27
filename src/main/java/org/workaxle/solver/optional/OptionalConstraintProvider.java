@@ -27,7 +27,7 @@ public class OptionalConstraintProvider implements ConstraintProvider {
     @Override
     public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
         // for test only
-        
+
         return new Constraint[]{
             atLeastNHoursBetweenTwoShifts(constraintFactory),
             noShiftOnWeekends(constraintFactory),
@@ -60,7 +60,7 @@ public class OptionalConstraintProvider implements ConstraintProvider {
             )
             .join(Settings.class)
             .filter((firstShift, secondShift, settings) -> {
-                    final int gap = settings.getHoursBetweenShifts();
+                    final int gap = settings.getShiftsBetween();
                     final LocalDateTime firstStartAt = firstShift.getShift().getStartAt();
                     final LocalDateTime firstEndAt = firstShift.getShift().getEndAt();
                     final LocalDateTime secondStartAt = secondShift.getShift().getStartAt();
@@ -80,7 +80,7 @@ public class OptionalConstraintProvider implements ConstraintProvider {
                     ).toMinutes());
 
                     return Math.abs(
-                        settings.getHoursBetweenShifts() - convertMinutesToHours(breakLength)
+                        settings.getShiftsBetween() - convertMinutesToHours(breakLength)
                     );
                 }
             );
