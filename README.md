@@ -134,8 +134,9 @@ Optional constraints
   "startDate": "2022-11-21",
   "endDate": "2022-11-25",
   "settings": {
-    "hoursBetweenShifts": 12
-  }
+    "hoursBetweenShifts": 12,
+    "workOnWeekends": false
+  },
 }
 ```
 
