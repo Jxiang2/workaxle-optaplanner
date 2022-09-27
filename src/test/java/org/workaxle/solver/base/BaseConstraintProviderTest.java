@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class BaseBaseConstraintProviderTest {
+public class BaseConstraintProviderTest {
 
     ConstraintVerifier<BaseConstraintProvider, Schedule> constraintVerifier = ConstraintVerifier
         .build(new BaseConstraintProvider(), Schedule.class, ShiftAssignment.class);

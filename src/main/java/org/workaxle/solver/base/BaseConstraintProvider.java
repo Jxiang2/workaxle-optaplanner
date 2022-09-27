@@ -5,13 +5,12 @@ import org.optaplanner.core.api.score.stream.*;
 import org.workaxle.constants.Conflict;
 import org.workaxle.domain.Settings;
 import org.workaxle.domain.ShiftAssignment;
-import org.workaxle.solver.ConstraintProviderUtils;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-import static org.workaxle.solver.ConstraintProviderUtils.convertMinutesToHours;
+import static org.workaxle.solver.base.BaseConstraintUtil.convertMinutesToHours;
 
 public class BaseConstraintProvider implements ConstraintProvider {
 
@@ -125,7 +124,7 @@ public class BaseConstraintProvider implements ConstraintProvider {
             .penalize(
                 Conflict.No_OVERLAPPING_SHIFTS.getName(),
                 HardSoftScore.ONE_HARD,
-                ConstraintProviderUtils::getHourlyOverlap
+                BaseConstraintUtil::getHourlyOverlap
             );
     }
 
