@@ -12,7 +12,7 @@ Base constraints
 
 Optional constraints
 1. No employee works more than 1 shift in N hours
-2. No employee works on weekands or holidays
+2. No employee works on weekands
 
 
 ### Models:
