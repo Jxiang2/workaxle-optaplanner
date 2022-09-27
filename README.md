@@ -8,14 +8,15 @@ Schedule shifts for all employees in a specific group in a period of time
 
 Base constraints
 
-1. Each shift is assigned to one or many employees who work as required roles
-2. Try to distribute the shifts evenly to all employees
-3. No employee works more than 1 shift in 1 day
+1. Each shift is assigned to one or many employees who work as required roles ✅
+2. Try to distribute the shifts evenly to all employees ✅
+3. No employee works more than 1 shift in 1 day ✅
 
 Optional constraints
 
-1. No employee works more than 1 shift in N hours (0 by default)
-2. No employee works on weekends (false by default)
+1. No employee works more than 1 shift in N hours (0 by default) ✅
+2. No employee works on weekends (true by default) ✅
+3. Each employee should work no more than X hours and less than Y hours during a Z-day period
 
 ### Models:
 
