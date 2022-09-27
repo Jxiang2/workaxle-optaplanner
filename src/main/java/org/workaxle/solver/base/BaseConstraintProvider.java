@@ -21,6 +21,8 @@ public class BaseConstraintProvider implements ConstraintProvider {
 
     @Override
     public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
+        // for test only
+        
         return new Constraint[]{
             atMostOneShiftPerDay(constraintFactory),
             evenlyShiftsDistribution(constraintFactory),

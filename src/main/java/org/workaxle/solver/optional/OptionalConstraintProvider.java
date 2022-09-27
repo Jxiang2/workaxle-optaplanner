@@ -26,6 +26,8 @@ public class OptionalConstraintProvider implements ConstraintProvider {
 
     @Override
     public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
+        // for test only
+        
         return new Constraint[]{
             atLeastNHoursBetweenTwoShifts(constraintFactory),
             noShiftOnWeekends(constraintFactory),
