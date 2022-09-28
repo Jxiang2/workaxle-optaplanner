@@ -15,7 +15,7 @@ public class OptionalConstraintProviderTest {
         .build(new OptionalConstraintProvider(), Schedule.class, ShiftAssignment.class);
 
     @Test
-    void testAtMostNHours() {
+    void testAtMostNHoursShiftAssignments() {
         Shift s1 = new Shift(
             1L,
             "shift A1",
@@ -43,7 +43,7 @@ public class OptionalConstraintProviderTest {
         Settings settings = new Settings();
         settings.setMaxHours(8);
         constraintVerifier
-            .verifyThat(OptionalConstraintProvider::atMostNHours)
+            .verifyThat(OptionalConstraintProvider::atMostNHoursShiftAssignments)
             .given(
                 sa1,
                 sa2,

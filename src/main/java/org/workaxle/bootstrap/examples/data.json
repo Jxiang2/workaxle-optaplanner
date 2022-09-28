@@ -101,6 +101,6 @@
   "settings": {
     "shiftsBetween": 12,
     "weekendShifts": true,
-    "maxHours": 15
+    "maxHours": 18
   }
 }

@@ -4,12 +4,10 @@ import lombok.Data;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
-import org.workaxle.constants.Conflict;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -27,12 +25,23 @@ public class ShiftAssignment {
 
     private Shift shift;
 
-    private Map<String, Set<String>> conflicts = new HashMap<>() {{
-        put(Conflict.AT_LEAST_N_HOURS_BETWEEN_TWO_SHIFTS.getName(), new HashSet<>());
-        put(Conflict.AT_MOST_ONE_SHIFT_PER_DAY.getName(), new HashSet<>());
-        put(Conflict.ONLY_REQUIRED_ROLES.getName(), new HashSet<>());
-        put(Conflict.NO_SHIFT_ON_WEEKENDS.getName(), new HashSet<>());
-    }};
+    /**
+     * BoolConflicts is a {@link Map} collection that contains {@link String} as key and
+     * {@link Set<String>} as value
+     * <p>
+     * Each key represents a rule, and each value contains a hashset the id(s) of shiftAssignments
+     * that causes this shiftAssignment to violate the rule.
+     */
+    private Map<String, Set<String>> setConflicts = new HashMap<>();
+
+    /**
+     * BoolConflicts is a {@link Map} collection that contains {@link String} as key and
+     * {@link Boolean} as value
+     * <p>
+     * Each key represents a rule, and each value represents whether that rule is violated or not
+     * . If a value is true, then it's corresponding rule is violated.
+     */
+    private Map<String, Boolean> boolConflicts = new HashMap<>();
 
     public ShiftAssignment(String id, String role, Shift shift) {
         this.id = id;
@@ -71,17 +80,24 @@ public class ShiftAssignment {
                 '}';
         }
 
-        boolean empty = true;
-        for (String conflictName : conflicts.keySet()) {
-            if (conflicts.get(conflictName).size() != 0) {
-                empty = false;
+        boolean noSetConflict = true;
+        for (String conflictName : setConflicts.keySet()) {
+            if (setConflicts.get(conflictName).size() != 0) {
+                noSetConflict = false;
                 break;
             }
         }
 
-        return empty
-            ?
-            "ShiftAssignment{" +
+        boolean notBoolConflict = true;
+        for (String conflictName : boolConflicts.keySet()) {
+            if (boolConflicts.get(conflictName)) {
+                notBoolConflict = false;
+                break;
+            }
+        }
+
+        if (notBoolConflict && noSetConflict) {
+            return "ShiftAssignment{" +
                 "id=" + getId() + '\'' +
                 ", shiftId=" + shift.getId() + '\'' +
                 ", employeeId=" + employee.getId() +
@@ -89,18 +105,42 @@ public class ShiftAssignment {
                 ", roleRequired=" + role + '\'' +
                 ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() +
                 "~" + shift.getEndAt().toLocalTime() +
-                '}'
-            :
-            "ShiftAssignment{" +
-                "id=" + getId() + '\'' +
-                ", shiftId=" + shift.getId() + '\'' +
-                ", employeeId=" + employee.getId() +
-                ", employeeRoles=" + employee.getRoleSet() +
-                ", roleRequired=" + role + '\'' +
-                ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() +
-                "~" + shift.getEndAt().toLocalTime() +
-                ", conflicts=" + getConflicts().toString() + '\'' +
                 '}';
+        } else if (notBoolConflict && !noSetConflict) {
+            return "ShiftAssignment{" +
+                "id=" + getId() + '\'' +
+                ", shiftId=" + shift.getId() + '\'' +
+                ", employeeId=" + employee.getId() +
+                ", employeeRoles=" + employee.getRoleSet() +
+                ", roleRequired=" + role + '\'' +
+                ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() +
+                "~" + shift.getEndAt().toLocalTime() +
+                ", conflicts=" + getSetConflicts().toString() + '\'' +
+                '}';
+        } else if (!notBoolConflict && noSetConflict) {
+            return "ShiftAssignment{" +
+                "id=" + getId() + '\'' +
+                ", shiftId=" + shift.getId() + '\'' +
+                ", employeeId=" + employee.getId() +
+                ", employeeRoles=" + employee.getRoleSet() +
+                ", roleRequired=" + role + '\'' +
+                ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() +
+                "~" + shift.getEndAt().toLocalTime() +
+                ", conflicts=" + getBoolConflicts().toString() + '\'' +
+                '}';
+        } else {
+            return "ShiftAssignment{" +
+                "id=" + getId() + '\'' +
+                ", shiftId=" + shift.getId() + '\'' +
+                ", employeeId=" + employee.getId() +
+                ", employeeRoles=" + employee.getRoleSet() +
+                ", roleRequired=" + role + '\'' +
+                ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() +
+                "~" + shift.getEndAt().toLocalTime() +
+                ", boolConflicts=" + getSetConflicts().toString() + '\'' +
+                ", setConflicts2=" + getBoolConflicts().toString() + '\'' +
+                '}';
+        }
     }
 
 }

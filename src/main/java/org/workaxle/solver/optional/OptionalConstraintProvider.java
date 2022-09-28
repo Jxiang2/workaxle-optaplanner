@@ -18,7 +18,7 @@ public class OptionalConstraintProvider implements ConstraintProvider {
         return new Constraint[]{
             atLeastNHoursBetweenTwoShifts(constraintFactory),
             noShiftOnWeekends(constraintFactory),
-            atMostNHours(constraintFactory),
+            atMostNHoursShiftAssignments(constraintFactory),
         };
     }
 
@@ -29,11 +29,11 @@ public class OptionalConstraintProvider implements ConstraintProvider {
         return new Constraint[]{
             atLeastNHoursBetweenTwoShifts(constraintFactory),
             noShiftOnWeekends(constraintFactory),
-            atMostNHours(constraintFactory),
+            atMostNHoursShiftAssignments(constraintFactory),
         };
     }
 
-    Constraint atMostNHours(ConstraintFactory constraintFactory) {
+    Constraint atMostNHoursShiftAssignments(ConstraintFactory constraintFactory) {
         // no employee work more than X hours during a Y-day period
 
         return constraintFactory
