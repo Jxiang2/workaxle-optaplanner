@@ -28,7 +28,7 @@ public class SolutionHandler {
     }
 
     public SolutionHandler markInvalidDueToWeekendShifts() {
-        if (!settings.isWeekendShifts()) {
+        if (score.getHardScore() < 0 && !settings.isWeekendShifts()) {
             for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
                 if (ConstraintUtil.isWeekend(shiftAssignment.getDate())) {
                     final Set<String> conflictSet = shiftAssignment
@@ -41,33 +41,37 @@ public class SolutionHandler {
     }
 
     public SolutionHandler markInvalidDueToByDailyBetween() {
-        for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
-            final Set<String> conflictSet = shiftAssignment
-                .getConflicts().get(Conflict.AT_MOST_ONE_SHIFT_PER_DAY.getName());
+        if (score.getHardScore() < 0) {
+            for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
+                final Set<String> conflictSet = shiftAssignment
+                    .getConflicts().get(Conflict.AT_MOST_ONE_SHIFT_PER_DAY.getName());
 
-            conflictSet.addAll(
-                shiftAssignmentList
-                    .stream()
-                    .filter(other -> !shiftAssignment.equals(other)
-                        && shiftAssignment.getEmployee().equals(other.getEmployee())
-                        && shiftAssignment.getDate().equals(other.getDate())
-                    )
-                    .map(other -> other.getId())
-                    .collect(Collectors.toSet())
-            );
+                conflictSet.addAll(
+                    shiftAssignmentList
+                        .stream()
+                        .filter(other -> !shiftAssignment.equals(other)
+                            && shiftAssignment.getEmployee().equals(other.getEmployee())
+                            && shiftAssignment.getDate().equals(other.getDate())
+                        )
+                        .map(other -> other.getId())
+                        .collect(Collectors.toSet())
+                );
+            }
         }
         return this;
     }
 
     public SolutionHandler markInvalidDueToRequiredRole() {
-        for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
-            Set<String> employeeRoles = shiftAssignment.getEmployee().getRoleSet();
+        if (score.getHardScore() < 0) {
+            for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
+                Set<String> employeeRoles = shiftAssignment.getEmployee().getRoleSet();
 
-            if (!employeeRoles.contains(shiftAssignment.getRole())) {
-                final Set<String> invalidRoles = shiftAssignment
-                    .getConflicts()
-                    .get(Conflict.ONLY_REQUIRED_ROLES.getName());
-                invalidRoles.addAll(employeeRoles);
+                if (!employeeRoles.contains(shiftAssignment.getRole())) {
+                    final Set<String> invalidRoles = shiftAssignment
+                        .getConflicts()
+                        .get(Conflict.ONLY_REQUIRED_ROLES.getName());
+                    invalidRoles.addAll(employeeRoles);
+                }
             }
         }
         return this;
@@ -75,7 +79,7 @@ public class SolutionHandler {
 
     public SolutionHandler markInvalidDueToHourlyBetween() {
         int shiftsBetween = settings.getShiftsBetween();
-        if (shiftsBetween != 0) {
+        if (score.getHardScore() < 0 && shiftsBetween != 0) {
             for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
                 final Set<String> conflictSet = shiftAssignment
                     .getConflicts()
