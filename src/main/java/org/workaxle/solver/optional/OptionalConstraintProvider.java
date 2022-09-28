@@ -22,6 +22,17 @@ public class OptionalConstraintProvider implements ConstraintProvider {
         };
     }
 
+    @Override
+    public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
+        // for test only
+
+        return new Constraint[]{
+            atLeastNHoursBetweenTwoShifts(constraintFactory),
+            noShiftOnWeekends(constraintFactory),
+            atMostNHours(constraintFactory),
+        };
+    }
+
     Constraint atMostNHours(ConstraintFactory constraintFactory) {
         // no employee work more than X hours during a Y-day period
 
@@ -32,26 +43,18 @@ public class OptionalConstraintProvider implements ConstraintProvider {
                 ConstraintCollectors.sum(ShiftAssignment::getShiftDurationInHours)
             )
             .join(Settings.class)
-            .filter((employee, totalHours, setting) -> totalHours > setting.getMaxHours())
+            .filter((employee, totalHours, settings) -> {
+                return totalHours > settings.getMaxHours();
+            })
             .penalize(
                 Conflict.AT_MOST_N_HOURS.getName(),
                 HardSoftScore.ONE_HARD,
-                (employee, totalHours, settings) -> totalHours
+                (employee, totalHours, settings) -> totalHours - settings.getMaxHours()
             );
     }
 
-    @Override
-    public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
-        // for test only
-
-        return new Constraint[]{
-            atLeastNHoursBetweenTwoShifts(constraintFactory),
-            noShiftOnWeekends(constraintFactory),
-        };
-    }
-
     Constraint noShiftOnWeekends(ConstraintFactory constraintFactory) {
-        // no employee work on weekends
+        // no shifts should be scheduled on weekends
 
         return constraintFactory
             .forEach(ShiftAssignment.class)

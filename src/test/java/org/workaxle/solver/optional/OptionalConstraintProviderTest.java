@@ -15,6 +15,44 @@ public class OptionalConstraintProviderTest {
         .build(new OptionalConstraintProvider(), Schedule.class, ShiftAssignment.class);
 
     @Test
+    void testAtMostNHours() {
+        Shift s1 = new Shift(
+            1L,
+            "shift A1",
+            LocalDateTime.of(2022, 11, 21, 9, 0),
+            LocalDateTime.of(2022, 11, 21, 15, 0),
+            new HashMap<>() {{
+                put("Dev", 1);
+                put("Design", 1);
+            }}
+        );
+        Shift s2 = new Shift(
+            2L,
+            "shift A2",
+            LocalDateTime.of(2022, 11, 22, 15, 0),
+            LocalDateTime.of(2022, 11, 22, 22, 0),
+            new HashMap<>() {{
+                put("Dev", 1);
+                put("Design", 1);
+            }}
+        );
+        Employee e1 = new Employee(1L, "user 1", new HashSet<>(Arrays.asList("Dev", "Design")));
+        int j = 1;
+        ShiftAssignment sa1 = new ShiftAssignment(String.valueOf(j++), "Dev", s1, e1);
+        ShiftAssignment sa2 = new ShiftAssignment(String.valueOf(j++), "Design", s2, e1);
+        Settings settings = new Settings();
+        settings.setMaxHours(8);
+        constraintVerifier
+            .verifyThat(OptionalConstraintProvider::atMostNHours)
+            .given(
+                sa1,
+                sa2,
+                settings
+            )
+            .penalizesBy(5);
+    }
+
+    @Test
     void testNoShiftOnWeekends() {
         Shift s1 = new Shift(
             1L,
@@ -37,7 +75,7 @@ public class OptionalConstraintProviderTest {
             }}
         );
         Employee e1 = new Employee(1L, "user 1", new HashSet<>(Arrays.asList("Dev", "Design")));
-        long j = 1;
+        int j = 1;
         ShiftAssignment sa1 = new ShiftAssignment(String.valueOf(j++), "Dev", s1, e1);
         ShiftAssignment sa2 = new ShiftAssignment(String.valueOf(j++), "Design", s1, e1);
         Settings settings = new Settings();
@@ -49,7 +87,7 @@ public class OptionalConstraintProviderTest {
                 sa2,
                 settings
             )
-            .penalizesBy(48);
+            .penalizesBy(6);
     }
 
     @Test
@@ -77,7 +115,7 @@ public class OptionalConstraintProviderTest {
         Employee e1 = new Employee(1L, "user 1", new HashSet<>(Arrays.asList("Dev", "Design")));
         Employee e2 = new Employee(2L, "user 2", new HashSet<>(Arrays.asList("Dev", "Design")));
         Employee e3 = new Employee(3L, "user 3", new HashSet<>(Arrays.asList("Dev", "Design")));
-        long j = 1;
+        int j = 1;
         ShiftAssignment sa1 = new ShiftAssignment(String.valueOf(j++), "Dev", s1, e1);
         ShiftAssignment sa2 = new ShiftAssignment(String.valueOf(j++), "Design", s1, e2);
         ShiftAssignment sa3 = new ShiftAssignment(String.valueOf(j++), "Dev", s2, e3);

@@ -55,7 +55,7 @@ public class ShiftAssignment {
     }
 
     public int getShiftDurationInHours() {
-        return (int) Duration.between(shift.getEndAt(), shift.getStartAt()).toHours();
+        return (int) Duration.between(shift.getStartAt(), shift.getEndAt()).toHours();
     }
 
     @Override
@@ -66,7 +66,8 @@ public class ShiftAssignment {
                 "shiftID=" + shift.getId() + '\'' +
                 ", null" +
                 ", roleRequired=" + role + '\'' +
-                ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() + "~" + shift.getEndAt().toLocalTime() +
+                ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() +
+                "~" + shift.getEndAt().toLocalTime() +
                 '}';
         }
 
@@ -86,7 +87,8 @@ public class ShiftAssignment {
                 ", employeeId=" + employee.getId() +
                 ", employeeRoles=" + employee.getRoleSet() +
                 ", roleRequired=" + role + '\'' +
-                ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() + "~" + shift.getEndAt().toLocalTime() +
+                ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() +
+                "~" + shift.getEndAt().toLocalTime() +
                 '}'
             :
             "ShiftAssignment{" +
@@ -95,7 +97,8 @@ public class ShiftAssignment {
                 ", employeeId=" + employee.getId() +
                 ", employeeRoles=" + employee.getRoleSet() +
                 ", roleRequired=" + role + '\'' +
-                ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() + "~" + shift.getEndAt().toLocalTime() +
+                ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() +
+                "~" + shift.getEndAt().toLocalTime() +
                 ", conflicts=" + getConflicts().toString() + '\'' +
                 '}';
     }
