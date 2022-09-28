@@ -1,10 +1,7 @@
 package org.workaxle.solver.optional;
 
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
-import org.optaplanner.core.api.score.stream.Constraint;
-import org.optaplanner.core.api.score.stream.ConstraintFactory;
-import org.optaplanner.core.api.score.stream.ConstraintProvider;
-import org.optaplanner.core.api.score.stream.Joiners;
+import org.optaplanner.core.api.score.stream.*;
 import org.workaxle.constants.Conflict;
 import org.workaxle.domain.Settings;
 import org.workaxle.domain.ShiftAssignment;
@@ -21,7 +18,26 @@ public class OptionalConstraintProvider implements ConstraintProvider {
         return new Constraint[]{
             atLeastNHoursBetweenTwoShifts(constraintFactory),
             noShiftOnWeekends(constraintFactory),
+            atMostNHours(constraintFactory),
         };
+    }
+
+    Constraint atMostNHours(ConstraintFactory constraintFactory) {
+        // no employee work more than X hours during a Y-day period
+
+        return constraintFactory
+            .forEach(ShiftAssignment.class)
+            .groupBy(
+                ShiftAssignment::getEmployee,
+                ConstraintCollectors.sum(ShiftAssignment::getShiftDurationInHours)
+            )
+            .join(Settings.class)
+            .filter((employee, totalHours, setting) -> totalHours > setting.getMaxHours())
+            .penalize(
+                Conflict.AT_MOST_N_HOURS.getName(),
+                HardSoftScore.ONE_HARD,
+                (employee, totalHours, settings) -> totalHours
+            );
     }
 
     @Override
@@ -46,7 +62,7 @@ public class OptionalConstraintProvider implements ConstraintProvider {
             .penalize(
                 Conflict.NO_SHIFT_ON_WEEKENDS.getName(),
                 HardSoftScore.ONE_HARD,
-                (shiftAssignment, settings) -> 24
+                (shiftAssignment, settings) -> shiftAssignment.getShiftDurationInHours()
             );
     }
 
@@ -79,9 +95,7 @@ public class OptionalConstraintProvider implements ConstraintProvider {
                         second.getShift().getStartAt()
                     ).toMinutes());
 
-                    return Math.abs(
-                        settings.getShiftsBetween() - convertMinutesToHours(breakLength)
-                    );
+                    return Math.abs(settings.getShiftsBetween() - convertMinutesToHours(breakLength));
                 }
             );
     }

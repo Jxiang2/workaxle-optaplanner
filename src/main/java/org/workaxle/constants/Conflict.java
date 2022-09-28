@@ -7,7 +7,8 @@ public enum Conflict {
     EVENLY_SHIFT_DISTRIBUTION("evenlyShiftsDistribution", "Try to distribute shifts to every employee equally."),
     ONLY_REQUIRED_ROLES("onlyRequiredRole", "The Employee must have the required role to take this shift"),
     NO_OVERLAPPING_SHIFTS("noOverlappingShifts", "no employee takes 2 or more shifts at the same " + "time"),
-    NO_SHIFT_ON_WEEKENDS("noShiftOnWeekends", "no shift can be scheduled on weekends");
+    NO_SHIFT_ON_WEEKENDS("noShiftOnWeekends", "no shift can be scheduled on weekends"),
+    AT_MOST_N_HOURS("atMostNHours", "no employee works more than n hours per period");
 
     private final String name;
 

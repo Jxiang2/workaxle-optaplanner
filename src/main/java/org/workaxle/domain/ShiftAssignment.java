@@ -6,6 +6,7 @@ import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 import org.workaxle.constants.Conflict;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -49,6 +50,14 @@ public class ShiftAssignment {
     public ShiftAssignment() {
     }
 
+    public LocalDate getDate() {
+        return shift.getEndAt().toLocalDate();
+    }
+
+    public int getShiftDurationInHours() {
+        return (int) Duration.between(shift.getEndAt(), shift.getStartAt()).toHours();
+    }
+
     @Override
     public String toString() {
         if (employee == null) {
@@ -89,10 +98,6 @@ public class ShiftAssignment {
                 ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() + "~" + shift.getEndAt().toLocalTime() +
                 ", conflicts=" + getConflicts().toString() + '\'' +
                 '}';
-    }
-
-    public LocalDate getDate() {
-        return shift.getEndAt().toLocalDate();
     }
 
 }
