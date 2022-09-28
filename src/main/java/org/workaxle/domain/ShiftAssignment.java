@@ -138,7 +138,7 @@ public class ShiftAssignment {
                 ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() +
                 "~" + shift.getEndAt().toLocalTime() +
                 ", boolConflicts=" + getSetConflicts().toString() + '\'' +
-                ", setConflicts2=" + getBoolConflicts().toString() + '\'' +
+                ", setConflicts=" + getBoolConflicts().toString() + '\'' +
                 '}';
         }
     }
