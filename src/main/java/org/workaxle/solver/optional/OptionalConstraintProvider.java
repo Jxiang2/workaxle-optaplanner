@@ -9,8 +9,8 @@ import org.workaxle.domain.ShiftAssignment;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-import static org.workaxle.solver.ConstraintUtil.convertMinutesToHours;
-import static org.workaxle.solver.ConstraintUtil.isWeekend;
+import static org.workaxle.util.common.Chronometric.convertMinutesToHours;
+import static org.workaxle.util.common.Chronometric.isWeekend;
 
 public class OptionalConstraintProvider implements ConstraintProvider {
 

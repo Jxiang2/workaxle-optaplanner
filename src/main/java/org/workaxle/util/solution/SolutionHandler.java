@@ -5,7 +5,7 @@ import org.workaxle.constants.Conflict;
 import org.workaxle.domain.Schedule;
 import org.workaxle.domain.Settings;
 import org.workaxle.domain.ShiftAssignment;
-import org.workaxle.solver.ConstraintUtil;
+import org.workaxle.util.common.Chronometric;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -30,7 +30,7 @@ public class SolutionHandler {
     public SolutionHandler markInvalidDueToWeekendShifts() {
         if (score.getHardScore() < 0 && !settings.isWeekendShifts()) {
             for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
-                if (ConstraintUtil.isWeekend(shiftAssignment.getDate())) {
+                if (Chronometric.isWeekend(shiftAssignment.getDate())) {
                     final Set<String> conflictSet = shiftAssignment
                         .getConflicts().get(Conflict.NO_SHIFT_ON_WEEKENDS.getName());
                     conflictSet.add(shiftAssignment.getId());

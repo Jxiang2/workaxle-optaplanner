@@ -1,4 +1,4 @@
-package org.workaxle.solver;
+package org.workaxle.util.common;
 
 import org.workaxle.domain.ShiftAssignment;
 
@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoField;
 
-public class ConstraintUtil {
+public class Chronometric {
 
     public static int getHourlyOverlap(ShiftAssignment first, ShiftAssignment second) {
         final LocalDateTime shift1Start = first.getShift().getStartAt();
