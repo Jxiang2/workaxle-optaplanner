@@ -28,7 +28,7 @@ public class SolutionHandler {
     }
 
     public SolutionHandler markInvalidDueToWeekendShifts() {
-        if (score.getHardScore() < 0 && !settings.isWeekendShifts()) {
+        if (score.getHardScore() < 0 && !settings.getWeekendShifts()) {
             for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
                 if (Chronometric.isWeekend(shiftAssignment.getDate())) {
                     final Set<String> conflictSet = shiftAssignment

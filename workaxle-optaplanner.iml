@@ -37,6 +37,7 @@
     <orderEntry type="library" name="Maven: org.drools:drools-wiring-static:8.27.0.Beta" level="project" />
     <orderEntry type="library" name="Maven: org.drools:drools-io:8.27.0.Beta" level="project" />
     <orderEntry type="library" name="Maven: org.drools:drools-util:8.27.0.Beta" level="project" />
+    <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.15" level="project" />
     <orderEntry type="library" name="Maven: org.drools:drools-wiring-dynamic:8.27.0.Beta" level="project" />
     <orderEntry type="library" name="Maven: org.drools:drools-kiesession:8.27.0.Beta" level="project" />
     <orderEntry type="library" name="Maven: org.drools:drools-tms:8.27.0.Beta" level="project" />
@@ -67,10 +68,6 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.13.3" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.13.3" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.13.3" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.5.13" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore:4.4.13" level="project" />
-    <orderEntry type="library" name="Maven: commons-logging:commons-logging:1.2" level="project" />
-    <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.11" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.optaplanner:optaplanner-test:8.27.0.Final" level="project" />
     <orderEntry type="library" name="Maven: org.optaplanner:optaplanner-constraint-streams-common:8.27.0.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-api:5.9.0" level="project" />

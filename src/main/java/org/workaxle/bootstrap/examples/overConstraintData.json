@@ -92,7 +92,6 @@
   "endDate": "2022-11-25",
   "settings": {
     "shiftsBetween": 12,
-    "weekendShifts": false,
-    "maxHours": 8
+    "weekendShifts": false
   }
 }

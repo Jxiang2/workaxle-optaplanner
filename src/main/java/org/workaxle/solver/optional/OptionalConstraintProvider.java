@@ -43,9 +43,9 @@ public class OptionalConstraintProvider implements ConstraintProvider {
                 ConstraintCollectors.sum(ShiftAssignment::getShiftDurationInHours)
             )
             .join(Settings.class)
-            .filter((employee, totalHours, settings) -> {
-                return totalHours > settings.getMaxHours();
-            })
+            .filter((employee, totalHours, settings) ->
+                settings.getMaxHours() != null && totalHours > settings.getMaxHours()
+            )
             .penalize(
                 Conflict.AT_MOST_N_HOURS.getName(),
                 HardSoftScore.ONE_HARD,
@@ -60,7 +60,7 @@ public class OptionalConstraintProvider implements ConstraintProvider {
             .forEach(ShiftAssignment.class)
             .join(Settings.class)
             .filter((shiftAssignment, settings) ->
-                !settings.isWeekendShifts() && isWeekend(shiftAssignment.getDate())
+                !settings.getWeekendShifts() && isWeekend(shiftAssignment.getDate())
             )
             .penalize(
                 Conflict.NO_SHIFT_ON_WEEKENDS.getName(),
@@ -79,14 +79,17 @@ public class OptionalConstraintProvider implements ConstraintProvider {
             )
             .join(Settings.class)
             .filter((firstShift, secondShift, settings) -> {
-                    final int gap = settings.getShiftsBetween();
-                    final LocalDateTime firstStartAt = firstShift.getShift().getStartAt();
-                    final LocalDateTime firstEndAt = firstShift.getShift().getEndAt();
-                    final LocalDateTime secondStartAt = secondShift.getShift().getStartAt();
-                    final LocalDateTime secondEndAt = secondShift.getShift().getEndAt();
+                    final Integer gap = settings.getShiftsBetween();
+                    if (gap != null) {
+                        final LocalDateTime firstStartAt = firstShift.getShift().getStartAt();
+                        final LocalDateTime firstEndAt = firstShift.getShift().getEndAt();
+                        final LocalDateTime secondStartAt = secondShift.getShift().getStartAt();
+                        final LocalDateTime secondEndAt = secondShift.getShift().getEndAt();
 
-                    return Math.abs(Duration.between(firstEndAt, secondStartAt).toHours()) < gap
-                        || Math.abs(Duration.between(secondEndAt, firstStartAt).toHours()) < gap;
+                        return Math.abs(Duration.between(firstEndAt, secondStartAt).toHours()) < gap
+                            || Math.abs(Duration.between(secondEndAt, firstStartAt).toHours()) < gap;
+                    }
+                    return false;
                 }
             )
             .penalize(
