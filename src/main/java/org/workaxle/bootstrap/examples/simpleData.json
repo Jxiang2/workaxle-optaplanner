@@ -72,7 +72,7 @@
       "id": 73,
       "name": "clean up",
       "startAt": "15:00",
-      "endAt": "17:00",
+      "endAt": "18:00",
       "requiredRoles": {
         "Clean": 2
       }
@@ -93,6 +93,6 @@
   "settings": {
     "shiftsBetween": 0,
     "weekendShifts": false,
-    "maxHours": 8
+    "maxHours": 15
   }
 }
