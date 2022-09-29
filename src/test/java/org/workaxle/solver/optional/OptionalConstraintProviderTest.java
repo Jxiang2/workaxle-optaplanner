@@ -41,7 +41,7 @@ public class OptionalConstraintProviderTest {
         ShiftAssignment sa1 = new ShiftAssignment(String.valueOf(j++), "Dev", s1, e1);
         ShiftAssignment sa2 = new ShiftAssignment(String.valueOf(j++), "Design", s2, e1);
         Settings settings = new Settings();
-        settings.setMaxHours(8);
+        settings.setMaxHoursOfWork(8);
         constraintVerifier
             .verifyThat(OptionalConstraintProvider::atMostNHoursShiftAssignments)
             .given(
@@ -79,7 +79,7 @@ public class OptionalConstraintProviderTest {
         ShiftAssignment sa1 = new ShiftAssignment(String.valueOf(j++), "Dev", s1, e1);
         ShiftAssignment sa2 = new ShiftAssignment(String.valueOf(j++), "Design", s1, e1);
         Settings settings = new Settings();
-        settings.setWeekendShifts(false);
+        settings.setAllowWeekendShifts(false);
         constraintVerifier
             .verifyThat(OptionalConstraintProvider::noShiftOnWeekends)
             .given(

@@ -15,8 +15,8 @@ public class SolutionPrinter {
         List<ShiftAssignment> shiftAssignmentList = schedule.getShiftAssignmentList();
 
         new SolutionHandler(schedule)
-            .markInvalidDueToByDailyBetween()
-            .markInvalidDueToHourlyBetween()
+            .markInvalidDueToOneShiftPerDay()
+            .markInvalidDueToHoursBetweenShifts()
             .markInvalidDueToRequiredRole()
             .markInvalidDueToWeekendShifts()
             .markInvalidDueToExceedingMaxHours();

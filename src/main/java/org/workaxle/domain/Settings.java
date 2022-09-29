@@ -5,10 +5,10 @@ import lombok.Data;
 @Data
 public class Settings {
 
-    private Integer maxHours;
+    private Integer maxHoursOfWork;
 
-    private Integer shiftsBetween;
+    private Integer hoursBetweenShifts;
 
-    private Boolean weekendShifts = false;
+    private Boolean allowWeekendShifts = false;
 
 }

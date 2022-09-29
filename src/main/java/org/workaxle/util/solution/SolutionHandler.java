@@ -34,7 +34,7 @@ public class SolutionHandler {
     }
 
     public SolutionHandler markInvalidDueToWeekendShifts() {
-        if (score.getHardScore() < 0 && !settings.getWeekendShifts()) {
+        if (score.getHardScore() < 0 && !settings.getAllowWeekendShifts()) {
             for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
                 if (TimeUtil.isWeekend(shiftAssignment.getDate())) {
                     addToBoolConflicts(shiftAssignment, Conflict.NO_SHIFT_ON_WEEKENDS.getName());
@@ -44,7 +44,7 @@ public class SolutionHandler {
         return this;
     }
 
-    public SolutionHandler markInvalidDueToByDailyBetween() {
+    public SolutionHandler markInvalidDueToOneShiftPerDay() {
         if (score.getHardScore() < 0) {
             for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
                 final Set<String> newConflicts = shiftAssignmentList
@@ -80,8 +80,8 @@ public class SolutionHandler {
         return this;
     }
 
-    public SolutionHandler markInvalidDueToHourlyBetween() {
-        Integer shiftsBetween = settings.getShiftsBetween();
+    public SolutionHandler markInvalidDueToHoursBetweenShifts() {
+        Integer shiftsBetween = settings.getHoursBetweenShifts();
         if (shiftsBetween != null) {
             for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
                 final LocalDateTime startAt = shiftAssignment.getShift().getStartAt();
@@ -114,7 +114,7 @@ public class SolutionHandler {
     }
 
     public SolutionHandler markInvalidDueToExceedingMaxHours() {
-        Integer maxHour = settings.getMaxHours();
+        Integer maxHour = settings.getMaxHoursOfWork();
         if (score.getHardScore() < 0 && maxHour != null) {
             for (Employee employee : employeeList) {
                 int hoursWorked = 0;

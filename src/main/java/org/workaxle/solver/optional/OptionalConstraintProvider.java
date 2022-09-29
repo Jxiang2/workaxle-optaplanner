@@ -44,12 +44,12 @@ public class OptionalConstraintProvider implements ConstraintProvider {
             )
             .join(Settings.class)
             .filter((employee, totalHours, settings) ->
-                settings.getMaxHours() != null && totalHours > settings.getMaxHours()
+                settings.getMaxHoursOfWork() != null && totalHours > settings.getMaxHoursOfWork()
             )
             .penalize(
                 Conflict.AT_MOST_N_HOURS.getName(),
                 HardSoftScore.ONE_HARD,
-                (employee, totalHours, settings) -> totalHours - settings.getMaxHours()
+                (employee, totalHours, settings) -> totalHours - settings.getMaxHoursOfWork()
             );
     }
 
@@ -60,7 +60,7 @@ public class OptionalConstraintProvider implements ConstraintProvider {
             .forEach(ShiftAssignment.class)
             .join(Settings.class)
             .filter((shiftAssignment, settings) ->
-                !settings.getWeekendShifts() && isWeekend(shiftAssignment.getDate())
+                !settings.getAllowWeekendShifts() && isWeekend(shiftAssignment.getDate())
             )
             .penalize(
                 Conflict.NO_SHIFT_ON_WEEKENDS.getName(),
@@ -79,7 +79,7 @@ public class OptionalConstraintProvider implements ConstraintProvider {
             )
             .join(Settings.class)
             .filter((firstShift, secondShift, settings) -> {
-                    final Integer gap = settings.getShiftsBetween();
+                    final Integer gap = settings.getHoursBetweenShifts();
                     if (gap != null) {
                         final LocalDateTime firstStartAt = firstShift.getShift().getStartAt();
                         final LocalDateTime firstEndAt = firstShift.getShift().getEndAt();
@@ -101,7 +101,7 @@ public class OptionalConstraintProvider implements ConstraintProvider {
                         second.getShift().getStartAt()
                     ).toMinutes());
 
-                    return Math.abs(settings.getShiftsBetween() - convertMinutesToHours(breakLength));
+                    return Math.abs(settings.getHoursBetweenShifts() - convertMinutesToHours(breakLength));
                 }
             );
     }

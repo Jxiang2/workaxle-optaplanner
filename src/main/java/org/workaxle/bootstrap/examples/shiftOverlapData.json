@@ -4,103 +4,103 @@
       "id": 74,
       "name": "Database Design",
       "roles": [
-        "Design"
+        "FE"
       ]
     },
     {
       "id": 88,
       "name": "Java Dev",
       "roles": [
-        "Dev"
+        "FE"
       ]
     },
     {
       "id": 99,
       "name": "Frontend Design",
       "roles": [
-        "Design"
+        "BE"
       ]
     },
     {
       "id": 101,
       "name": "Frontend Dev",
       "roles": [
-        "Dev"
+        "BE"
       ]
     },
     {
       "id": 43,
       "name": "First Cleaner",
       "roles": [
-        "Clean"
+        "FE",
+        "BN"
       ]
     },
     {
       "id": 84,
       "name": "Second Cleaner",
       "roles": [
-        "Clean",
-        "Security"
+        "DBA"
       ]
     },
     {
       "id": 59,
       "name": "Team Leader 1",
       "roles": [
-        "Dev",
-        "Design"
+        "DBA",
+        "DevOps"
       ]
     },
     {
       "id": 65,
       "name": "Team Leader 2",
       "roles": [
-        "Dev",
-        "Design"
+        "DevOps"
       ]
     }
   ],
   "allRequiredRoles": [
-    "Dev",
-    "Design",
-    "Clean"
+    "FE",
+    "BE",
+    "DBA",
+    "DevOps"
   ],
   "shifts": [
     {
       "id": 108,
-      "name": "design new features",
+      "name": "dev new features, department A",
       "startAt": "09:00",
       "endAt": "12:00",
       "requiredRoles": {
-        "Design": 2,
-        "Dev": 1
+        "FE": 2,
+        "BE": 2
       }
     },
     {
       "id": 73,
-      "name": "clean up",
-      "startAt": "15:00",
-      "endAt": "18:00",
+      "name": "dev new features, department B",
+      "startAt": "09:00",
+      "endAt": "12:00",
       "requiredRoles": {
-        "Clean": 1
+        "FE": 2,
+        "BE": 2
       }
     },
     {
       "id": 90,
-      "name": "develop new features",
+      "name": "deployment",
       "startAt": "20:00",
       "endAt": "23:00",
       "requiredRoles": {
-        "Dev": 2,
-        "Design": 1
+        "DevOps": 1,
+        "DBA": 1
       }
     }
   ],
   "startDate": "2022-11-21",
-  "endDate": "2022-11-26",
+  "endDate": "2022-11-25",
   "settings": {
     "hoursBetweenShifts": 12,
-    "allowWeekendShifts": true,
-    "maxHoursOfWork": 18
+    "maxHoursOfWork": 15
   }
 }
