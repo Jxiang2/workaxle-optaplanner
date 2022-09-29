@@ -81,8 +81,8 @@ public class SolutionHandler {
     }
 
     public SolutionHandler markInvalidDueToHourlyBetween() {
-        int shiftsBetween = settings.getShiftsBetween();
-        if (shiftsBetween != 0) {
+        Integer shiftsBetween = settings.getShiftsBetween();
+        if (shiftsBetween != null) {
             for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
                 final LocalDateTime startAt = shiftAssignment.getShift().getStartAt();
                 final LocalDateTime endAt = shiftAssignment.getShift().getEndAt();
