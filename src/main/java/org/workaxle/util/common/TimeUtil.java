@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoField;
 
-public class Chronometric {
+public class TimeUtil {
 
     public static int getHourlyOverlap(ShiftAssignment first, ShiftAssignment second) {
         final LocalDateTime shift1Start = first.getShift().getStartAt();

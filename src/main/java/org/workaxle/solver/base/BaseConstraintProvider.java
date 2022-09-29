@@ -4,7 +4,7 @@ import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.api.score.stream.*;
 import org.workaxle.constants.Conflict;
 import org.workaxle.domain.ShiftAssignment;
-import org.workaxle.util.common.Chronometric;
+import org.workaxle.util.common.TimeUtil;
 
 import java.util.Set;
 
@@ -95,7 +95,7 @@ public class BaseConstraintProvider implements ConstraintProvider {
             .penalize(
                 Conflict.NO_OVERLAPPING_SHIFTS.getName(),
                 HardSoftScore.ONE_HARD,
-                Chronometric::getHourlyOverlap
+                TimeUtil::getHourlyOverlap
             );
     }
 

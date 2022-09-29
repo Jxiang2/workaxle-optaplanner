@@ -2,10 +2,11 @@ package org.workaxle.util.solution;
 
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.workaxle.constants.Conflict;
+import org.workaxle.domain.Employee;
 import org.workaxle.domain.Schedule;
 import org.workaxle.domain.Settings;
 import org.workaxle.domain.ShiftAssignment;
-import org.workaxle.util.common.Chronometric;
+import org.workaxle.util.common.TimeUtil;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -23,8 +24,11 @@ public class SolutionHandler {
 
     List<ShiftAssignment> shiftAssignmentList;
 
+    List<Employee> employeeList;
+
     public SolutionHandler(Schedule schedule) {
         shiftAssignmentList = schedule.getShiftAssignmentList();
+        employeeList = schedule.getEmployeeList();
         score = schedule.getScore();
         settings = schedule.getSettings();
     }
@@ -32,7 +36,7 @@ public class SolutionHandler {
     public SolutionHandler markInvalidDueToWeekendShifts() {
         if (score.getHardScore() < 0 && !settings.getWeekendShifts()) {
             for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
-                if (Chronometric.isWeekend(shiftAssignment.getDate())) {
+                if (TimeUtil.isWeekend(shiftAssignment.getDate())) {
                     addToBoolConflicts(shiftAssignment, Conflict.NO_SHIFT_ON_WEEKENDS.getName());
                 }
             }
@@ -110,7 +114,20 @@ public class SolutionHandler {
     }
 
     public SolutionHandler markInvalidDueToExceedingMaxHours() {
-        // Todo
+        Integer maxHour = settings.getMaxHours();
+        if (score.getHardScore() < 0 && maxHour != null) {
+            for (Employee employee : employeeList) {
+                int hoursWorked = 0;
+                for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
+                    if (shiftAssignment.getEmployee().equals(employee)) {
+                        hoursWorked += shiftAssignment.getShiftDurationInHours();
+                    }
+                    if (hoursWorked > maxHour) {
+                        addToBoolConflicts(shiftAssignment, Conflict.AT_MOST_N_HOURS.getName());
+                    }
+                }
+            }
+        }
         return null;
     }
 
