@@ -33,8 +33,7 @@ public class SolutionHandler {
         if (score.getHardScore() < 0 && !settings.getWeekendShifts()) {
             for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
                 if (Chronometric.isWeekend(shiftAssignment.getDate())) {
-                    final Map<String, Boolean> boolConflicts = shiftAssignment.getBoolConflicts();
-                    boolConflicts.put(Conflict.NO_SHIFT_ON_WEEKENDS.getName(), true);
+                    addToBoolConflicts(shiftAssignment, Conflict.NO_SHIFT_ON_WEEKENDS.getName());
                 }
             }
         }
@@ -53,16 +52,12 @@ public class SolutionHandler {
                     .map(other -> other.getId())
                     .collect(Collectors.toSet());
 
-                final Map<String, Set<String>> setConflicts = shiftAssignment.getSetConflicts();
-                final Set<String> previousConflicts =
-                    setConflicts.get(Conflict.AT_MOST_ONE_SHIFT_PER_DAY.getName());
-
-                if (previousConflicts == null) {
-                    Set<String> conflictSet = new HashSet<>();
-                    conflictSet.addAll(newConflicts);
-                    setConflicts.put(Conflict.AT_MOST_ONE_SHIFT_PER_DAY.getName(), conflictSet);
-                } else {
-                    previousConflicts.addAll(newConflicts);
+                if (newConflicts.size() > 0) {
+                    addToSetConflicts(
+                        shiftAssignment,
+                        Conflict.AT_MOST_ONE_SHIFT_PER_DAY.getName(),
+                        newConflicts
+                    );
                 }
             }
         }
@@ -74,8 +69,7 @@ public class SolutionHandler {
             for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
                 Set<String> employeeRoles = shiftAssignment.getEmployee().getRoleSet();
                 if (!employeeRoles.contains(shiftAssignment.getRole())) {
-                    final Map<String, Boolean> boolConflicts = shiftAssignment.getBoolConflicts();
-                    boolConflicts.put(Conflict.ONLY_REQUIRED_ROLES.getName(), true);
+                    addToBoolConflicts(shiftAssignment, Conflict.ONLY_REQUIRED_ROLES.getName());
                 }
             }
         }
@@ -103,20 +97,45 @@ public class SolutionHandler {
                     .map(other -> other.getId())
                     .collect(Collectors.toSet());
 
-                final Map<String, Set<String>> setConflicts = shiftAssignment.getSetConflicts();
-                final Set<String> previousConflicts =
-                    setConflicts.get(Conflict.AT_LEAST_N_HOURS_BETWEEN_TWO_SHIFTS.getName());
-
-                if (previousConflicts == null) {
-                    Set<String> conflictSet = new HashSet<>();
-                    conflictSet.addAll(newConflicts);
-                    setConflicts.put(Conflict.AT_LEAST_N_HOURS_BETWEEN_TWO_SHIFTS.getName(), conflictSet);
-                } else {
-                    previousConflicts.addAll(newConflicts);
+                if (newConflicts.size() > 0) {
+                    addToSetConflicts(
+                        shiftAssignment,
+                        Conflict.AT_LEAST_N_HOURS_BETWEEN_TWO_SHIFTS.getName(),
+                        newConflicts
+                    );
                 }
             }
         }
         return this;
+    }
+
+    public SolutionHandler markInvalidDueToExceedingMaxHours() {
+        // Todo
+        return null;
+    }
+
+    private void addToSetConflicts(
+        ShiftAssignment shiftAssignment,
+        String conflictName,
+        Set<String> newConflicts
+    ) {
+        final Map<String, Set<String>> setConflicts = shiftAssignment.getSetConflicts();
+        final Set<String> previousConflicts =
+            setConflicts.get(conflictName);
+
+        if (previousConflicts == null) {
+            Set<String> conflictSet = new HashSet<>();
+            conflictSet.addAll(newConflicts);
+            setConflicts.put(conflictName, conflictSet);
+        } else {
+            previousConflicts.addAll(newConflicts);
+        }
+
+    }
+
+    private void addToBoolConflicts(ShiftAssignment shiftAssignment, String conflictName) {
+        final Map<String, Boolean> boolConflicts = shiftAssignment.getBoolConflicts();
+        boolConflicts.put(conflictName, true);
     }
 
 }

@@ -16,7 +16,7 @@ Optional constraints
 
 1. No employee works more than 1 shift in N hours (0 by default) ✅
 2. No employee works on weekends (true by default) ✅
-3. Each employee should work no more than X hours and less than Y hours during a Z-day period
+3. Each employee should work no more than X hours during a Y-day period ✅
 
 ### Models:
 
