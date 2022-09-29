@@ -18,7 +18,8 @@ public class SolutionPrinter {
             .markInvalidDueToByDailyBetween()
             .markInvalidDueToHourlyBetween()
             .markInvalidDueToRequiredRole()
-            .markInvalidDueToWeekendShifts();
+            .markInvalidDueToWeekendShifts()
+            .markInvalidDueToExceedingMaxHours();
 
         System.out.println(
             "Total number of valid shift assignments: " + shiftAssignmentList.size() + "\n"
@@ -27,7 +28,7 @@ public class SolutionPrinter {
         final LocalDate startDay = Data.generateStartEndDates()[0];
         final LocalDate endDay = Data.generateStartEndDates()[1];
         LocalDate currentDay = startDay;
-        
+
         while (currentDay.isBefore(endDay.plusDays(1))) {
             for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
                 if (shiftAssignment.getDate().equals(currentDay)) {

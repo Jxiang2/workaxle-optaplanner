@@ -121,9 +121,10 @@ public class SolutionHandler {
                 for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
                     if (shiftAssignment.getEmployee().equals(employee)) {
                         hoursWorked += shiftAssignment.getShiftDurationInHours();
-                    }
-                    if (hoursWorked > maxHour) {
-                        addToBoolConflicts(shiftAssignment, Conflict.AT_MOST_N_HOURS.getName());
+                        if (hoursWorked > maxHour) {
+                            System.out.println(hoursWorked);
+                            addToBoolConflicts(shiftAssignment, Conflict.AT_MOST_N_HOURS.getName());
+                        }
                     }
                 }
             }
