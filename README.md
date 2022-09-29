@@ -2,7 +2,9 @@
 
 ## Task:
 
-Schedule shifts for all employees in a specific group in a period of time
+Schedule shifts for all employees in a specific group in a period of time.
+
+e.g. A department manager want to automatically schedule shifts for all of his employees who are eligible to take one or many of those shifts.
 
 ### Constraints:
 
