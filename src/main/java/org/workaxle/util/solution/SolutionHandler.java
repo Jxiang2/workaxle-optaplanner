@@ -122,7 +122,6 @@ public class SolutionHandler {
                     if (shiftAssignment.getEmployee().equals(employee)) {
                         hoursWorked += shiftAssignment.getShiftDurationInHours();
                         if (hoursWorked > maxHour) {
-                            System.out.println(hoursWorked);
                             addToBoolConflicts(shiftAssignment, Conflict.AT_MOST_N_HOURS.getName());
                         }
                     }

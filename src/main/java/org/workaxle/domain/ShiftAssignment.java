@@ -137,8 +137,8 @@ public class ShiftAssignment {
                 ", roleRequired=" + role + '\'' +
                 ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() +
                 "~" + shift.getEndAt().toLocalTime() +
-                ", boolConflicts=" + getSetConflicts().toString() + '\'' +
-                ", setConflicts=" + getBoolConflicts().toString() + '\'' +
+                ", setConflicts=" + getSetConflicts().toString() + '\'' +
+                ", boolConflicts=" + getBoolConflicts().toString() + '\'' +
                 '}';
         }
     }
