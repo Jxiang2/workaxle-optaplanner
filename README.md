@@ -11,6 +11,7 @@ Base constraints
 1. Each shift is assigned to one or many employees who work as required roles ✅
 2. Try to distribute the shifts evenly to all employees ✅
 3. No employee works more than 1 shift in 1 day ✅
+4. No employee works on shifts that overlap in time ✅
 
 Optional constraints
 
