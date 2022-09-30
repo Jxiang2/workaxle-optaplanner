@@ -9,7 +9,6 @@ import org.workaxle.domain.ShiftAssignment;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-import static org.workaxle.util.common.TimeUtil.convertMinutesToHours;
 import static org.workaxle.util.common.TimeUtil.isWeekend;
 
 public class OptionalConstraintProvider implements ConstraintProvider {
@@ -18,7 +17,7 @@ public class OptionalConstraintProvider implements ConstraintProvider {
         return new Constraint[]{
             atLeastNHoursBetweenTwoShifts(constraintFactory),
             noShiftOnWeekends(constraintFactory),
-            atMostNHoursShiftAssignments(constraintFactory),
+            atMostNHoursWork(constraintFactory),
         };
     }
 
@@ -29,11 +28,11 @@ public class OptionalConstraintProvider implements ConstraintProvider {
         return new Constraint[]{
             atLeastNHoursBetweenTwoShifts(constraintFactory),
             noShiftOnWeekends(constraintFactory),
-            atMostNHoursShiftAssignments(constraintFactory),
+            atMostNHoursWork(constraintFactory),
         };
     }
 
-    Constraint atMostNHoursShiftAssignments(ConstraintFactory constraintFactory) {
+    Constraint atMostNHoursWork(ConstraintFactory constraintFactory) {
         // no employee work more than X hours during a Y-day period
 
         return constraintFactory
@@ -95,14 +94,7 @@ public class OptionalConstraintProvider implements ConstraintProvider {
             .penalize(
                 Conflict.AT_LEAST_N_HOURS_BETWEEN_TWO_SHIFTS.getName(),
                 HardSoftScore.ONE_HARD,
-                (first, second, settings) -> {
-                    final long breakLength = Math.abs(Duration.between(
-                        first.getShift().getEndAt(),
-                        second.getShift().getStartAt()
-                    ).toMinutes());
-
-                    return Math.abs(settings.getHoursBetweenShifts() - convertMinutesToHours(breakLength));
-                }
+                OptionalConstraintPenalty::atLeastNHoursBetweenTwoShiftsPenalty
             );
     }
 

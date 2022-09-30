@@ -4,7 +4,6 @@ import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.api.score.stream.*;
 import org.workaxle.constants.Conflict;
 import org.workaxle.domain.ShiftAssignment;
-import org.workaxle.util.common.TimeUtil;
 
 import java.util.Set;
 
@@ -43,7 +42,7 @@ public class BaseConstraintProvider implements ConstraintProvider {
             .penalize(
                 Conflict.AT_MOST_ONE_SHIFT_PER_DAY.getName(),
                 HardSoftScore.ONE_HARD,
-                (shiftAssignment1, shiftAssignment2) -> 24
+                BaseConstraintPenalty::atMostOneShiftPerDayPenalty
             );
     }
 
@@ -57,7 +56,7 @@ public class BaseConstraintProvider implements ConstraintProvider {
             .penalize(
                 Conflict.EVENLY_SHIFT_DISTRIBUTION.getName(),
                 HardSoftScore.ONE_SOFT,
-                (employee, shifts) -> shifts * shifts
+                BaseConstraintPenalty::evenlyShiftsDistributionPenalty
             );
     }
 
@@ -77,7 +76,7 @@ public class BaseConstraintProvider implements ConstraintProvider {
             .penalize(
                 Conflict.ONLY_REQUIRED_ROLES.getName(),
                 HardSoftScore.ONE_HARD,
-                (shiftEmployee) -> 100
+                BaseConstraintPenalty::onlyRequiredRolePenalty
             );
     }
 
@@ -95,7 +94,7 @@ public class BaseConstraintProvider implements ConstraintProvider {
             .penalize(
                 Conflict.NO_OVERLAPPING_SHIFTS.getName(),
                 HardSoftScore.ONE_HARD,
-                TimeUtil::getHourlyOverlap
+                BaseConstraintPenalty::noOverlappingShiftsPenalty
             );
     }
 

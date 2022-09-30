@@ -43,7 +43,7 @@ public class OptionalConstraintProviderTest {
         Settings settings = new Settings();
         settings.setMaxHoursOfWork(8);
         constraintVerifier
-            .verifyThat(OptionalConstraintProvider::atMostNHoursShiftAssignments)
+            .verifyThat(OptionalConstraintProvider::atMostNHoursWork)
             .given(
                 sa1,
                 sa2,

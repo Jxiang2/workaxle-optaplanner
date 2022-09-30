@@ -18,7 +18,7 @@ import java.util.*;
 public class Data {
 
     static String dataFilePath
-        = "src/main/java/org/workaxle/bootstrap/examples/shiftOverlapData.json";
+        = "src/main/java/org/workaxle/bootstrap/examples/overconstraintData.json";
 
     public static Schedule generateData() throws IOException, ParseException {
         final JSONParser parser = new JSONParser();
