@@ -88,15 +88,15 @@ public class ShiftAssignment {
             }
         }
 
-        boolean notBoolConflict = true;
+        boolean noBoolConflict = true;
         for (String conflictName : boolConflicts.keySet()) {
             if (boolConflicts.get(conflictName)) {
-                notBoolConflict = false;
+                noBoolConflict = false;
                 break;
             }
         }
 
-        if (notBoolConflict && noSetConflict) {
+        if (noBoolConflict && noSetConflict) {
             return "ShiftAssignment{" +
                 "id=" + getId() + '\'' +
                 ", shiftId=" + shift.getId() + '\'' +
@@ -106,7 +106,7 @@ public class ShiftAssignment {
                 ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() +
                 "~" + shift.getEndAt().toLocalTime() +
                 '}';
-        } else if (notBoolConflict && !noSetConflict) {
+        } else if (noBoolConflict && !noSetConflict) {
             return "ShiftAssignment{" +
                 "id=" + getId() + '\'' +
                 ", shiftId=" + shift.getId() + '\'' +
@@ -115,9 +115,9 @@ public class ShiftAssignment {
                 ", roleRequired=" + role + '\'' +
                 ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() +
                 "~" + shift.getEndAt().toLocalTime() +
-                ", conflicts=" + getSetConflicts().toString() + '\'' +
+                ", setConflicts=" + getSetConflicts().toString() + '\'' +
                 '}';
-        } else if (!notBoolConflict && noSetConflict) {
+        } else if (!noBoolConflict && noSetConflict) {
             return "ShiftAssignment{" +
                 "id=" + getId() + '\'' +
                 ", shiftId=" + shift.getId() + '\'' +
@@ -126,7 +126,7 @@ public class ShiftAssignment {
                 ", roleRequired=" + role + '\'' +
                 ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() +
                 "~" + shift.getEndAt().toLocalTime() +
-                ", conflicts=" + getBoolConflicts().toString() + '\'' +
+                ", boolConflicts=" + getBoolConflicts().toString() + '\'' +
                 '}';
         } else {
             return "ShiftAssignment{" +
