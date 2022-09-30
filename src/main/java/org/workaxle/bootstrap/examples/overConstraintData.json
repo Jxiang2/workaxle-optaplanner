@@ -92,6 +92,7 @@
   "endDate": "2022-11-25",
   "settings": {
     "hoursBetweenShifts": 12,
-    "maxHoursOfWork": 17
+    "maxHoursOfWork": 17,
+    "allowWeekendShifts": false
   }
 }

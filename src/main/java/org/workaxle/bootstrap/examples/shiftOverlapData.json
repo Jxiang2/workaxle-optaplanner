@@ -2,38 +2,60 @@
   "employees": [
     {
       "id": 74,
-      "name": "Database Design",
+      "name": "FE 1",
       "roles": [
         "FE"
       ]
     },
     {
       "id": 88,
-      "name": "Java Dev",
+      "name": "FE 2",
+      "roles": [
+        "FE"
+      ]
+    },
+    {
+      "id": 109,
+      "name": "FE 3",
       "roles": [
         "FE"
       ]
     },
     {
       "id": 99,
-      "name": "Frontend Design",
+      "name": "BE 1",
       "roles": [
         "BE"
       ]
     },
     {
       "id": 101,
-      "name": "Frontend Dev",
+      "name": "BE 2",
+      "roles": [
+        "BE"
+      ]
+    },
+    {
+      "id": 55,
+      "name": "BE 3",
       "roles": [
         "BE"
       ]
     },
     {
       "id": 43,
-      "name": "First Cleaner",
+      "name": "Fullstack 1",
       "roles": [
         "FE",
-        "BN"
+        "BE"
+      ]
+    },
+    {
+      "id": 49,
+      "name": "Fullstack 2",
+      "roles": [
+        "FE",
+        "BE"
       ]
     },
     {
@@ -72,8 +94,8 @@
       "startAt": "09:00",
       "endAt": "12:00",
       "requiredRoles": {
-        "FE": 2,
-        "BE": 2
+        "FE": 1,
+        "BE": 1
       }
     },
     {
@@ -82,18 +104,28 @@
       "startAt": "09:00",
       "endAt": "12:00",
       "requiredRoles": {
-        "FE": 2,
-        "BE": 2
+        "FE": 1,
+        "BE": 1
       }
     },
     {
       "id": 90,
       "name": "deployment",
-      "startAt": "20:00",
-      "endAt": "23:00",
+      "startAt": "15:00",
+      "endAt": "17:00",
       "requiredRoles": {
         "DevOps": 1,
         "DBA": 1
+      }
+    },
+    {
+      "id": 80,
+      "name": "dev new features, department A, night shift",
+      "startAt": "20:00",
+      "endAt": "23:00",
+      "requiredRoles": {
+        "FE": 1,
+        "BE": 1
       }
     }
   ],
@@ -101,6 +133,7 @@
   "endDate": "2022-11-25",
   "settings": {
     "hoursBetweenShifts": 12,
-    "maxHoursOfWork": 15
+    "maxHoursOfWork": 15,
+    "allowWeekendShifts": false
   }
 }
