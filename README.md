@@ -4,7 +4,8 @@
 
 Schedule shifts for all employees in a specific group in a period of time.
 
-e.g. A department manager want to automatically schedule shifts for all of his employees who are eligible to take one or many of those shifts.
+e.g. A department manager want to automatically schedule shifts for all of his employees who are
+eligible to take one or many of those shifts.
 
 ### Constraints:
 
@@ -34,7 +35,7 @@ Optional constraints
 2. shifts: all shifts for scheduling
 3. startDate: start date of the first shift
 4. endDate: end date of the last shift
-5. allRequiredRoles: a set of roles that the shifts to be scheduled require
+5. settings: global setting to enable/disable optional constraints
 
 #### e.g.
 
@@ -101,11 +102,6 @@ Optional constraints
       ]
     }
   ],
-  "allRequiredRoles": [
-    "Dev",
-    "Design",
-    "Clean"
-  ],
   "shifts": [
     {
       "id": 108,
@@ -141,7 +137,8 @@ Optional constraints
   "endDate": "2022-11-25",
   "settings": {
     "hoursBetweenShifts": 12,
-    "workOnWeekends": false
+    "maxHoursOfWork": 17,
+    "allowWeekendShifts": false
   }
 }
 ```
