@@ -18,17 +18,20 @@ import java.util.*;
 public class Data {
 
     static String dataFilePath
-        = "src/main/java/org/workaxle/bootstrap/examples/overconstraintData.json";
+        = "src/main/java/org/workaxle/bootstrap/examples/parallelShiftsData.json";
 
     public static Schedule generateData() throws IOException, ParseException {
         final JSONParser parser = new JSONParser();
         final FileReader fileReader = new FileReader(dataFilePath);
         final JSONObject jsonInput = (JSONObject) parser.parse(fileReader);
 
+        final Object[] shiftsAndRoles = generateShifts(jsonInput);
         final Settings settings = generateSettings(jsonInput);
-        final List<Employee> employeeList = generateValidEmployees(jsonInput);
+        final List<Employee> employeeList = generateValidEmployees(
+            jsonInput, (Set<String>) shiftsAndRoles[1]
+        );
         final List<ShiftAssignment> shiftAssignmentList = generateShiftAssignments(
-            generateShifts(jsonInput)
+            (List<Shift>) shiftsAndRoles[0]
         );
 
         return new Schedule(settings, employeeList, shiftAssignmentList);
@@ -41,8 +44,10 @@ public class Data {
     }
 
     private static List<Employee> generateValidEmployees(
-        JSONObject jsonInput
+        JSONObject jsonInput,
+        Set<String> allRoleSet
     ) throws JsonProcessingException {
+        System.out.println(allRoleSet);
         final List<Employee> employeesInput = new ArrayList<>();
 
         for (Object o : (JSONArray) jsonInput.get("employees")) {
@@ -59,8 +64,6 @@ public class Data {
             employeesInput.add(employee);
         }
 
-        final ArrayList allRoleList = new ObjectMapper()
-            .readValue(jsonInput.get("allRequiredRoles").toString(), ArrayList.class);
         final ArrayList<Employee> validatedEmployeesInput = new ArrayList<>();
 
         int employeesInputSize = employeesInput.size();
@@ -72,7 +75,7 @@ public class Data {
             final Set<String> validatedEmployeeRoleSet = new HashSet<>();
             boolean contains = false;
             for (String employeeRole : employeeRoleSet) {
-                if (allRoleList.contains(employeeRole)) {
+                if (allRoleSet.contains(employeeRole)) {
                     validatedEmployeeRoleSet.add(employeeRole);
                     contains = true;
                 }
@@ -103,9 +106,10 @@ public class Data {
         return shiftAssignments;
     }
 
-    private static List<Shift> generateShifts(JSONObject jsonInput) throws JsonProcessingException {
+    private static Object[] generateShifts(JSONObject jsonInput) throws JsonProcessingException {
         final LocalDate startDate = LocalDate.parse((String) jsonInput.get("startDate"));
         final LocalDate endDate = LocalDate.parse((String) jsonInput.get("endDate"));
+        final Set<String> allRoleSet = new HashSet<>();
 
         final List<Shift> shiftsInput = new ArrayList<>();
         for (Object o : (JSONArray) jsonInput.get("shifts")) {
@@ -113,6 +117,13 @@ public class Data {
             while (currentDate.isBefore(endDate.plusDays(1))) {
                 final JSONObject shiftJson = (JSONObject) o;
                 final JSONObject requiredRolesJson = (JSONObject) shiftJson.get("requiredRoles");
+
+                final HashMap<String, Integer> requiredRoles = new ObjectMapper()
+                    .readValue(requiredRolesJson.toJSONString(), HashMap.class);
+
+                for (String role : requiredRoles.keySet()) {
+                    allRoleSet.add(role);
+                }
 
                 shiftsInput.add(
                     new Shift(
@@ -126,8 +137,7 @@ public class Data {
                             currentDate,
                             LocalTime.parse((String) shiftJson.get("endAt"))
                         ),
-                        new ObjectMapper()
-                            .readValue(requiredRolesJson.toJSONString(), HashMap.class)
+                        requiredRoles
                     )
                 );
 
@@ -135,7 +145,10 @@ public class Data {
             }
         }
 
-        return shiftsInput;
+        return new Object[]{
+            shiftsInput,
+            allRoleSet
+        };
     }
 
     public static LocalDate[] generateStartEndDates() throws IOException, ParseException {

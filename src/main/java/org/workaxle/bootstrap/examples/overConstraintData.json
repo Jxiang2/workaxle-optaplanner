@@ -52,11 +52,6 @@
       ]
     }
   ],
-  "allRequiredRoles": [
-    "Dev",
-    "Design",
-    "Clean"
-  ],
   "shifts": [
     {
       "id": 108,

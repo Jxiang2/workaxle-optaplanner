@@ -81,12 +81,6 @@
       ]
     }
   ],
-  "allRequiredRoles": [
-    "FE",
-    "BE",
-    "DBA",
-    "DevOps"
-  ],
   "shifts": [
     {
       "id": 108,
