@@ -1,33 +1,32 @@
 package org.workaxle.domain;
 
-import lombok.Data;
-
 import java.util.Set;
+import lombok.Data;
 
 @Data
 public class Employee {
 
-    private Long id;
+  private Long id;
 
-    private String name;
+  private String name;
 
-    private Set<String> roleSet;
+  private Set<String> roleSet;
 
-    public Employee(Long id, String name, Set<String> roleSet) {
-        this.id = id;
-        this.name = name;
-        this.roleSet = roleSet;
-    }
+  public Employee(Long id, String name, Set<String> roleSet) {
+    this.id = id;
+    this.name = name;
+    this.roleSet = roleSet;
+  }
 
-    public Employee() {
-    }
+  public Employee() {
+  }
 
-    @Override
-    public String toString() {
-        return "Employee{" +
-            "id=" + id + " ; " +
-            "roleSet=" + roleSet +
-            '}';
-    }
+  @Override
+  public String toString() {
+    return "Employee{" +
+        "id=" + id + " ; " +
+        "roleSet=" + roleSet +
+        '}';
+  }
 
 }

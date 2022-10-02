@@ -7,20 +7,20 @@ import lombok.Data;
 @AllArgsConstructor
 public class Result {
 
-    private boolean success;
+  private boolean success;
 
-    private int code;
+  private int code;
 
-    private String msg;
+  private String msg;
 
-    private Object data;
+  private Object data;
 
-    public static Result success(int code, Object data) {
-        return new Result(true, code, "success", data);
-    }
+  public static Result success(int code, Object data) {
+    return new Result(true, code, "success", data);
+  }
 
-    public static Result failure(int code, String msg) {
-        return new Result(false, code, msg, null);
-    }
+  public static Result failure(int code, String msg) {
+    return new Result(false, code, msg, null);
+  }
 
 }
