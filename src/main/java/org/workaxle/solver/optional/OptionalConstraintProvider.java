@@ -1,7 +1,6 @@
 package org.workaxle.solver.optional;
 
 import static org.workaxle.util.common.TimeUtil.isWeekend;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;

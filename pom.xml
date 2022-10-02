@@ -1,88 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <artifactId>shift-rostering</artifactId>
 
-    <groupId>org.workaxle</groupId>
-    <artifactId>shift-rostering</artifactId>
-    <version>1.0-SNAPSHOT</version>
+  <dependencies>
+    <dependency>
+      <artifactId>optaplanner-core</artifactId>
+      <groupId>org.optaplanner</groupId>
+    </dependency>
 
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <dependency>
+      <artifactId>logback-classic</artifactId>
+      <groupId>ch.qos.logback</groupId>
+      <scope>runtime</scope>
+    </dependency>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.optaplanner</groupId>
-                <artifactId>optaplanner-bom</artifactId>
-                <version>8.27.0.Final</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
+    <dependency>
+      <artifactId>lombok</artifactId>
+      <groupId>org.projectlombok</groupId>
+    </dependency>
 
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>1.2.3</version>
-            </dependency>
+    <dependency>
+      <artifactId>json-simple</artifactId>
+      <groupId>com.googlecode.json-simple</groupId>
+    </dependency>
 
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>1.18.24</version>
-            </dependency>
+    <dependency>
+      <artifactId>jackson-databind</artifactId>
+      <groupId>com.fasterxml.jackson.core</groupId>
+    </dependency>
 
-            <dependency>
-                <groupId>com.googlecode.json-simple</groupId>
-                <artifactId>json-simple</artifactId>
-                <version>1.1.1</version>
-            </dependency>
+    <!-- Testing -->
+    <dependency>
+      <artifactId>optaplanner-test</artifactId>
+      <groupId>org.optaplanner</groupId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>2.13.3</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
+  <dependencyManagement>
     <dependencies>
-        <dependency>
-            <groupId>org.optaplanner</groupId>
-            <artifactId>optaplanner-core</artifactId>
-        </dependency>
+      <dependency>
+        <artifactId>optaplanner-bom</artifactId>
+        <groupId>org.optaplanner</groupId>
+        <scope>import</scope>
+        <type>pom</type>
+        <version>8.27.0.Final</version>
+      </dependency>
 
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+      <dependency>
+        <artifactId>logback-classic</artifactId>
+        <groupId>ch.qos.logback</groupId>
+        <version>1.2.3</version>
+      </dependency>
 
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
+      <dependency>
+        <artifactId>lombok</artifactId>
+        <groupId>org.projectlombok</groupId>
+        <version>1.18.24</version>
+      </dependency>
 
-        <dependency>
-            <groupId>com.googlecode.json-simple</groupId>
-            <artifactId>json-simple</artifactId>
-        </dependency>
+      <dependency>
+        <artifactId>json-simple</artifactId>
+        <groupId>com.googlecode.json-simple</groupId>
+        <version>1.1.1</version>
+      </dependency>
 
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
-
-        <!-- Testing -->
-        <dependency>
-            <groupId>org.optaplanner</groupId>
-            <artifactId>optaplanner-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+      <dependency>
+        <artifactId>jackson-databind</artifactId>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <version>2.13.3</version>
+      </dependency>
     </dependencies>
+  </dependencyManagement>
+
+  <groupId>org.workaxle</groupId>
+  
+  <modelVersion>4.0.0</modelVersion>
+
+  <properties>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <version>1.0-SNAPSHOT</version>
 
 </project>

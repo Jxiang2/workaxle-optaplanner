@@ -1,7 +1,6 @@
 package org.workaxle.solver.optional;
 
 import static org.workaxle.util.common.TimeUtil.convertMinutesToHours;
-
 import java.time.Duration;
 import org.workaxle.domain.Employee;
 import org.workaxle.domain.Settings;
