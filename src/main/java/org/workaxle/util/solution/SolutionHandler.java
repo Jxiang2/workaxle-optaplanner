@@ -33,114 +33,134 @@ public class SolutionHandler {
   }
 
   public SolutionHandler markInvalidDueToWeekendShifts() {
-    if (score.getHardScore() < 0 && !settings.getAllowWeekendShifts()) {
-      for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
-        if (TimeUtil.isWeekend(shiftAssignment.getDate())) {
-          addToBoolConflicts(shiftAssignment,
-              Conflict.NO_SHIFT_ON_WEEKENDS.getName());
-        }
+    if (score.getHardScore() >= 0) {
+      return this;
+    }
+
+    if (settings.getAllowWeekendShifts()) {
+      return this;
+    }
+
+    for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
+      if (TimeUtil.isWeekend(shiftAssignment.getDate())) {
+        addToBoolConflicts(shiftAssignment, Conflict.NO_SHIFT_ON_WEEKENDS.getName());
       }
     }
+
     return this;
   }
 
   public SolutionHandler markInvalidDueToOneShiftPerDay() {
-    if (score.getHardScore() < 0) {
-      for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
-        final Set<String> newConflicts = shiftAssignmentList
-            .stream()
-            .filter(other -> !shiftAssignment.equals(other)
-                && shiftAssignment.getEmployee()
-                .equals(other.getEmployee())
-                && shiftAssignment.getDate().equals(other.getDate())
-            )
-            .map(other -> other.getId())
-            .collect(Collectors.toSet());
-
-        if (newConflicts.size() > 0) {
-          addToSetConflicts(
-              shiftAssignment,
-              Conflict.AT_MOST_ONE_SHIFT_PER_DAY.getName(),
-              newConflicts
-          );
-        }
-      }
+    if (score.getHardScore() >= 0) {
+      return this;
     }
+
+    for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
+      final Set<String> newConflicts = shiftAssignmentList
+          .stream()
+          .filter(other -> !shiftAssignment.equals(other)
+              && shiftAssignment.getEmployee()
+              .equals(other.getEmployee())
+              && shiftAssignment.getDate().equals(other.getDate())
+          )
+          .map(other -> other.getId())
+          .collect(Collectors.toSet());
+
+      if (newConflicts.size() > 0) {
+        addToSetConflicts(
+            shiftAssignment,
+            Conflict.AT_MOST_ONE_SHIFT_PER_DAY.getName(),
+            newConflicts
+        );
+      }
+
+    }
+
     return this;
   }
 
   public SolutionHandler markInvalidDueToRequiredRole() {
-    if (score.getHardScore() < 0) {
-      for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
-        Set<String> employeeRoles =
-            shiftAssignment.getEmployee().getRoleSet();
-        if (!employeeRoles.contains(shiftAssignment.getRole())) {
-          addToBoolConflicts(shiftAssignment,
-              Conflict.ONLY_REQUIRED_ROLES.getName());
-        }
+    if (score.getHardScore() >= 0) {
+      return this;
+    }
+
+    for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
+      Set<String> employeeRoles =
+          shiftAssignment.getEmployee().getRoleSet();
+      if (!employeeRoles.contains(shiftAssignment.getRole())) {
+        addToBoolConflicts(shiftAssignment,
+            Conflict.ONLY_REQUIRED_ROLES.getName());
       }
     }
+
     return this;
   }
 
   public SolutionHandler markInvalidDueToHoursBetweenShifts() {
     Integer shiftsBetween = settings.getHoursBetweenShifts();
-    if (shiftsBetween != null) {
-      for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
-        final LocalDateTime startAt =
-            shiftAssignment.getShift().getStartAt();
-        final LocalDateTime endAt =
-            shiftAssignment.getShift().getEndAt();
 
-        Set<String> newConflicts = shiftAssignmentList
-            .stream()
-            .filter(other -> {
-              final LocalDateTime otherStartAt =
-                  other.getShift().getStartAt();
-              final LocalDateTime otherEndAt =
-                  other.getShift().getEndAt();
+    if (shiftsBetween == null || shiftsBetween == 0) {
+      return this;
+    }
 
-              return !other.equals(shiftAssignment)
-                  && shiftAssignment.getEmployee()
-                  .equals(other.getEmployee())
-                  && (Math.abs(Duration.between(endAt, otherStartAt).toHours()) < shiftsBetween
-                  || Math.abs(Duration.between(otherEndAt, startAt).toHours()) < shiftsBetween);
-            })
-            .map(other -> other.getId())
-            .collect(Collectors.toSet());
+    for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
+      final LocalDateTime startAt =
+          shiftAssignment.getShift().getStartAt();
+      final LocalDateTime endAt =
+          shiftAssignment.getShift().getEndAt();
 
-        if (newConflicts.size() > 0) {
-          addToSetConflicts(
-              shiftAssignment,
-              Conflict.AT_LEAST_N_HOURS_BETWEEN_TWO_SHIFTS.getName(),
-              newConflicts
-          );
-        }
+      Set<String> newConflicts = shiftAssignmentList
+          .stream()
+          .filter(other -> {
+            final LocalDateTime otherStartAt =
+                other.getShift().getStartAt();
+            final LocalDateTime otherEndAt =
+                other.getShift().getEndAt();
+
+            return !other.equals(shiftAssignment)
+                && shiftAssignment.getEmployee()
+                .equals(other.getEmployee())
+                && (Math.abs(Duration.between(endAt, otherStartAt).toHours()) < shiftsBetween
+                || Math.abs(Duration.between(otherEndAt, startAt).toHours()) < shiftsBetween);
+          })
+          .map(other -> other.getId())
+          .collect(Collectors.toSet());
+
+      if (newConflicts.size() > 0) {
+        addToSetConflicts(
+            shiftAssignment,
+            Conflict.AT_LEAST_N_HOURS_BETWEEN_TWO_SHIFTS.getName(),
+            newConflicts
+        );
       }
     }
+
     return this;
   }
 
   public SolutionHandler markInvalidDueToExceedingMaxHours() {
     Integer maxHour = settings.getMaxHoursOfWork();
-    if (score.getHardScore() < 0 && maxHour != null) {
-      for (Employee employee : employeeList) {
-        int hoursWorked = 0;
-        for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
-          if (shiftAssignment.getEmployee().equals(employee)) {
-            hoursWorked +=
-                shiftAssignment.getShiftDurationInHours();
-            if (hoursWorked > maxHour) {
-              addToBoolConflicts(
-                  shiftAssignment,
-                  Conflict.AT_MOST_N_HOURS.getName()
-              );
-            }
+
+    if (score.getHardScore() >= 0) {
+      return this;
+    }
+
+    if (maxHour == null) {
+      return this;
+    }
+
+    for (Employee employee : employeeList) {
+      int hoursWorked = 0;
+      for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
+        if (shiftAssignment.getEmployee().equals(employee)) {
+          hoursWorked += shiftAssignment.getShiftDurationInHours();
+          if (hoursWorked > maxHour) {
+            addToBoolConflicts(shiftAssignment, Conflict.AT_MOST_N_HOURS.getName());
           }
         }
       }
     }
-    return null;
+    return this;
   }
 
   private void addToSetConflicts(

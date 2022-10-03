@@ -9,7 +9,8 @@ import org.workaxle.domain.ShiftAssignment;
 public class OptionalConstraintPenalty {
 
   static int atMostNHoursWorkPenalty(
-      Employee employee, int totalHours,
+      Employee employee,
+      int totalHours,
       Settings settings
   ) {
     return totalHours - settings.getMaxHoursOfWork();
