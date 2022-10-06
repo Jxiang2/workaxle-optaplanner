@@ -1,4 +1,4 @@
-package org.workaxle.solver.base;
+package org.workaxle.solver.base.workaxle;
 
 import java.util.Set;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;

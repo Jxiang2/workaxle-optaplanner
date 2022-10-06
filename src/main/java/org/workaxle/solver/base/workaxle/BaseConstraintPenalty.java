@@ -1,4 +1,4 @@
-package org.workaxle.solver.base;
+package org.workaxle.solver.base.workaxle;
 
 import org.workaxle.domain.Employee;
 import org.workaxle.domain.ShiftAssignment;

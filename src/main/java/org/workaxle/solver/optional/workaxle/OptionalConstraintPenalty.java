@@ -1,4 +1,4 @@
-package org.workaxle.solver.optional;
+package org.workaxle.solver.optional.workaxle;
 
 import static org.workaxle.util.common.TimeUtil.convertMinutesToHours;
 import java.time.Duration;

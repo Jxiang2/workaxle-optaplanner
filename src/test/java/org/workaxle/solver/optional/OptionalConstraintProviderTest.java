@@ -11,6 +11,7 @@ import org.workaxle.domain.Schedule;
 import org.workaxle.domain.Settings;
 import org.workaxle.domain.Shift;
 import org.workaxle.domain.ShiftAssignment;
+import org.workaxle.solver.optional.workaxle.OptionalConstraintProvider;
 
 public class OptionalConstraintProviderTest {
 
