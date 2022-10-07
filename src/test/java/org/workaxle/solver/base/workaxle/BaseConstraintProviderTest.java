@@ -1,4 +1,4 @@
-package org.workaxle.solver.base;
+package org.workaxle.solver.base.workaxle;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -10,7 +10,6 @@ import org.workaxle.domain.Employee;
 import org.workaxle.domain.Schedule;
 import org.workaxle.domain.Shift;
 import org.workaxle.domain.ShiftAssignment;
-import org.workaxle.solver.base.workaxle.BaseConstraintProvider;
 
 public class BaseConstraintProviderTest {
 

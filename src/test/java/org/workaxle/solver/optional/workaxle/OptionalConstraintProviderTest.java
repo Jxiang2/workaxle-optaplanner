@@ -1,4 +1,4 @@
-package org.workaxle.solver.optional;
+package org.workaxle.solver.optional.workaxle;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -11,7 +11,6 @@ import org.workaxle.domain.Schedule;
 import org.workaxle.domain.Settings;
 import org.workaxle.domain.Shift;
 import org.workaxle.domain.ShiftAssignment;
-import org.workaxle.solver.optional.workaxle.OptionalConstraintProvider;
 
 public class OptionalConstraintProviderTest {
 
