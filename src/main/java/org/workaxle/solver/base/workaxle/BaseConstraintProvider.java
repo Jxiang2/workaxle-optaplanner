@@ -18,6 +18,7 @@ public class BaseConstraintProvider implements ConstraintProvider {
         evenlyShiftsDistribution(constraintFactory),
         onlyRequiredRole(constraintFactory),
         noOverlappingShifts(constraintFactory),
+        // employeeAvailable(constraintFactory),
     };
   }
 
@@ -30,6 +31,7 @@ public class BaseConstraintProvider implements ConstraintProvider {
         evenlyShiftsDistribution(constraintFactory),
         onlyRequiredRole(constraintFactory),
         noOverlappingShifts(constraintFactory),
+        // employeeAvailable(constraintFactory),
     };
   }
 
