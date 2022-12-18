@@ -1,8 +1,9 @@
 package org.workaxle.domain;
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 import java.util.Map;
-import lombok.Data;
 
 @Data
 public class Shift {

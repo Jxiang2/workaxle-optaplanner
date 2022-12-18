@@ -1,16 +1,13 @@
 package org.workaxle.solver.optional.workaxle;
 
+import org.junit.jupiter.api.Test;
+import org.optaplanner.test.api.score.stream.ConstraintVerifier;
+import org.workaxle.domain.*;
+
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import org.junit.jupiter.api.Test;
-import org.optaplanner.test.api.score.stream.ConstraintVerifier;
-import org.workaxle.domain.Employee;
-import org.workaxle.domain.Schedule;
-import org.workaxle.domain.Settings;
-import org.workaxle.domain.Shift;
-import org.workaxle.domain.ShiftAssignment;
 
 public class OptionalConstraintProviderTest {
 
@@ -65,16 +62,6 @@ public class OptionalConstraintProviderTest {
         "shift A1",
         LocalDateTime.of(2022, 11, 26, 20, 0),
         LocalDateTime.of(2022, 11, 26, 23, 0),
-        new HashMap<>() {{
-          put("Dev", 1);
-          put("Design", 1);
-        }}
-    );
-    Shift s2 = new Shift(
-        2L,
-        "shift A2",
-        LocalDateTime.of(2022, 11, 27, 9, 0),
-        LocalDateTime.of(2022, 11, 27, 12, 0),
         new HashMap<>() {{
           put("Dev", 1);
           put("Design", 1);

@@ -2,32 +2,22 @@ package org.workaxle.bootstrap;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.workaxle.domain.*;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.workaxle.domain.Employee;
-import org.workaxle.domain.Schedule;
-import org.workaxle.domain.Settings;
-import org.workaxle.domain.Shift;
-import org.workaxle.domain.ShiftAssignment;
+import java.util.*;
 
 public class Data {
 
-  static String dataFilePath
-      =
-      "src/main/java/org/workaxle/bootstrap/examples/overconstraintData.json";
+  static String dataFilePath = "src/main/java/org/workaxle/bootstrap/examples/overconstraintData.json";
 
   public static Schedule generateData() throws IOException, ParseException {
     final JSONParser parser = new JSONParser();
@@ -50,8 +40,7 @@ public class Data {
   private static Settings generateSettings(JSONObject jsonInput)
       throws JsonProcessingException {
     JSONObject settingsJson = (JSONObject) jsonInput.get("settings");
-    return new ObjectMapper()
-        .readValue(settingsJson.toJSONString(), Settings.class);
+    return new ObjectMapper().readValue(settingsJson.toJSONString(), Settings.class);
   }
 
   private static List<Employee> generateValidEmployees(
@@ -132,9 +121,10 @@ public class Data {
             (JSONObject) shiftJson.get("requiredRoles");
 
         final HashMap<String, Integer> requiredRoles =
-            new ObjectMapper()
-                .readValue(requiredRolesJson.toJSONString(),
-                    HashMap.class);
+            new ObjectMapper().readValue(
+                requiredRolesJson.toJSONString(),
+                HashMap.class
+            );
 
         for (String role : requiredRoles.keySet()) {
           allRoleSet.add(role);

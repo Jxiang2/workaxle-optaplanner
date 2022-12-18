@@ -1,14 +1,15 @@
 package org.workaxle.domain;
 
+import lombok.Data;
+import org.optaplanner.core.api.domain.entity.PlanningEntity;
+import org.optaplanner.core.api.domain.lookup.PlanningId;
+import org.optaplanner.core.api.domain.variable.PlanningVariable;
+
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import lombok.Data;
-import org.optaplanner.core.api.domain.entity.PlanningEntity;
-import org.optaplanner.core.api.domain.lookup.PlanningId;
-import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
 @Data
 @PlanningEntity
@@ -49,7 +50,7 @@ public class ShiftAssignment {
   }
 
   public ShiftAssignment(String id, String role, Shift shift,
-      Employee employee) {
+                         Employee employee) {
     this.id = id;
     this.role = role;
     this.shift = shift;

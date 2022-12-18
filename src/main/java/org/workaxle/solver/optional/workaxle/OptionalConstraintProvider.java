@@ -1,17 +1,15 @@
 package org.workaxle.solver.optional.workaxle;
 
-import static org.workaxle.util.common.TimeUtil.isWeekend;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
-import org.optaplanner.core.api.score.stream.Constraint;
-import org.optaplanner.core.api.score.stream.ConstraintCollectors;
-import org.optaplanner.core.api.score.stream.ConstraintFactory;
-import org.optaplanner.core.api.score.stream.ConstraintProvider;
-import org.optaplanner.core.api.score.stream.Joiners;
+import org.optaplanner.core.api.score.stream.*;
 import org.workaxle.constants.Conflict;
 import org.workaxle.domain.Settings;
 import org.workaxle.domain.ShiftAssignment;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+
+import static org.workaxle.util.common.TimeUtil.isWeekend;
 
 public class OptionalConstraintProvider implements ConstraintProvider {
 
@@ -75,7 +73,8 @@ public class OptionalConstraintProvider implements ConstraintProvider {
   }
 
   Constraint atLeastNHoursBetweenTwoShifts(
-      ConstraintFactory constraintFactory) {
+      ConstraintFactory constraintFactory
+  ) {
     // any employee can only work 1 shift in N hours
 
     return constraintFactory
