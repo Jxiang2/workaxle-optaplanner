@@ -13,14 +13,6 @@ import static org.workaxle.util.common.TimeUtil.isWeekend;
 
 public class OptionalConstraintProvider implements ConstraintProvider {
 
-  public Constraint[] exportConstraints(ConstraintFactory constraintFactory) {
-    return new Constraint[]{
-        atLeastNHoursBetweenTwoShifts(constraintFactory),
-        noShiftOnWeekends(constraintFactory),
-        atMostNHoursWork(constraintFactory),
-    };
-  }
-
   @Override
   public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
     // for test only

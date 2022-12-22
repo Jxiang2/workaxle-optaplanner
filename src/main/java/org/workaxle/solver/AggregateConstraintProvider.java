@@ -19,9 +19,11 @@ public class AggregateConstraintProvider implements ConstraintProvider {
   public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
     return Stream.concat(
         Arrays.stream(
-            baseConstraintProvider.exportConstraints(constraintFactory)),
+            baseConstraintProvider.defineConstraints(constraintFactory)
+        ),
         Arrays.stream(
-            optionalConstraintProvider.exportConstraints(constraintFactory))
+            optionalConstraintProvider.defineConstraints(constraintFactory)
+        )
     ).toArray(Constraint[]::new);
   }
 

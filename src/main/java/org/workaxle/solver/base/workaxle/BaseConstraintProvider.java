@@ -9,16 +9,6 @@ import java.util.Set;
 
 public class BaseConstraintProvider implements ConstraintProvider {
 
-  public Constraint[] exportConstraints(ConstraintFactory constraintFactory) {
-    return new Constraint[]{
-        atMostOneShiftPerDay(constraintFactory),
-        evenlyShiftsDistribution(constraintFactory),
-        onlyRequiredRole(constraintFactory),
-        noOverlappingShifts(constraintFactory),
-        // employeeAvailable(constraintFactory),
-    };
-  }
-
   @Override
   public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
     // for test only
