@@ -1,5 +1,9 @@
 package org.workaxle.solver.base.workaxle;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import org.junit.jupiter.api.Test;
 import org.optaplanner.test.api.score.stream.ConstraintVerifier;
 import org.workaxle.domain.Employee;
@@ -7,16 +11,15 @@ import org.workaxle.domain.Schedule;
 import org.workaxle.domain.Shift;
 import org.workaxle.domain.ShiftAssignment;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-
 public class BaseConstraintProviderTest {
 
   ConstraintVerifier<BaseConstraintProvider, Schedule> constraintVerifier =
       ConstraintVerifier
-          .build(new BaseConstraintProvider(), Schedule.class, ShiftAssignment.class);
+          .build(
+              new BaseConstraintProvider(),
+              Schedule.class,
+              ShiftAssignment.class
+          );
 
   @Test
   void testAtMostOneShiftPerDay() {
@@ -79,12 +82,7 @@ public class BaseConstraintProviderTest {
     int penalty = 2 * 2 + 1 + 1;
     constraintVerifier
         .verifyThat(BaseConstraintProvider::evenlyShiftsDistribution)
-        .given(
-            sa1,
-            sa2,
-            sa3,
-            sa4
-        )
+        .given(sa1, sa2, sa3, sa4)
         .penalizesBy(penalty);
   }
 
@@ -117,10 +115,7 @@ public class BaseConstraintProviderTest {
     ShiftAssignment sa2 = new ShiftAssignment(String.valueOf(j++), "Design", s2, e1);
     constraintVerifier
         .verifyThat(BaseConstraintProvider::noOverlappingShifts)
-        .given(
-            sa1,
-            sa2
-        )
+        .given(sa1, sa2)
         .penalizesBy(2);
   }
 
@@ -141,9 +136,7 @@ public class BaseConstraintProviderTest {
     ShiftAssignment sa1 = new ShiftAssignment(String.valueOf(1), "Dev", s1, e1);
     constraintVerifier
         .verifyThat(BaseConstraintProvider::onlyRequiredRole)
-        .given(
-            sa1
-        )
+        .given(sa1)
         .penalizesBy(100);
   }
 

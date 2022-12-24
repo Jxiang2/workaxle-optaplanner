@@ -1,13 +1,5 @@
 package org.workaxle.util.solution;
 
-import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
-import org.workaxle.constants.Conflict;
-import org.workaxle.domain.Employee;
-import org.workaxle.domain.Schedule;
-import org.workaxle.domain.Settings;
-import org.workaxle.domain.ShiftAssignment;
-import org.workaxle.util.common.TimeUtil;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -15,6 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
+import org.workaxle.constants.Conflict;
+import org.workaxle.domain.Employee;
+import org.workaxle.domain.Schedule;
+import org.workaxle.domain.Settings;
+import org.workaxle.domain.ShiftAssignment;
+import org.workaxle.util.common.TimeUtil;
 
 public class SolutionHandler {
 
@@ -185,7 +184,7 @@ public class SolutionHandler {
   }
 
   private void addToBoolConflicts(ShiftAssignment shiftAssignment,
-                                  String conflictName) {
+      String conflictName) {
     final Map<String, Boolean> boolConflicts =
         shiftAssignment.getBoolConflicts();
     boolConflicts.put(conflictName, true);

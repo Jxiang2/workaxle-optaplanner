@@ -1,20 +1,25 @@
 package org.workaxle.solver.optional.workaxle;
 
-import org.junit.jupiter.api.Test;
-import org.optaplanner.test.api.score.stream.ConstraintVerifier;
-import org.workaxle.domain.*;
-
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import org.junit.jupiter.api.Test;
+import org.optaplanner.test.api.score.stream.ConstraintVerifier;
+import org.workaxle.domain.Employee;
+import org.workaxle.domain.Schedule;
+import org.workaxle.domain.Settings;
+import org.workaxle.domain.Shift;
+import org.workaxle.domain.ShiftAssignment;
 
 public class OptionalConstraintProviderTest {
 
   ConstraintVerifier<OptionalConstraintProvider, Schedule> constraintVerifier =
       ConstraintVerifier
-          .build(new OptionalConstraintProvider(), Schedule.class,
-              ShiftAssignment.class);
+          .build(new OptionalConstraintProvider(),
+              Schedule.class,
+              ShiftAssignment.class
+          );
 
   @Test
   void testAtMostNHoursShiftAssignments() {
@@ -47,11 +52,7 @@ public class OptionalConstraintProviderTest {
     settings.setMaxHoursOfWork(8);
     constraintVerifier
         .verifyThat(OptionalConstraintProvider::atMostNHoursWork)
-        .given(
-            sa1,
-            sa2,
-            settings
-        )
+        .given(sa1, sa2, settings)
         .penalizesBy(5);
   }
 
@@ -76,11 +77,7 @@ public class OptionalConstraintProviderTest {
     settings.setAllowWeekendShifts(false);
     constraintVerifier
         .verifyThat(OptionalConstraintProvider::noShiftOnWeekends)
-        .given(
-            sa1,
-            sa2,
-            settings
-        )
+        .given(sa1, sa2, settings)
         .penalizesBy(6);
   }
 
@@ -119,12 +116,7 @@ public class OptionalConstraintProviderTest {
     ShiftAssignment sa4 = new ShiftAssignment(String.valueOf(j++), "Design", s2, e2);
     constraintVerifier
         .verifyThat(OptionalConstraintProvider::atLeastNHoursBetweenTwoShifts)
-        .given(
-            sa1,
-            sa2,
-            sa3,
-            sa4
-        )
+        .given(sa1, sa2, sa3, sa4)
         .penalizesBy(0);
   }
 

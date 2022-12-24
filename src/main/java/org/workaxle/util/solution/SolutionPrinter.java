@@ -1,13 +1,12 @@
 package org.workaxle.util.solution;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
 import org.json.simple.parser.ParseException;
 import org.workaxle.bootstrap.Data;
 import org.workaxle.domain.Schedule;
 import org.workaxle.domain.ShiftAssignment;
-
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.List;
 
 public class SolutionPrinter {
 

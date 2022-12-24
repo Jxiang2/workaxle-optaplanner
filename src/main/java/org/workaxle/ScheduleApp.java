@@ -1,5 +1,6 @@
 package org.workaxle;
 
+import java.time.Duration;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.solver.EnvironmentMode;
@@ -9,8 +10,6 @@ import org.workaxle.domain.Schedule;
 import org.workaxle.domain.ShiftAssignment;
 import org.workaxle.solver.AggregateConstraintProvider;
 import org.workaxle.util.solution.SolutionPrinter;
-
-import java.time.Duration;
 
 public class ScheduleApp {
 

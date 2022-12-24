@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <appender class="ch.qos.logback.core.ConsoleAppender" name="consoleAppender">
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%-12.12t] %-5p %m%n</pattern>
-        </encoder>
-    </appender>
+  <appender class="ch.qos.logback.core.ConsoleAppender" name="consoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%-12.12t] %-5p %m%n</pattern>
+    </encoder>
+  </appender>
 
-    <logger level="info" name="org.optaplanner"/>
+  <logger level="info" name="org.optaplanner"/>
 
-    <root level="info">
-        <appender-ref ref="consoleAppender"/>
-    </root>
+  <root level="info">
+    <appender-ref ref="consoleAppender"/>
+  </root>
 
 </configuration>

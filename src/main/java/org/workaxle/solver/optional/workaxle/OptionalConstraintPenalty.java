@@ -1,12 +1,10 @@
 package org.workaxle.solver.optional.workaxle;
 
+import static org.workaxle.util.common.TimeUtil.convertMinutesToHours;
+import java.time.Duration;
 import org.workaxle.domain.Employee;
 import org.workaxle.domain.Settings;
 import org.workaxle.domain.ShiftAssignment;
-
-import java.time.Duration;
-
-import static org.workaxle.util.common.TimeUtil.convertMinutesToHours;
 
 public class OptionalConstraintPenalty {
 
