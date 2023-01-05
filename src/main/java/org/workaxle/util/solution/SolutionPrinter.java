@@ -34,12 +34,27 @@ public class SolutionPrinter {
     while (currentDay.isBefore(endDay.plusDays(1))) {
       for (ShiftAssignment shiftAssignment : shiftAssignmentList) {
         if (shiftAssignment.getDate().equals(currentDay)) {
-          System.out.println(shiftAssignment);
+          if (!isConflicted(shiftAssignment)) {
+            System.out.println(shiftAssignment);
+            System.out.println(
+                "__________________________________________________________________________________"
+            );
+          }
         }
       }
       currentDay = currentDay.plusDays(1);
       System.out.println();
+      System.out.println();
     }
+  }
+
+  private static boolean isConflicted(ShiftAssignment shiftAssignment) {
+    if (
+        shiftAssignment.getBoolConflicts().isEmpty() && shiftAssignment.getSetConflicts().isEmpty()
+    ) {
+      return false;
+    }
+    return true;
   }
 
 }
