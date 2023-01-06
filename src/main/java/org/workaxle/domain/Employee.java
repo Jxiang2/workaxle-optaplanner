@@ -1,9 +1,13 @@
 package org.workaxle.domain;
 
 import java.util.Set;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 public class Employee {
 
   private Long id;
@@ -12,13 +16,13 @@ public class Employee {
 
   private Set<String> roleSet;
 
+  public Employee() {
+  }
+
   public Employee(Long id, String name, Set<String> roleSet) {
     this.id = id;
     this.name = name;
     this.roleSet = roleSet;
-  }
-
-  public Employee() {
   }
 
   @Override

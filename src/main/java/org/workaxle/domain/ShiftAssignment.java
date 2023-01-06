@@ -5,12 +5,16 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @PlanningEntity
 public class ShiftAssignment {
 
@@ -42,30 +46,20 @@ public class ShiftAssignment {
    */
   private Map<String, Boolean> boolConflicts = new HashMap<>();
 
+  public ShiftAssignment() {
+  }
+
   public ShiftAssignment(String id, String role, Shift shift) {
     this.id = id;
     this.role = role;
     this.shift = shift;
   }
 
-  public ShiftAssignment(String id, String role, Shift shift,
-      Employee employee) {
+  public ShiftAssignment(String id, String role, Shift shift, Employee employee) {
     this.id = id;
     this.role = role;
     this.shift = shift;
     this.employee = employee;
-  }
-
-  public ShiftAssignment() {
-  }
-
-  public LocalDate getDate() {
-    return shift.getEndAt().toLocalDate();
-  }
-
-  public int getShiftDurationInHours() {
-    return (int) Duration.between(shift.getStartAt(), shift.getEndAt())
-        .toHours();
   }
 
   @Override
@@ -107,7 +101,7 @@ public class ShiftAssignment {
           ", time=" + getDate() + "," + shift.getStartAt().toLocalTime() +
           "~" + shift.getEndAt().toLocalTime() +
           '}';
-    } else if (noBoolConflict && !noSetConflict) {
+    } else if (noBoolConflict) {
       return "ShiftAssignment{" +
           "id=" + getId() + '\'' +
           ", shiftId=" + shift.getId() + '\'' +
@@ -118,7 +112,7 @@ public class ShiftAssignment {
           "~" + shift.getEndAt().toLocalTime() +
           ", setConflicts=" + getSetConflicts().toString() + '\'' +
           '}';
-    } else if (!noBoolConflict && noSetConflict) {
+    } else if (noSetConflict) {
       return "ShiftAssignment{" +
           "id=" + getId() + '\'' +
           ", shiftId=" + shift.getId() + '\'' +
@@ -142,6 +136,15 @@ public class ShiftAssignment {
           ", boolConflicts=" + getBoolConflicts().toString() + '\'' +
           '}';
     }
+  }
+
+  // public utils
+  public LocalDate getDate() {
+    return shift.getEndAt().toLocalDate();
+  }
+
+  public int getShiftDurationInHours() {
+    return (int) Duration.between(shift.getStartAt(), shift.getEndAt()).toHours();
   }
 
 }

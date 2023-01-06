@@ -2,9 +2,14 @@ package org.workaxle.domain;
 
 import java.time.LocalDateTime;
 import java.util.Map;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+
+@Getter
+@Setter
+@EqualsAndHashCode
 public class Shift {
 
   private Long id;
@@ -16,6 +21,9 @@ public class Shift {
   private LocalDateTime endAt;
 
   private Map<String, Integer> requiredRoles;
+
+  public Shift() {
+  }
 
   public Shift(
       Long id,
@@ -29,9 +37,6 @@ public class Shift {
     this.startAt = startAt;
     this.endAt = endAt;
     this.requiredRoles = requiredRoles;
-  }
-
-  public Shift() {
   }
 
 }

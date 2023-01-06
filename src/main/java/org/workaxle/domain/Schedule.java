@@ -1,7 +1,9 @@
 package org.workaxle.domain;
 
 import java.util.List;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
 import org.optaplanner.core.api.domain.solution.PlanningScore;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
@@ -10,7 +12,9 @@ import org.optaplanner.core.api.domain.solution.ProblemFactProperty;
 import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @PlanningSolution
 public class Schedule {
 
@@ -27,6 +31,9 @@ public class Schedule {
   @PlanningEntityCollectionProperty
   private List<ShiftAssignment> shiftAssignmentList;
 
+  public Schedule() {
+  }
+
   public Schedule(Settings settings,
       List<Employee> employeeList,
       List<ShiftAssignment> shiftAssignmentList
@@ -35,8 +42,4 @@ public class Schedule {
     this.employeeList = employeeList;
     this.shiftAssignmentList = shiftAssignmentList;
   }
-
-  public Schedule() {
-  }
-
 }
